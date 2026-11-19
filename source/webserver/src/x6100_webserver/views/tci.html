@@ -1,0 +1,64 @@
+% rebase('base.html', title='TCI')
+<h2><svg class="i"><use href="#i-network"/></svg>TCI server</h2>
+<p class="sub">TCI (Transceiver Control Interface, version 2.0) is the protocol of Expert Electronics' SDRs that AetherSDR and other programs serve: one WebSocket carries the frequency, mode, filter, AGC, PTT, the S-meter and the TX meters, and the audio both ways. The radio serves it here, so a <a href="https://github.com/Guru-RF/VFO-Knob">VFO-Knob</a> or any TCI client tunes it over the network, hears it and keys it. There is no login or pairing for TCI clients: enable it only on a network you trust, and choose below whether a client may operate the radio or only listen. An operating client takes control of the radio the moment it tunes or keys, as a knob would; a browser that was operating sees "TCI client active" and takes control back on purpose.</p>
+
+<form class="dp-card" id="conf">
+  <div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-server"/></svg></span><div><h3>服务器<span class="eff">Takes effect: on the radio within a few seconds</span></h3><p>On ws://&lt;radio IP&gt;:&lt;port&gt;/</p></div></div>
+  <div class="dp-row">
+    <div class="dp-lbl"><b>启用</b><span>Listens for TCI clients on the network</span></div>
+    <div class="dp-ctl"><label class="sw" title="启用"><input id="enabled" type="checkbox" role="switch" aria-label="启用"><i></i></label></div>
+  </div>
+  <div class="dp-row">
+    <div class="dp-lbl"><label for="port"><b>端口</b></label><span>50001 is what TCI clients expect</span></div>
+    <div class="dp-ctl"><input id="port" type="number" inputmode="numeric" required min="1024" max="65535" step="1"></div>
+  </div>
+  <div class="dp-row">
+    <div class="dp-lbl"><label for="trust"><b>客户端可以</b></label><span>Operate: tune, change mode, key, as before. Listen only: hear and follow the radio; tuning and keying are answered with the state as it is</span></div>
+    <div class="dp-ctl"><select id="trust"><option value="operate">Operate</option><option value="view">仅监听</option></select></div>
+  </div>
+  <div class="dp-row">
+    <div class="dp-lbl"><b>发射前询问</b><span>A client on the network that is not allowed yet is answered "not keyed", and the radio asks on its screen: Allow once, Always or No; no answer in 20 s is No. Programs on the radio itself and the Panel of a paired browser are not asked. Those allowed always: Settings &gt; General &gt; TCI SERVER on the radio, Sessions on the Panel for the admin. Off: every operating client keys as before</span></div>
+    <div class="dp-ctl"><label class="sw" title="发射前询问"><input id="tx_confirm" type="checkbox" role="switch" aria-label="发射前询问"><i></i></label></div>
+  </div>
+  <div class="dp-body" style="border-top:1px solid #1a283c">
+    <div class="actions" style="margin-top:0">
+      <button type="submit" class="primary">保存</button>
+      <span class="status" id="status"></span>
+    </div>
+  </div>
+</form>
+
+<script src="/static/js/edit_flow.js?v=3"></script>
+<script>
+var showStatus = function(text, error=false) {
+  const el = $("#status");
+  el.toggleClass("error", error);
+  el.html('<span class="dot"></span>').append(document.createTextNode(text));
+}
+
+var render = function(data) {
+  $("#enabled").prop("checked", data.enabled);
+  $("#port").val(data.port);
+  $("#trust").val(data.trust || "operate");
+  $("#tx_confirm").prop("checked", data.tx_confirm !== false);
+  form.reset();
+}
+const form = EditFlow.form($("#conf"), $("#status"), $("#conf button[type=submit]"));
+
+$.get('/api/tci', {}, render);
+
+$("#conf").on("submit", function(e) {
+  e.preventDefault();
+  showStatus("Saving...");
+  $.ajax({
+    url: "/api/tci",
+    type: "POST",
+    data: JSON.stringify({enabled: $("#enabled").prop("checked"), port: parseInt($("#port").val(), 10), trust: $("#trust").val(), tx_confirm: $("#tx_confirm").prop("checked")}),
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+    timeout: X6100_WAIT_MS,
+    success: function(r) { render(r); showStatus("Saved: the radio applies it within a few seconds"); },
+    error: function(xhr, why) { showStatus(x6100FailText(xhr, why), true); }
+  });
+});
+</script>

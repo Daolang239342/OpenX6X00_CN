@@ -1,0 +1,443 @@
+/*
+ *  SPDX-License-Identifier: LGPL-2.1-or-later
+ *
+ *  Xiegu X6100 LVGL GUI
+ *
+ *  Copyright (c) 2026 Giovanni Ricciardi IU1WXY
+ */
+
+/* What the VOL and MFK knobs change, and the button actions that toggle the same settings.
+ * A turn changes the setting and writes "Name: value" for the message line. */
+
+#include "radio_controls.h"
+
+#include "cw.h"
+#include "knob_info.h"
+#include "util.h"
+#include "util.hpp"
+
+#include "cfg/settings_manager.h"
+#include "cfg/settings_manager_api.h"
+
+extern "C" {
+#include "cluster/client.h"
+#include "cluster_column.h"
+#include "msg_box.h"
+#include "rtty.h"
+}
+
+using FloatParam = Parameter<float, int32_t, 10>;
+
+/* Settings turned in steps; the value is aligned to the step even when not turned */
+static const struct {
+    cfg_ctrl_t          ctrl;
+    Parameter<int32_t> *p;
+    int32_t             step;
+    const char         *fmt;
+} int_steps[] = {
+    {CTRL_RFG, &cfg_sm.p_rfgain, BOARD_RFG_STEP, "RF gain: %i"},
+    {CTRL_WEFAX_ALIGN, &cfg_sm.p_wefax_align, 1, "WEFAX Align: %i"},     /* WEFAX app: picture shift */
+    {CTRL_WEFAX_TILT, &cfg_sm.p_wefax_tilt, 1, "WEFAX Tilt: %i"},        /* and slant */
+    {CTRL_SQL, &cfg_sm.p_squelch, BOARD_SQL_STEP, "Voice SQL: %i"},
+    {CTRL_MONI, &cfg_sm.p_moni, BOARD_MONI_STEP, "Moni level: %i"},
+    {CTRL_KEY_SPEED, &cfg_sm.p_key_speed, BOARD_KEY_SPEED_STEP, "Key speed: %i wpm"},
+    {CTRL_KEY_TONE, &cfg_sm.p_key_tone, BOARD_KEY_TONE_STEP, "Key tone: %i Hz"},
+    {CTRL_KEY_VOL, &cfg_sm.p_key_vol, BOARD_KEY_VOL_STEP, "Key volume: %i"},
+    {CTRL_QSK_TIME, &cfg_sm.p_qsk_time, BOARD_QSK_TIME_STEP, "QSK time: %i ms"},
+    {CTRL_CW_PEAK_Q, &cfg_sm.p_cw_peak_q, BOARD_CW_PEAK_Q_STEP, "CW peak Q: %i"},
+    {CTRL_RIT, &cfg_sm.p_rit, BOARD_RIT_STEP, "RIT: %+i"},
+    {CTRL_XIT, &cfg_sm.p_xit, BOARD_XIT_STEP, "XIT: %+i"},
+    {CTRL_DNF_CENTER, &cfg_sm.p_dnf_center, BOARD_DNF_CENTER_STEP, "DNF center: %i Hz"},
+    {CTRL_DNF_WIDTH, &cfg_sm.p_dnf_width, BOARD_DNF_WIDTH_STEP, "DNF width: %i Hz"},
+    {CTRL_NB_LEVEL, &cfg_sm.p_nb_level, BOARD_NB_LEVEL_STEP, "NB level: %i"},
+    {CTRL_NB_WIDTH, &cfg_sm.p_nb_width, BOARD_NB_WIDTH_STEP, "NB width: %i"},
+    {CTRL_NR_LEVEL, &cfg_sm.p_nr_level, BOARD_NR_LEVEL_STEP, "NR level: %i"},
+    {CTRL_WF_REF, &cfg_sm.p_waterfall_ref, BOARD_WF_REF_STEP, "Waterfall ref: %+i dB"},
+    {CTRL_WF_3D_DEPTH, &cfg_sm.p_wf_3d_depth, 4, "3D depth: %i traces"},
+    {CTRL_WF_3D_TILT, &cfg_sm.p_wf_3d_tilt, 1, "3D tilt: %i"},
+    {CTRL_WF_3D_FLOOR, &cfg_sm.p_wf_3d_floor, 2, "3D floor: +%i"},
+};
+
+static const struct {
+    cfg_ctrl_t  ctrl;
+    FloatParam *p;
+    float       step;
+    const char *fmt;
+} float_steps[] = {
+    {CTRL_PWR, &cfg_sm.p_pwr, BOARD_PWR_STEP, "Power: " BOARD_PWR_LABEL_FMT " W"},
+    {CTRL_KEY_RATIO, &cfg_sm.p_key_ratio, BOARD_KEY_RATIO_STEP, "Key ratio: %0.1f"},
+    {CTRL_CW_DECODER_SNR, &cfg_sm.p_cw_decoder_snr, BOARD_CW_DECODER_SNR_STEP, "CW decoder SNR: %0.1f dB"},
+};
+
+/* The filter edges follow the mode: changed only when turned. Step 0: by the mode */
+static const struct {
+    cfg_ctrl_t                  ctrl;
+    ComputedParameter<int32_t> *p;
+    int32_t                     step;
+    const char                 *fmt;
+} filter_steps[] = {
+    {CTRL_FILTER_LOW, &cfg_sm.cp_cur_filter_low, BOARD_FILTER_LOW_STEP, "Filter low: %i Hz"},
+    {CTRL_FILTER_HIGH, &cfg_sm.cp_cur_filter_high, 0, "Filter high: %i Hz"},
+    {CTRL_FILTER_BW, &cfg_sm.cp_cur_filter_bw, BOARD_FILTER_BW_STEP, "Filter bw: %i Hz"},
+};
+
+/* On/off settings: any turn flips them */
+static const struct {
+    cfg_ctrl_t          ctrl;
+    Parameter<int32_t> *p;
+    const char         *fmt;
+    const char         *off, *on;
+} toggles[] = {
+    {CTRL_VOX_ON, &cfg_sm.p_vox_en, "VOX: %s", "Off", "On"},
+    {CTRL_KEY_TRAIN, &cfg_sm.p_key_train, "Key train: %s", "Off", "On"},
+    {CTRL_CW_PEAK_ON, &cfg_sm.p_cw_peak_on, "CW peak: %s", "Off", "On"},
+    {CTRL_DNF, &cfg_sm.p_dnf, "DNF: %s", "Off", "On"},
+    {CTRL_DNF_AUTO, &cfg_sm.p_dnf_auto, "DNF auto: %s", "Off", "On"},
+    {CTRL_NB, &cfg_sm.p_nb, "NB: %s", "Off", "On"},
+    {CTRL_NR, &cfg_sm.p_nr, "NR: %s", "Off", "On"},
+    {CTRL_CW_DECODER, &cfg_sm.p_cw_decoder, "CW decoder: %s", "Off", "On"},
+    {CTRL_CW_TUNE, &cfg_sm.p_cw_tune, "CW tune: %s", "Off", "On"},
+    {CTRL_WF_MODE, &cfg_sm.p_wf_mode, "Waterfall: %s", "Centered", "Fixed"},
+    {CTRL_WF_3D, &cfg_sm.p_wf_3d, "Waterfall 3D: %s", "Off", "On"},
+    {CTRL_CLUSTER_ORDER, &cfg_sm.p_cluster_order, "Cluster order: %s", "frequency", "newest first"},
+    {CTRL_CLUSTER_BANDS, &cfg_sm.p_cluster_all_bands, "Cluster: %s", "current band", "all bands"},
+    {CTRL_ATU, &cfg_sm.p_atu_enabled, "ATU: %s", "Off", "On"},
+};
+
+template <typename T, typename D, int32_t S>
+static T turn(Parameter<T, D, S> &p, int32_t diff, T step) {
+    p.set(align(p.get() + diff * step, step));
+    return p.get();     /* as the setting took it */
+}
+
+static int32_t filter_high_step() {
+    int32_t mode = cfg_sm.cp_cur_mode.get();
+
+    return mode == radio_mode_cw || mode == radio_mode_cwr ? 10 : 50;
+}
+
+/* One step round a setting of n values (0 .. n-1) */
+static int32_t cycle(Parameter<int32_t> &p, int32_t n, int32_t diff) {
+    int32_t v = p.get();
+
+    if (diff) {
+        v = (v + (diff > 0 ? 1 : n - 1)) % n;
+        p.set(v);
+    }
+    return v;
+}
+
+static bool from_table(cfg_ctrl_t ctrl, int32_t diff, char *buf, size_t size) {
+    for (auto &s : int_steps) {
+        if (s.ctrl == ctrl) {
+            snprintf(buf, size, s.fmt, turn(*s.p, diff, s.step));
+            return true;
+        }
+    }
+    for (auto &s : float_steps) {
+        if (s.ctrl == ctrl) {
+            snprintf(buf, size, s.fmt, turn(*s.p, diff, s.step));
+            return true;
+        }
+    }
+    for (auto &s : filter_steps) {
+        if (s.ctrl == ctrl) {
+            int32_t v = s.p->get();
+
+            if (diff) {
+                int32_t step = s.step ? s.step : filter_high_step();
+
+                s.p->set(align(v + diff * step, step));
+                v = s.p->get();
+            }
+            snprintf(buf, size, s.fmt, v);
+            return true;
+        }
+    }
+    for (auto &t : toggles) {
+        if (t.ctrl == ctrl) {
+            bool on = t.p->get();
+
+            if (diff) {
+                on = !on;
+                t.p->set(on);
+            }
+            snprintf(buf, size, t.fmt, on ? t.on : t.off);
+            return true;
+        }
+    }
+    return false;
+}
+
+/* IF shift: the X6100 base firmware 1.1.9 (or a board revision 8 and later) */
+static bool if_shift_supported() {
+    return (radio_caps() & HW_CAP_IF_SHIFT) != 0;
+}
+
+void controls_encoder_update(cfg_ctrl_t ctrl, int32_t diff, std::string &msg) {
+    char  *buf  = msg.data();
+    size_t size = msg.capacity();
+    int32_t i;
+
+    if (from_table(ctrl, diff, buf, size)) {
+        return;
+    }
+    switch (ctrl) {
+        case CTRL_VOL:
+            snprintf(buf, size, "Volume: %i", radio_change_vol(diff));
+            break;
+
+        case CTRL_SPECTRUM_FACTOR:      /* zoom x1 x2 x4 x8: a step doubles or halves it */
+            i = cfg_sm.p_mode_zoom.get();
+            if (diff) {
+                cfg_sm.p_mode_zoom.set(diff > 0 ? i << diff : i >> -diff);
+                i = cfg_sm.p_mode_zoom.get();
+            }
+            snprintf(buf, size, "Zoom: x%i", i);
+            break;
+
+        case CTRL_COMP:
+            snprintf(buf, size, "Compressor ratio: %s", params_comp_str_get(turn(cfg_sm.p_comp, diff, 1)));
+            break;
+
+        case CTRL_KEY_MODE:     /* manual, auto left, auto right */
+            i = cycle(cfg_sm.p_key_mode, radio_key_auto_right + 1, diff);
+            snprintf(buf, size, "Key mode: %s", params_key_mode_str_get((radio_key_mode_t)i));
+            break;
+
+        case CTRL_IAMBIC_MODE:  /* A, B */
+            i = cycle(cfg_sm.p_iambic_mode, radio_iambic_b + 1, diff);
+            snprintf(buf, size, "Iambic mode: %s", params_iambic_mode_str_ger((radio_iambic_mode_t)i));
+            break;
+
+        case CTRL_RTTY_RATE:
+            snprintf(buf, size, "RTTY rate: %0.2f", rtty_change_rate(diff));
+            break;
+
+        case CTRL_RTTY_SHIFT:
+            snprintf(buf, size, "RTTY shift: %i Hz", rtty_change_shift(diff));
+            break;
+
+        case CTRL_RTTY_CENTER:
+            snprintf(buf, size, "RTTY center: %i Hz", rtty_change_center(diff));
+            break;
+
+        case CTRL_RTTY_REVERSE:
+            snprintf(buf, size, "RTTY reverse: %s", rtty_change_reverse(diff) ? "On" : "Off");
+            break;
+
+        case CTRL_CLUSTER:
+            snprintf(buf, size, "Cluster: %s", cluster_column_move(diff));
+            knobs_set_mfk_param(CTRL_CLUSTER);  /* no subject: refresh the knob label */
+            break;
+
+        case CTRL_CLUSTER_MODES: {  /* the modes filter of Settings > Cluster, in five presets */
+            static const uint8_t      presets[] = {CLUSTER_FM_ALL, CLUSTER_FM_CW, CLUSTER_FM_SSB, CLUSTER_FM_DIG,
+                                                   CLUSTER_FM_CW | CLUSTER_FM_DIG};
+            static const char *const  names[]   = {"全部", "CW", "SSB", "DIG", "CW+DIG"};
+            const cluster_filter_t   *f         = cluster_filter();
+            int                       cur       = 0;
+
+            for (int k = 0; k < 5; k++)
+                if (f->modes == presets[k]) cur = k;
+            if (diff) {
+                cur = (cur + (diff > 0 ? 1 : 4)) % 5;
+                cluster_filter_save(presets[cur], f->bands, f->activity);
+            }
+            snprintf(buf, size, "Cluster modes: %s", names[cur]);
+            knobs_set_mfk_param(CTRL_CLUSTER_MODES);
+            break;
+        }
+
+        case CTRL_AGC: {        /* Off, Slow, Fast, Auto, a step a detent; it stops at either end. The AGC key goes
+                                 * round, but a knob turned on past Auto landed on Off, the loudest */
+            static const char *const names[] = {"关闭", "Slow", "Fast", "Auto"};
+
+            i = cfg_sm.cp_cur_agc.get();
+            if (diff) {
+                cfg_sm.cp_cur_agc.set(LV_CLAMP(radio_agc_off, i + (diff > 0 ? 1 : -1), radio_agc_auto));
+                i = cfg_sm.cp_cur_agc.get();
+            }
+            snprintf(buf, size, "AGC: %s", i >= 0 && i < 4 ? names[i] : "?");
+            break;
+        }
+
+        case CTRL_PRE:          /* per band, as the PRE key and the VOL 2:2 buttons */
+        case CTRL_ATT: {
+            ComputedParameter<int32_t> &p = ctrl == CTRL_PRE ? cfg_sm.cp_cur_pre : cfg_sm.cp_cur_att;
+
+            if (diff) {
+                p.set(!p.get());
+            }
+            snprintf(buf, size, "%s: %s", ctrl == CTRL_PRE ? "PRE" : "ATT", p.get() ? "On" : "Off");
+            break;
+        }
+
+        case CTRL_STEP: {       /* 10 Hz to 100 kHz as FST, but stopping at either end: FST goes round, and a knob
+                                 * turned on past the top landed on 10 Hz */
+            char st[16];
+
+            i = cfg_sm.p_mode_freq_step.get();
+            if ((diff > 0 && i < CFG_FREQ_STEP_MAX) || (diff < 0 && i > CFG_FREQ_STEP_MIN)) {
+                i = cfg_mode_change_freq_step(diff > 0);
+            }
+            snprintf(buf, size, "Freq step: %s", cfg_freq_step_text(i, st, sizeof(st)));
+            break;
+        }
+
+        case CTRL_IF_SHIFT:
+            if (if_shift_supported()) {
+                snprintf(buf, size, "IF shift: %i Hz", turn(cfg_sm.p_band_if_shift, diff, 100));
+            } else {
+                msg_update_text_fmt("不支持中频偏移");
+            }
+            break;
+
+        default:
+            break;
+    }
+}
+
+/* The next control (dir > 0) or the one before bound to this knob, round the list;
+ * dir 0: this one if it is bound, else the next. The cluster items are on the MFK while
+ * the cluster column is shown, whatever the binds say */
+cfg_ctrl_t controls_encoder_get_next(encoder_binds_t encoder, cfg_ctrl_t current, int16_t dir) {
+    std::string binds = cfg_sm.p_encoder_bind.get();
+    size_t      n     = binds.size();
+
+    auto bound = [&](size_t c) {
+        if (c == CTRL_CLUSTER || c == CTRL_CLUSTER_ORDER || c == CTRL_CLUSTER_BANDS || c == CTRL_CLUSTER_MODES) {
+            return encoder == ENCODER_BIND_MFK && cfg_sm.p_cluster_column.get();
+        }
+        return binds[c] == encoder;
+    };
+
+    if (dir == 0) {
+        if (current < n && bound(current)) {
+            return current;
+        }
+        dir = 1;
+    }
+    for (size_t k = 1; k <= n; k++) {
+        size_t c = (dir > 0 ? current + k : 2 * n + current - k) % n;
+
+        if (bound(c)) {
+            return (cfg_ctrl_t)c;
+        }
+    }
+    LV_LOG_ERROR("No next/prev control for %c", encoder);
+    return current;
+}
+
+/* Buttons */
+
+static void flip(Parameter<int32_t> &p) {
+    p.set(!p.get());
+}
+
+void controls_toggle_key_train(button_data_t *data) {
+    flip(cfg_sm.p_key_train);
+}
+
+void controls_toggle_key_iambic_mode(button_data_t *data) {
+    cfg_sm.p_iambic_mode.set(cfg_sm.p_iambic_mode.get() == radio_iambic_a ? radio_iambic_b : radio_iambic_a);
+}
+
+void controls_toggle_cw_decoder(button_data_t *data) {
+    flip(cfg_sm.p_cw_decoder);
+}
+
+void controls_toggle_cw_tuner(button_data_t *data) {
+    flip(cfg_sm.p_cw_tune);
+}
+
+void controls_toggle_cw_peak(button_data_t *data) {
+    flip(cfg_sm.p_cw_peak_on);
+}
+
+void controls_toggle_dnf(button_data_t *data) {
+    flip(cfg_sm.p_dnf);
+}
+
+void controls_toggle_dnf_auto(button_data_t *data) {
+    flip(cfg_sm.p_dnf_auto);
+}
+
+void controls_toggle_nb(button_data_t *data) {
+    flip(cfg_sm.p_nb);
+}
+
+void controls_toggle_nr(button_data_t *data) {
+    flip(cfg_sm.p_nr);
+}
+
+void controls_toggle_vox(button_data_t *data) {
+    flip(cfg_sm.p_vox_en);
+}
+
+void controls_toggle_wf_mode(button_data_t *data) {
+    flip(cfg_sm.p_wf_mode);
+}
+
+void controls_toggle_wf_3d(button_data_t *data) {
+    flip(cfg_sm.p_wf_3d);
+}
+
+/* Span +/- buttons: wider span = lower zoom (1/2/4/8) */
+void controls_span_wider(button_data_t *data) {
+    cfg_sm.p_mode_zoom.set(cfg_sm.p_mode_zoom.get() >> 1);
+}
+
+void controls_span_narrower(button_data_t *data) {
+    cfg_sm.p_mode_zoom.set(cfg_sm.p_mode_zoom.get() << 1);
+}
+
+/* CW ZAP: tune so that the signal the decoder hears sits on the key tone, to 10 Hz. A tone above the key tone
+ * is a station above the dial where the tone falls as the dial goes up (CW on the X6100), below it where the
+ * tone rises (CW-R; CW on the X6200 too, where ZAP went the wrong way, #115) */
+void controls_cw_zap(button_data_t *data) {
+    int dir = radio_cw_tone_dir((radio_mode_t)cfg_sm.cp_cur_mode.get());
+
+    if (!dir) {
+        return;
+    }
+
+    float   tone_freq = cw_get_tone_freq();
+    int32_t key_tone  = cfg_sm.p_key_tone.get();
+    int32_t freq      = cfg_sm.cp_fg_freq.get();
+
+    LV_LOG_USER("tone_freq: %f, key_tone: %i", tone_freq, key_tone);
+    if (dir < 0) {
+        freq += tone_freq - key_tone;
+    } else {
+        freq -= tone_freq - key_tone;
+    }
+    cfg_sm.cp_fg_freq.set((freq + 5) / 10 * 10);
+}
+
+/* 40 -> "40m", "40m CW", "40m SSB", not "4m" */
+static bool band_matches(const std::string &name, int32_t m) {
+    char pre[8];
+    int  l = snprintf(pre, sizeof(pre), "%im", m);
+    return name.compare(0, l, pre) == 0 && (name.size() == (size_t)l || name[l] == ' ');
+}
+
+void controls_set_band_m(int32_t m) {
+    BandInfoLoadResult cur = BandsTable::get_by_id(cfg_sm.current_band_id());
+
+    if (cur.rc == SUCCESS && band_matches(cur.value.name, m))
+        return;
+    int32_t  id    = BAND_UNDEFINED;
+    uint32_t start = UINT32_MAX;
+    for (const BandInfo &b : BandsTable::all_bands()) {
+        if (b.type != BAND_ACTIVE || !band_matches(b.name, m)
+            || cfg_sm.band_use(b.start_freq, b.stop_freq) == BAND_USE_NONE)
+            continue;
+        if (b.start_freq < start) {
+            id    = b.id;
+            start = b.start_freq;
+        }
+    }
+    if (id != BAND_UNDEFINED)
+        cfg_sm.p_band_id.set(id);
+}

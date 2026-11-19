@@ -1,0 +1,210 @@
+/*
+ *  SPDX-License-Identifier: LGPL-2.1-or-later
+ *
+ *  Xiegu X6100 LVGL GUI
+ *
+ *  Copyright (c) 2026 Giovanni Ricciardi IU1WXY
+ */
+
+/* The radio's buttons (front and top side, the knob presses) from their input devices.
+ * A button goes to the screen as EVENT_KEYPAD: press, release, and after the hold time
+ * long and its release, each button on its own while others are down too. The VOL press
+ * is an LVGL key of its own (KEY_VOL_PRESS), once a press however long it is held; the
+ * MFK press is the button of the MFK encoder (encoder.c). */
+
+#include "front_keys.h"
+
+#include "screen_light.h"
+#include "control_owner.h"
+#include "key_input.h"
+#include "main.h"
+
+#include <fcntl.h>
+#include <linux/input.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+#define HOLD_MS 1000
+
+static const struct {
+    uint16_t     code;
+    keypad_key_t key;
+} buttons[] = {
+#ifdef BOARD_X6200
+    /* The X6200's matrix (as the stock X6200 GUI reads it): the same codes as the X6100's front
+     * row, APP/KEY and MSG/DFN swapped, no PRE, VM, AGC or LOCK key, ATU and FST moved up */
+    {KEY_POWER, KEYPAD_POWER},          {BTN_TRIGGER_HAPPY1, KEYPAD_GEN},  {BTN_TRIGGER_HAPPY2, KEYPAD_APP},
+    {BTN_TRIGGER_HAPPY3, KEYPAD_KEY},   {BTN_TRIGGER_HAPPY7, KEYPAD_MSG},  {BTN_TRIGGER_HAPPY8, KEYPAD_DFN},
+    {BTN_TRIGGER_HAPPY9, KEYPAD_DFL},   {BTN_TRIGGER_HAPPY13, KEYPAD_F1},  {BTN_TRIGGER_HAPPY14, KEYPAD_F2},
+    {BTN_TRIGGER_HAPPY15, KEYPAD_F3},   {BTN_TRIGGER_HAPPY19, KEYPAD_F4},  {BTN_TRIGGER_HAPPY20, KEYPAD_F5},
+    /* top side */
+    {BTN_TRIGGER_HAPPY4, KEYPAD_PTT},   {BTN_TRIGGER_HAPPY5, KEYPAD_BAND_DOWN},
+    {BTN_TRIGGER_HAPPY6, KEYPAD_BAND_UP}, {BTN_TRIGGER_HAPPY10, KEYPAD_MODE_AM},
+    {BTN_TRIGGER_HAPPY11, KEYPAD_MODE_CW}, {BTN_TRIGGER_HAPPY12, KEYPAD_MODE_SSB},
+    {BTN_TRIGGER_HAPPY16, KEYPAD_AB},   {BTN_TRIGGER_HAPPY17, KEYPAD_ATU}, {BTN_TRIGGER_HAPPY18, KEYPAD_FST},
+#else
+    /* front */
+    {KEY_POWER, KEYPAD_POWER},          {BTN_TRIGGER_HAPPY1, KEYPAD_GEN},  {BTN_TRIGGER_HAPPY7, KEYPAD_APP},
+    {BTN_TRIGGER_HAPPY2, KEYPAD_KEY},   {BTN_TRIGGER_HAPPY8, KEYPAD_MSG},  {BTN_TRIGGER_HAPPY3, KEYPAD_DFN},
+    {BTN_TRIGGER_HAPPY9, KEYPAD_DFL},   {BTN_TRIGGER_HAPPY13, KEYPAD_F1},  {BTN_TRIGGER_HAPPY14, KEYPAD_F2},
+    {BTN_TRIGGER_HAPPY15, KEYPAD_F3},   {BTN_TRIGGER_HAPPY19, KEYPAD_F4},  {BTN_TRIGGER_HAPPY20, KEYPAD_F5},
+    {BTN_TRIGGER_HAPPY25, KEYPAD_LOCK},
+    /* top side */
+    {BTN_TRIGGER_HAPPY4, KEYPAD_PTT},   {BTN_TRIGGER_HAPPY5, KEYPAD_BAND_DOWN},
+    {BTN_TRIGGER_HAPPY6, KEYPAD_BAND_UP}, {BTN_TRIGGER_HAPPY10, KEYPAD_MODE_AM},
+    {BTN_TRIGGER_HAPPY11, KEYPAD_MODE_CW}, {BTN_TRIGGER_HAPPY12, KEYPAD_MODE_SSB},
+    {BTN_TRIGGER_HAPPY16, KEYPAD_AB},   {BTN_TRIGGER_HAPPY17, KEYPAD_PRE}, {BTN_TRIGGER_HAPPY18, KEYPAD_ATU},
+    {BTN_TRIGGER_HAPPY22, KEYPAD_VM},   {BTN_TRIGGER_HAPPY23, KEYPAD_AGC}, {BTN_TRIGGER_HAPPY24, KEYPAD_FST},
+#endif
+};
+
+#define VOL_PRESS BTN_TRIGGER_HAPPY21
+#define MFK_PRESS BTN_TRIGGER_HAPPY27
+
+/* Each key on its own: its press, its long press and its release, whatever else is pressed and let go meanwhile.
+ * With one key remembered a release went missing: the side PTT held, a front key tapped, and the PTT's release
+ * found the tapped key's state and sent nothing, the radio on the air until PTT was pressed again. The browser's
+ * PTT lets go through here too: the end of its lease and its three minutes went missing the same way */
+#define KEYS (KEYPAD_FST + 1)   /* FST is the last key */
+
+static struct {
+    bool        down;
+    bool        long_sent;      /* KEYPAD_LONG went: KEYPAD_LONG_RELEASE on the release */
+    lv_timer_t *hold_timer;
+} key_st[KEYS];
+
+static uint32_t hold_ms = HOLD_MS;
+
+void keypad_set_long_time(uint32_t hold) {
+    hold_ms = hold ? hold : HOLD_MS;
+}
+
+static void send(keypad_key_t key, keypad_state_t state) {
+    event_keypad_t ev = {key, state};   /* sent by address: the receivers read it at once */
+
+    lv_event_send(lv_scr_act(), EVENT_KEYPAD, &ev);
+}
+
+static void held_cb(lv_timer_t *t) {
+    keypad_key_t key = (keypad_key_t)(intptr_t)t->user_data;
+
+    key_st[key].hold_timer = NULL;      /* one shot: LVGL deletes it */
+    key_st[key].long_sent  = true;
+    send(key, KEYPAD_LONG);
+}
+
+static keypad_key_t button_of(uint16_t code) {
+    for (size_t i = 0; i < sizeof(buttons) / sizeof(buttons[0]); i++) {
+        if (buttons[i].code == code) {
+            return buttons[i].key;
+        }
+    }
+    LV_LOG_WARN("Unknown key");
+    return KEYPAD_UNKNOWN;
+}
+
+/* One already-decoded button; value 1 is a press, anything else (release, autorepeat) lets go */
+void keypad_button(keypad_key_t key, int value) {
+    if ((unsigned)key >= KEYS) {
+        return;     /* a key added after FST, which KEYS has no place for */
+    }
+    if (key_st[key].hold_timer) {
+        lv_timer_del(key_st[key].hold_timer);
+        key_st[key].hold_timer = NULL;
+    }
+    if (value == 1) {
+        key_st[key].down      = true;
+        key_st[key].long_sent = false;
+        send(key, KEYPAD_PRESS);
+        /* POWER's hold switches the radio off: always the full time, also where an app shortens the rest (JS8) */
+        key_st[key].hold_timer = lv_timer_create(held_cb, key == KEYPAD_POWER ? HOLD_MS : hold_ms,
+                                                 (void *)(intptr_t)key);
+        lv_timer_set_repeat_count(key_st[key].hold_timer, 1);
+    } else if (key_st[key].down) {
+        key_st[key].down = false;
+        send(key, key_st[key].long_sent ? KEYPAD_LONG_RELEASE : KEYPAD_RELEASE);
+    }
+}
+
+/* One input event a call */
+static void button_event(const struct input_event *in) {
+    keypad_button(button_of(in->code), in->value);
+}
+
+static void keypad_read(lv_indev_drv_t *drv, lv_indev_data_t *data) {
+    keypad_t          *pad = drv->user_data;
+    struct input_event in;
+
+    if (read(pad->fd, &in, sizeof(in)) > 0) {
+        /* All the queued events in one pass: one per pass took 4 GUI loops for a key
+         * (press, sync, release, sync), 100 ms and more while the screen is busy */
+        data->continue_reading = true;
+
+        if (in.type == EV_KEY) {
+            if (in.value)
+                ctl_local_input();   /* a key at the radio: control is the operator's (unless injected) */
+            if (backlight_tick() && in.value) {
+                /* the press woke the screen: that was its job, the radio does not see it */
+            } else if (in.code == VOL_PRESS) {
+                if (in.value == 1) {    /* the press only: let go below, whatever the key does */
+                    pad->evdev_key   = KEY_VOL_PRESS;
+                    pad->evdev_state = LV_INDEV_STATE_PRESSED;
+                }
+            } else if (in.code == MFK_PRESS) {
+                mfk->pressed = in.value != 0;
+                /* The encoder samples it at its next read: a quick press and release
+                 * in the same pass would be lost */
+                data->continue_reading = false;
+            } else {
+                button_event(&in);
+            }
+        }
+    }
+    data->key   = pad->evdev_key;
+    data->state = pad->evdev_state;
+    /* LVGL sees the VOL press for one read: a key held past its long press time (HOLD_MS) is
+     * sent again every 100 ms, and each one flipped VOL between choosing and changing */
+    pad->evdev_state = LV_INDEV_STATE_RELEASED;
+}
+
+/* The POWER key as the base reports it in its packets (the X6200, hw_pack_t.power_key) or as
+ * the browser sends it where there is no device for it: the same path as a press on a device,
+ * so the wake, the hold and the control owner work the same. GUI thread */
+void keypad_power_set(bool down) {
+    struct input_event in = {.type = EV_KEY, .code = KEY_POWER, .value = down ? 1 : 0};
+
+    if (down) {
+        ctl_local_input();
+    }
+    if (backlight_tick() && down) {
+        return;     /* the press woke the screen: that was its job */
+    }
+    button_event(&in);
+}
+
+keypad_t *keypad_init(char *dev_name) {
+    if (!dev_name) {
+        return NULL;    /* a board without this device (BOARD_DEV_POWER on the X6200) */
+    }
+    int fd = open(dev_name, O_RDWR | O_NOCTTY | O_NDELAY);
+
+    if (fd == -1) {
+        perror("unable to open keypad interface:");
+        return NULL;
+    }
+    fcntl(fd, F_SETFL, O_ASYNC | O_NONBLOCK);
+
+    keypad_t *pad = calloc(1, sizeof(*pad));
+
+    pad->fd          = fd;
+    pad->evdev_state = LV_INDEV_STATE_RELEASED;
+    lv_indev_drv_init(&pad->indev_drv);
+    pad->indev_drv.type            = LV_INDEV_TYPE_KEYPAD;
+    pad->indev_drv.read_cb         = keypad_read;
+    pad->indev_drv.user_data       = pad;
+    pad->indev_drv.long_press_time = HOLD_MS;
+    pad->indev = lv_indev_drv_register(&pad->indev_drv);
+    lv_indev_set_group(pad->indev, keyboard_group);
+    return pad;
+}

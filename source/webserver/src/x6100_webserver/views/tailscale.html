@@ -1,0 +1,170 @@
+% rebase('base.html', title='Tailscale')
+<h2><svg class="i"><use href="#i-lock"/></svg>Tailscale</h2>
+<p class="sub">Tailscale puts the radio on your own private network, your tailnet. With Tailscale on a laptop or a phone you reach the radio from anywhere as if you were at home: these pages, the Panel and the Screen page, and TCI. Nothing is opened on your router. When you turn it on, the radio downloads Tailscale once from Tailscale's site (37 MB) and asks you to log in with your Tailscale account. Tailscale's log upload is off.</p>
+
+<div class="dp-card">
+  <div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-lock"/></svg></span><div><h3>Tailscale<span class="eff">生效方式：立即</span></h3><p id="ver">On the radio, in userspace mode</p></div></div>
+  <div class="dp-row">
+    <div class="dp-lbl"><b>启用</b><span>随电台启动，换新卡镜像后亦然</span></div>
+    <div class="dp-ctl"><label class="sw" title="启用"><input id="enabled" type="checkbox" role="switch" aria-label="启用"><i></i></label></div>
+  </div>
+  <div class="dp-row"><div class="dp-lbl"><b>状态</b></div><div class="dp-ctl" id="text">-</div></div>
+  <div class="dp-row" id="loginrow" style="display:none">
+    <div class="dp-lbl"><b>Log in</b><span>Opens Tailscale's login in a new tab. The radio's screen shows the same link as a code for a phone (Settings > Wireless)</span></div>
+    <div class="dp-ctl"><a class="btn primary" id="login" target="_blank" rel="noopener">Log in to Tailscale</a></div>
+  </div>
+  <div class="dp-row" id="addrrow" style="display:none">
+    <div class="dp-lbl"><b>On your tailnet</b><span>From a laptop or a phone with Tailscale on</span></div>
+    <div class="dp-ctl" id="addr">-</div>
+  </div>
+  <div class="dp-body" style="border-top:1px solid #1a283c">
+    <div class="actions" style="margin-top:0">
+      <button type="button" id="logout">Log out</button>
+      <span class="status" id="status"></span>
+    </div>
+  </div>
+</div>
+
+<div class="dp-card">
+  <div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-globe"/></svg></span><div><h3>Tailscale Funnel<span class="eff">Takes effect: within seconds</span></h3><p>The browser Panel on the internet, for a phone or a PC without Tailscale</p></div></div>
+  <div class="dp-row">
+    <div class="dp-lbl"><b>Funnel</b><span>Only the Panel and the Screen page, and only for browsers paired at home. Needs Tailscale connected</span></div>
+    <div class="dp-ctl"><label class="sw" title="Funnel"><input id="funnel" type="checkbox" role="switch" aria-label="Funnel"><i></i></label></div>
+  </div>
+  <div class="dp-row"><div class="dp-lbl"><b>状态</b></div><div class="dp-ctl" id="ftext">Off</div></div>
+  <div class="dp-row" id="allowrow" style="display:none">
+    <div class="dp-lbl"><b>Allow Funnel</b><span>Your tailnet does not allow it yet: HTTPS certificates and Funnel are turned on in Tailscale's admin console. The radio's screen shows the same link as a code (Settings > Wireless)</span></div>
+    <div class="dp-ctl"><a class="btn primary" id="allow" target="_blank" rel="noopener noreferrer">Allow in Tailscale</a></div>
+  </div>
+  <div class="dp-row" id="pubrow" style="display:none">
+    <div class="dp-lbl"><b>On the internet</b><span>Open it in a browser paired here: on the Panel at home press <b>Use away from home</b>, and keep the page it opens</span></div>
+    <div class="dp-ctl" id="pub">-</div>
+  </div>
+  <div class="dp-body" style="border-top:1px solid #1a283c">
+    <ul style="margin:0;padding-left:18px;color:var(--dim);line-height:1.5">
+      <li>What goes on the internet: the Panel and the Screen page, at https://&lt;name&gt;.&lt;tailnet&gt;.ts.net/panel. Not these pages, not TCI programs, not the Winlink mailbox, not SSH.</li>
+      <li>Nothing is shown or sent to a browser from the internet before it presents the key of a browser paired at home. Pairing is refused over Funnel: pair at home (or once over Tailscale), then Use away from home.</li>
+      <li>The name becomes public: every Funnel name gets an HTTPS certificate, and certificates are listed in public logs that scanners read. Anyone can find the address; only paired browsers get in.</li>
+      <li>Sound takes about 50 kB/s each way, the spectrum about 15 kB/s; Tailscale relays it when it must.</li>
+      <li>You remain the control operator of every transmission made from away, as the rules of your licence say.</li>
+      <li>While Funnel is on, port 443 on your tailnet is the Panel's (with a real certificate); these pages stay at http://&lt;name&gt;/. A funnel set up by hand (<code>tailscale funnel ...</code>) is taken off the internet: the radio's switch alone puts it there.</li>
+    </ul>
+    <div class="actions"><span class="status" id="fstatus"></span></div>
+  </div>
+</div>
+
+<div class="dp-card">
+  <div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-key"/></svg></span><div><h3>须知</h3><p>开启之前</p></div></div>
+  <div class="dp-body">
+    <ul style="margin:0;padding-left:18px;color:var(--dim);line-height:1.5">
+      <li>Everyone on your tailnet reaches the radio as if they were on its own network: these pages have no login, TCI clients need none, and SSH takes the keys added on System &gt; SSH. Share the radio's machine in Tailscale only with people you would let in at home.</li>
+      <li>The browser's microphone needs a secure page: open <b>https://</b> with the radio's name and accept its certificate, as at home.</li>
+      <li>Remote and Panel still ask for pairing before they operate, exactly as on the home network.</li>
+      <li>The login stays on the radio. A new card image keeps Tailscale on, but asks for a new login.</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+var last = {};
+// This page itself reached over the tailnet: Off and Log out would cut the connection it came by
+// (also by its MagicDNS short name, as this page suggests, or Tailscale's IPv6 range)
+var viaTailnet = function() {
+  const h = location.hostname.toLowerCase();
+  const short = (last.name || "").split(".")[0].toLowerCase();
+  const m = /^100\.(\d+)\./.exec(h);
+  return h === last.name || (short && h === short) || h === last.ip || h.endsWith(".ts.net")
+    || h.startsWith("[fd7a:115c:a1e0:") || (m && m[1] >= 64 && m[1] <= 127);
+}
+const CUT = "You are connected through Tailscale: this cuts your connection to the radio, and only the radio itself or its home network can bring it back.\n\n";
+
+var showStatus = function(text, error=false) {
+  const el = $("#status");
+  el.toggleClass("error", error);
+  el.html('<span class="dot"></span>').append(document.createTextNode(text));
+}
+var busy = false;
+
+var link = function(host, path, label) {
+  return $("<a>").attr("href", "http://" + host + path).text(label);
+}
+
+var render = function(st) {
+  last = st;
+  if (!busy) $("#enabled").prop("checked", !!st.enabled);
+  $("#enabled").prop("disabled", busy);
+  $("#text").text(st.text || st.state);
+  if (st.version) $("#ver").text("Tailscale " + st.version + " on the radio, in userspace mode");
+  const login = st.state === "login" && st.url;
+  $("#loginrow").toggle(!!login);
+  if (login) $("#login").attr("href", st.url);
+  const running = st.state === "running" && st.name;
+  $("#addrrow").toggle(!!running);
+  if (running) {
+    const short = st.name.split(".")[0];
+    $("#addr").empty().append(
+      document.createTextNode(st.name + "  " + (st.ip || "")), $("<br>"),
+      link(st.name, "/", "Configurator"), document.createTextNode(" · "),
+      link(st.name, "/panel", "Panel"), document.createTextNode(" · "),
+      link(st.name, "/remote", "Screen"), $("<br>"),
+      $("<span>").css("color", "var(--dim)").text("With MagicDNS on, http://" + short + "/ works too"));
+  }
+  $("#logout").prop("disabled", busy || !(st.state === "running" || st.state === "approval"));
+  /* Funnel (#58): the setting, and what the radio made of it */
+  if (!busy) $("#funnel").prop("checked", !!st.funnel_wanted);
+  $("#funnel").prop("disabled", busy || !(st.state === "running" || st.funnel_wanted));
+  $("#ftext").text(st.funnel_wanted ? (st.funnel_text || (st.state === "running" ? "Starting..." : "Waits for Tailscale")) : st.funnel_text || "Off");
+  const allow = st.funnel === "enable" && st.funnel_url;
+  $("#allowrow").toggle(!!allow);
+  if (allow) $("#allow").attr("href", st.funnel_url);
+  const pub = st.funnel === "on" && /^https:\/\//.test(st.public || "");
+  $("#pubrow").toggle(!!pub);
+  if (pub) $("#pub").empty().append($("<a target='_blank' rel='noopener'>").attr("href", st.public).text(st.public));
+}
+
+var refresh = function() { $.get('/api/tailscale', {}, render); }
+
+var act = function(action, saying, statusEl) {
+  busy = true;
+  $("#enabled, #logout, #funnel").prop("disabled", true);
+  const show = statusEl ? function(t, e) { const el = $(statusEl); el.toggleClass("error", !!e); el.html('<span class="dot"></span>').append(document.createTextNode(t)); } : showStatus;
+  show(saying);
+  $.ajax({
+    url: "/api/tailscale",
+    type: "POST",
+    data: JSON.stringify({action: action}),
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+    timeout: 45000,   /* x6100-tailscale: 30 s at most (set_tailscale) */
+    success: function(r) { busy = false; render(r); show("Done"); },
+    error: function(xhr, why) { busy = false; refresh(); show(x6100FailText(xhr, why, 45000), true); }
+  });
+}
+
+/* Funnel on while this page itself came over the tailnet by https: port 443 there becomes the Panel's */
+$("#funnel").on("change", function() {
+  const on = $(this).prop("checked");
+  if (on && location.protocol === "https:" && viaTailnet() &&
+      !confirm("This page came over your tailnet by https. With Funnel on, port 443 there is the Panel's: open these pages at http://" + location.hostname + "/ afterwards.\n\nTurn Funnel on?")) {
+    $(this).prop("checked", false);
+    return;
+  }
+  act(on ? "funnel_on" : "funnel_off", on ? "Turning Funnel on..." : "Turning Funnel off...", "#fstatus");
+});
+
+$("#enabled").on("change", function() {
+  const on = $(this).prop("checked");
+  if (!on && viaTailnet() && !confirm(CUT + "Turn Tailscale off?")) {
+    $(this).prop("checked", true);
+    return;
+  }
+  act(on ? "on" : "off", on ? "Turning Tailscale on..." : "Turning Tailscale off...");
+});
+$("#logout").on("click", function() {
+  const q = "Log the radio out of Tailscale? It asks for a new login while Tailscale is on.";
+  if (confirm((viaTailnet() ? CUT : "") + q)) act("logout", "Logging out...");
+});
+
+refresh();
+setInterval(refresh, 2000);
+</script>

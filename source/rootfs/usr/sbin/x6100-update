@@ -1,0 +1,724 @@
+#!/usr/bin/env python3
+# OpenX6X00 updater: the GUI, the web server, the helpers and the data they install, replaced on
+# the running radio from a signed bundle (tools/update/mkbundle.py), with a journal and the previous
+# files kept so a bad version goes back by itself. Every command prints one line or one JSON object
+# on stdout, exit 0/1.
+#
+#   status                   {"running":..,"pending":..,"last":..,"image":{..}}
+#   check                    {"running":..,"latest":..,"url":..,"newer":bool,"image_needed":bool,..}   (GitHub Releases)
+#
+# The card image: what an update cannot carry (the kernel, its modules, U-Boot) comes with a card image. Each
+# version says which image level it wants per radio (/usr/share/x6100/image-required); the image build stamps
+# its level into /etc/openx6x00-image. "check" reads the newer release's file and says whether it also wants a
+# newer card image; "status" says whether the running software does.
+#   download <url>           the bundle into /mnt/update, progress in /mnt/update/.progress
+#   install <file>           verify, stage, swap in, restart the GUI and the web server
+#   upgrade                  check, download and install the newer release
+#   rollback                 the previous files back, restart
+#   confirm                  the new version runs: the pending mark goes (the GUI, after a minute)
+#   boot-check               before each GUI start (x6100_daemon): a pending version that keeps
+#                            dying is rolled back
+#   fault settings           the pending version could not use the settings file (the GUI, at its start):
+#                            the step back that follows says so instead of "did not stay up"
+#   notice                   "ok <text>" once after a version was taken back, what the GUI shows at its
+#                            next start; "ok" when there is nothing (new) to say
+#
+# A step back is kept in last.json with its reason ("reason": starts, settings, hand, interrupted) and the
+# sentence that says it ("text"); status gives that sentence for a last.json of an earlier updater too, from
+# the fields it has. "why" stays for the web pages of the versions before, which show it.
+#
+# Going back by hand to a version before Tailscale Funnel (rollback, or the install of its bundle) takes Funnel
+# off first, and refuses when it cannot be sure of that (#58): that version would leave the funnel on the
+# internet. boot-check's own step back tries the same, and goes back whatever came of it.
+#
+# SPDX-License-Identifier: LGPL-2.1-or-later
+# Copyright (c) 2026 Joeri Van Dooren ON6URE / Guru-RF
+import hashlib
+import fcntl
+import json
+import os
+import shutil
+import signal
+import subprocess
+import sys
+import tarfile
+import time
+import urllib.error
+import urllib.request
+
+REPO = os.environ.get("X6100_UPDATE_REPO", "Guru-RF/OpenX6X00")
+API = f"https://api.github.com/repos/{REPO}/releases/latest"
+PUB = "/usr/share/x6100/update.pub"
+VERSION_FILE = "/usr/share/x6100/app-version"
+IMAGE_STAMP = "/etc/openx6x00-image"                 # written by the image build only, never by an update
+IMAGE_REQUIRED = "/usr/share/x6100/image-required"   # comes with each version
+RAW = f"https://raw.githubusercontent.com/{REPO}/v{{tag}}/rootfs/usr/share/x6100/image-required"
+STATE = "/var/lib/x6100-update"       # the journal and the previous files: on the root filesystem
+PREV = os.path.join(STATE, "prev")
+JOURNAL = os.path.join(STATE, "journal.json")
+PENDING = os.path.join(STATE, "pending.json")
+LAST = os.path.join(STATE, "last.json")
+WORK = "/mnt/update"                  # the download and the staging: the DATA partition has the room
+PROGRESS = os.path.join(WORK, ".progress")
+ALLOW_UNSIGNED = os.path.join(WORK, "allow-unsigned")
+ALLOWED = ("/usr/sbin/", "/usr/bin/", "/usr/lib/", "/usr/share/x6100/",
+           "/etc/init.d/", "/etc/")
+MAX_STARTS = 3                        # GUI starts without a confirm before the rollback
+TIMEOUT = 30
+RUN_LIMIT = 1800
+LOCK = os.path.join(STATE, "lock")    # one updater at a time: the browser, the GUI and the start loop share it
+LOCK_WAIT = int(os.environ.get("X6100_UPDATE_LOCK_WAIT", "120"))
+TAILSCALE = "/usr/sbin/x6100-tailscale"
+TAILSCALE_STATE = "/var/lib/tailscale/tailscaled.state"   # where tailscaled keeps a funnel between its starts
+FUNNEL_SINCE = (0, 3, 7)              # the first version that knows Tailscale Funnel (#58) and keeps it off by itself
+FUNNEL_WAIT = 30                      # s x6100-tailscale may take to make sure no funnel is left, before a step back
+FUNNEL_QUIET_WAIT = 5                 # s the start loop's own step back gives it
+FUNNEL_QUIET_LIMIT = 20               # s it waits for x6100-tailscale at most then, whatever that one does
+
+
+class Fail(Exception):
+    pass
+
+
+def running_version():
+    try:
+        with open(VERSION_FILE) as f:
+            return f.read().strip()
+    except OSError:
+        return "unknown"
+
+
+def radio_model():
+    """x6100 or x6200, from the device tree: the two radios share this program and the release
+    page, each has its own bundle: the X6200's name carries -x6200-, the X6100's -x6100- (none up
+    to v0.3.1). Updaters before v0.3.1 take the first -update.tar.gz asset of the release, so the
+    X6100's bundle is uploaded first"""
+    try:
+        with open("/proc/device-tree/compatible", "rb") as f:
+            return "x6200" if b"xiegu,x6200" in f.read() else "x6100"
+    except OSError:
+        return "x6100"
+
+
+def image_required(text, model=None):
+    """(level, what the image brings) for this radio from an image-required file's text; (1, "") when it
+    has no line for it"""
+    model = model or radio_model()
+    for line in text.splitlines():
+        parts = line.split(None, 2)
+        if len(parts) >= 2 and not parts[0].startswith("#") and parts[0] == model and parts[1].isdigit():
+            return int(parts[1]), parts[2].strip() if len(parts) > 2 else ""
+    return 1, ""
+
+
+def image_level():
+    """The running card image's level: its stamp, 1 for the images before the stamp (up to v0.3.3)"""
+    try:
+        with open(IMAGE_STAMP) as f:
+            for line in f:
+                k, _, v = line.strip().partition("=")
+                if k == "level" and v.isdigit():
+                    return int(v)
+    except OSError:
+        pass
+    return 1
+
+
+def image_state():
+    try:
+        with open(IMAGE_REQUIRED) as f:
+            need, note = image_required(f.read())
+    except OSError:
+        need, note = 1, ""
+    have = image_level()
+    return {"level": have, "required": need, "needed": have < need, "note": note if have < need else ""}
+
+
+def bundle_for_this_radio(name):
+    return name.endswith("-update.tar.gz") and (("-x6200-" in name) == (radio_model() == "x6200"))
+
+
+def vtuple(v):
+    out = []
+    for part in str(v).lstrip("v").split("."):
+        digits = "".join(ch for ch in part if ch.isdigit())
+        out.append(int(digits) if digits else 0)
+    return tuple(out)
+
+
+def version_parts(v):
+    """A version's numbers, each part's leading digits: 0.3.6-12-g076be5a is 0.3.6 (vtuple makes 0.3.612076 of
+    it), and what is no version ("unknown", none) is 0"""
+    out = []
+    for part in str(v or "").strip().lstrip("v").split("."):
+        n = len(part) - len(part.lstrip("0123456789"))
+        out.append(int(part[:n]) if n else 0)
+        if n < len(part):                 # -12-g076be5a, rc1: what follows is no version number
+            break
+    return tuple(out)
+
+
+def before_funnel(version):
+    """The version knows nothing of Tailscale Funnel (before 0.3.7), or is not known"""
+    v = version_parts(version)
+    n = max(len(v), len(FUNNEL_SINCE))
+    return v + (0,) * (n - len(v)) < FUNNEL_SINCE + (0,) * (n - len(FUNNEL_SINCE))
+
+
+def version_name(version, unknown="the version before"):
+    return f"v{version}" if version_parts(version) > (0,) else unknown
+
+
+# Why a version was taken back, as last.json keeps it, and what is said for each
+REASONS = ("starts", "settings", "hand", "interrupted")
+
+
+def rollback_reason(last):
+    """The reason of a step back in last.json; for one written before "reason" was kept (v0.3.10 and before), from
+    its "why", which each of the three steps back wrote in its own way: none for the one by hand"""
+    reason = last.get("reason")
+    if reason in REASONS:
+        return reason
+    why = str(last.get("why") or "")
+    if reason is None:
+        if not why:
+            return "hand"
+        if "interrupted" in why:
+            return "interrupted"
+        if "did not stay up" in why:
+            return "starts"
+    return ""      # a reason of a later updater, said by its "why"
+
+
+def rollback_text(last):
+    """One line for the screen and the web page: which version was taken back, to which, and why"""
+    what = version_name(last.get("version"), "")
+    head = f"{'Update ' + what if what else 'The update'} taken back to {version_name(last.get('to'))}"
+    reason = rollback_reason(last)
+    if reason == "hand":
+        return f"{head} by hand"
+    if reason == "settings":
+        return f"{head}: it could not use the settings file"
+    if reason == "interrupted":
+        return f"{head}: the install was cut short"
+    if reason == "starts":
+        n = last.get("starts")
+        if not isinstance(n, int):
+            digits = "".join(ch if ch.isdigit() else " " for ch in str(last.get("why") or "")).split()
+            n = int(digits[0]) if digits else MAX_STARTS
+        return f"{head}: it did not stay up a minute in {n} starts"
+    why = str(last.get("why") or "").strip()
+    return f"{head}: {why}" if why else head
+
+
+def screen_text(last):
+    """The step back for the GUI's message box, two short lines: which version went back to which, then why (the
+    web page and status keep the whole sentence of rollback_text). About 30 characters a line show whole there; a
+    longer one scrolls past. A reason of a later updater is said in its own words, whole"""
+    what = version_name(last.get("version"), "")
+    head = f"{what + ' taken back' if what else 'Update taken back'} to {version_name(last.get('to'))}"
+    reason = rollback_reason(last)
+    if reason == "hand":
+        why = "by hand"
+    elif reason == "settings":
+        why = "it could not use the settings"
+    elif reason == "interrupted":
+        why = "its install was cut short"
+    elif reason == "starts":
+        n = last.get("starts")
+        if not isinstance(n, int):
+            digits = "".join(ch if ch.isdigit() else " " for ch in str(last.get("why") or "")).split()
+            n = int(digits[0]) if digits else MAX_STARTS
+        why = f"it did not stay up ({n} starts)"
+    else:
+        why = str(last.get("why") or "").strip() or str(last.get("text") or "").partition(": ")[2].strip()
+    return f"{head}\n{why}" if why else head
+
+
+def last_state():
+    """last.json, its sentence with it: the one it keeps, else made from its fields (an earlier updater's file)"""
+    last = load(LAST)
+    if not isinstance(last, dict):
+        return None
+    if last.get("result") == "rolled back" and not last.get("text"):
+        last["text"] = rollback_text(last)
+    return last
+
+
+def save_rollback(version, to, reason, **more):
+    """last.json for a step back: the reason, the sentence, and "why" for the web pages of the versions before"""
+    why = {"starts": f"the GUI did not stay up ({more.get('starts', MAX_STARTS)} starts)",
+           "settings": "this version could not use the settings file",
+           "interrupted": "the install was interrupted", "hand": "taken back by hand"}[reason]
+    last = {"result": "rolled back", "version": version, "to": to, "reason": reason, "why": why, **more,
+            "when": time.time()}
+    last["text"] = rollback_text(last)
+    save(LAST, last)
+
+
+def funnel_off_before(version, what):
+    """Going back by hand to a version before Tailscale Funnel (#58): Funnel off first, or not at all. That version never
+    looks at the funnel tailscaled keeps in its state (on the root filesystem, which the step back does not touch), and
+    its TCI and browser remote would take connections from the internet without a key. x6100-tailscale turns the
+    setting off and takes the funnel out of tailscaled, through its local API while it runs, out of its state file while
+    it does not, and waits until it is sure. Fail, saying what to do, when it is not; else the note for the result line"""
+    if not before_funnel(version):
+        return ""
+    name = version_name(version)
+
+    def refused(why):
+        return Fail(f"{what}: Funnel could not be made sure to be off ({why}). {name} knows nothing of Tailscale Funnel "
+                    f"and would leave TCI and the browser remote on the internet without a key: turn Funnel off first, "
+                    f"or Tailscale, wait until it says Off, and try again")
+    if not os.access(TAILSCALE, os.X_OK):
+        if os.path.exists(TAILSCALE_STATE):
+            raise refused("x6100-tailscale is missing")
+        return ""                         # Tailscale never ran on this card
+    try:
+        r = subprocess.run([TAILSCALE, "funnel-clear", str(FUNNEL_WAIT)], stdin=subprocess.DEVNULL,
+                           capture_output=True, text=True, timeout=FUNNEL_WAIT + 60)
+    except subprocess.TimeoutExpired:
+        raise refused("Tailscale did not answer")
+    except OSError as e:
+        raise refused(e)
+    if r.returncode != 0:
+        why = (r.stderr.strip().splitlines() or [f"exit code {r.returncode}"])[-1]
+        raise refused(why[6:] if why.startswith("error ") else why)
+    return f"; Funnel is off now: {name} knows nothing of it" if "taken off" in r.stdout else ""
+
+
+def funnel_off_quietly(version):
+    """The start loop's own step back (boot-check) to a version before Funnel: Funnel off as funnel_off_before does,
+    but never in the step back's way. A version that keeps dying goes back whatever came of it, within seconds; with
+    Tailscale off or never used x6100-tailscale finds nothing at once, and without it nothing is tried"""
+    if not before_funnel(version) or not os.access(TAILSCALE, os.X_OK):
+        return
+    try:
+        subprocess.run([TAILSCALE, "funnel-clear", str(FUNNEL_QUIET_WAIT)], stdin=subprocess.DEVNULL,
+                       capture_output=True, timeout=FUNNEL_QUIET_LIMIT)
+    except (OSError, subprocess.SubprocessError):
+        pass
+
+
+def load(path, default=None):
+    try:
+        with open(path) as f:
+            return json.load(f)
+    except (OSError, ValueError):
+        return default
+
+
+def save(path, obj):
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    tmp = path + ".tmp"
+    with open(tmp, "w") as f:
+        json.dump(obj, f)
+        f.flush()
+        os.fsync(f.fileno())
+    os.replace(tmp, path)
+    dfd = os.open(os.path.dirname(path), os.O_RDONLY)
+    os.fsync(dfd)
+    os.close(dfd)
+
+
+def progress(step, got=0, total=0):
+    os.makedirs(WORK, exist_ok=True)
+    with open(PROGRESS + ".tmp", "w") as f:
+        f.write(f"{step} {got} {total}\n")
+    os.replace(PROGRESS + ".tmp", PROGRESS)
+
+
+def restart_apps():
+    """The web server and the GUI, detached: the caller may be the web server itself. The GUI's
+    start loop (x6100_daemon) is restarted too, not just the GUI: the loop is a shell script the
+    bundle may have changed, and the running shell keeps the old one until it exits. Winlink (Pat and
+    ardopcf, which come with the bundle) after them, when it is there; a rollback that took S98winlink away
+    stops its supervisor, which stops both programs. sshd reads a changed /etc/ssh/sshd_config when the new web
+    server starts (follow_sshd_config): the updaters before it restart the web server too."""
+    subprocess.Popen(["setsid", "sh", "-c", "sleep 1; /etc/init.d/S96webserver restart >/dev/null 2>&1; "
+                      "/etc/init.d/S95gui restart >/dev/null 2>&1; "
+                      "if [ -x /etc/init.d/S98winlink ]; then /etc/init.d/S98winlink restart >/dev/null 2>&1; "
+                      "else pid=$(cat /run/winlink/lock 2>/dev/null); [ -n \"$pid\" ] && "
+                      "grep -q x6100-winlink /proc/$pid/cmdline 2>/dev/null && kill $pid; fi"],
+                     stdin=subprocess.DEVNULL,
+                     stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)
+
+
+# ---- check and download --------------------------------------------------------------------
+
+def http(url, timeout=TIMEOUT):
+    req = urllib.request.Request(url, headers={"User-Agent": f"OpenX6X00/{running_version()}", "Accept": "application/json"})
+    return urllib.request.urlopen(req, timeout=timeout)
+
+
+def cmd_check(args):
+    out = {"running": running_version(), "latest": None, "url": None, "newer": False, "notes": ""}
+    try:
+        with http(API) as r:
+            rel = json.load(r)
+    except urllib.error.HTTPError as e:
+        if e.code == 404:          # no release yet
+            return out
+        raise Fail(f"GitHub answered HTTP {e.code}")
+    except (OSError, ValueError) as e:
+        raise Fail(f"no connection to GitHub: {getattr(e, 'reason', e)}")
+    tag = str(rel.get("tag_name", "")).lstrip("v")
+    asset = next((x for x in rel.get("assets", []) if bundle_for_this_radio(str(x.get("name", "")))), None)
+    out["latest"] = tag or None
+    out["url"] = asset["browser_download_url"] if asset else None
+    out["notes"] = (rel.get("body") or "")[:2000]
+    out["newer"] = bool(tag and asset and vtuple(tag) > vtuple(out["running"]))
+    out["image_needed"], out["image_note"], out["image_url"] = False, "", None
+    if out["newer"]:
+        # Does the newer release also want a newer card image for this radio? Its own image-required file, at
+        # its tag; no answer is no warning
+        try:
+            with http(RAW.format(tag=tag), timeout=10) as r:
+                need, note = image_required(r.read(4096).decode(errors="replace"))
+            if need > image_level():
+                img = next((x for x in rel.get("assets", []) if str(x.get("name", "")).endswith("-sdcard.img.zip")
+                            and (("-x6200-" in str(x.get("name"))) == (radio_model() == "x6200"))), None)
+                out["image_needed"], out["image_note"] = True, note
+                out["image_url"] = img["browser_download_url"] if img else rel.get("html_url")
+        except Exception:      # http.client errors are neither OSError nor ValueError: never fatal here
+            pass
+    return out
+
+
+def cmd_download(args):
+    url = args[0]
+    os.makedirs(WORK, exist_ok=True)
+    dest = os.path.join(WORK, "bundle.tar.gz")
+    got = 0
+    with http(url, timeout=60) as r, open(dest + ".part", "wb") as f:
+        total = int(r.headers.get("Content-Length") or 0)
+        progress("download", 0, total)
+        while True:
+            chunk = r.read(65536)
+            if not chunk:
+                break
+            f.write(chunk)
+            got += len(chunk)
+            progress("download", got, total)
+        f.flush()
+        os.fsync(f.fileno())
+    if total and got != total:
+        raise Fail(f"short download: {got} of {total} bytes")
+    os.replace(dest + ".part", dest)
+    return dest
+
+
+# ---- verify and install --------------------------------------------------------------------
+
+def read_manifest(tar):
+    try:
+        mjson = tar.extractfile("manifest.json").read()
+    except (KeyError, AttributeError):
+        raise Fail("not an update bundle: no manifest")
+    try:
+        sig = tar.extractfile("manifest.sig").read()
+    except (KeyError, AttributeError):
+        sig = None
+    if sig is None:
+        if not os.path.exists(ALLOW_UNSIGNED):
+            raise Fail("the bundle is not signed")
+    else:
+        os.makedirs(WORK, exist_ok=True)
+        mpath, spath = os.path.join(WORK, ".manifest"), os.path.join(WORK, ".manifest.sig")
+        with open(mpath, "wb") as f:
+            f.write(mjson)
+        with open(spath, "wb") as f:
+            f.write(sig)
+        try:
+            r = subprocess.run(["openssl", "dgst", "-sha256", "-verify", PUB, "-signature", spath, mpath],
+                               capture_output=True, timeout=60)
+        except OSError:
+            raise Fail("openssl is missing: the signature cannot be checked")
+        if r.returncode != 0:
+            raise Fail("the signature does not match: not a bundle made for this firmware")
+    try:
+        m = json.loads(mjson)
+    except ValueError:
+        raise Fail("the manifest is not JSON")
+    if m.get("product") != "OpenX6X00" or not isinstance(m.get("files"), list) or not m.get("version"):
+        raise Fail("the manifest is not for OpenX6X00")
+    if m.get("model", "x6100") != radio_model():
+        raise Fail(f"the bundle is for the {m.get('model', 'x6100').upper()}, this radio is a {radio_model().upper()}")
+    for e in m["files"]:
+        p = e.get("path", "")
+        if not p.startswith("/") or ".." in p.split("/") or not p.startswith(ALLOWED) or p.endswith("/"):
+            raise Fail(f"the bundle wants to write {p}: refused")
+    return m
+
+
+def stage(bundle):
+    """The bundle's files into WORK/stage, each checked against the manifest; returns the manifest."""
+    st = os.path.join(WORK, "stage")
+    shutil.rmtree(st, ignore_errors=True)
+    os.makedirs(st)
+    # Decompressed by the system's gzip: the radio's Python may come without zlib
+    plain = os.path.join(WORK, "bundle.tar")
+    with open(plain, "wb") as f:
+        r = subprocess.run(["gzip", "-dc", bundle], stdout=f, stderr=subprocess.PIPE)
+    if r.returncode != 0:
+        raise Fail("not a gzip file")
+    with tarfile.open(plain, "r:") as tar:
+        m = read_manifest(tar)
+        n = len(m["files"])
+        for i, e in enumerate(m["files"]):
+            progress("verify", i, n)
+            try:
+                src = tar.extractfile("files" + e["path"])
+            except KeyError:
+                src = None
+            if src is None:
+                raise Fail(f"{e['path']} is missing from the bundle")
+            dest = os.path.join(st, e["path"].lstrip("/"))
+            os.makedirs(os.path.dirname(dest), exist_ok=True)
+            h = hashlib.sha256()
+            with open(dest, "wb") as f:
+                while True:
+                    chunk = src.read(65536)
+                    if not chunk:
+                        break
+                    h.update(chunk)
+                    f.write(chunk)
+                f.flush()
+                os.fsync(f.fileno())
+            if h.hexdigest() != e.get("sha256"):
+                raise Fail(f"{e['path']} does not match its checksum")
+            os.chmod(dest, int(str(e.get("mode", "644")), 8))
+    os.remove(plain)
+    return m
+
+
+def apply(m):
+    """The staged files into place, one by one, the previous ones kept and the journal ahead of each step."""
+    st = os.path.join(WORK, "stage")
+    shutil.rmtree(PREV, ignore_errors=True)
+    files = [{"path": e["path"], "prev": os.path.exists(e["path"]), "done": False} for e in m["files"]]
+    journal = {"version": m["version"], "from": running_version(), "state": "applying", "files": files,
+               "started": time.time()}
+    save(JOURNAL, journal)
+    n = len(files)
+    for i, f in enumerate(files):
+        progress("install", i, n)
+        p = f["path"]
+        if f["prev"]:
+            keep = os.path.join(PREV, p.lstrip("/"))
+            os.makedirs(os.path.dirname(keep), exist_ok=True)
+            shutil.copy2(p, keep)
+        os.makedirs(os.path.dirname(p), exist_ok=True)
+        tmp = p + ".x6new"
+        shutil.copy2(os.path.join(st, p.lstrip("/")), tmp)
+        fd = os.open(tmp, os.O_RDONLY)
+        os.fsync(fd)
+        os.close(fd)
+        # The intent first: power lost between the replace and the journal would otherwise leave
+        # a new file the rollback believed untouched (audit A02)
+        f["replacing"] = True
+        save(JOURNAL, journal)
+        os.replace(tmp, p)
+        f["done"] = True
+        save(JOURNAL, journal)
+    # The version file follows the signed manifest, whatever the bundle's copy says (a bundle built
+    # without a configure carried a stale one); the rollback restores the previous one from PREV
+    if running_version() != m["version"]:
+        tmp = VERSION_FILE + ".x6new"
+        with open(tmp, "w") as f:
+            f.write(m["version"] + "\n")
+            f.flush()
+            os.fsync(f.fileno())
+        os.replace(tmp, VERSION_FILE)
+    # The crash counter before the state: an interruption between the two still rolls back
+    save(PENDING, {"version": m["version"], "from": journal["from"], "starts": 0, "since": time.time()})
+    journal["state"] = "applied"
+    save(JOURNAL, journal)
+    shutil.rmtree(st, ignore_errors=True)
+    os.sync()
+
+
+def undo(journal):
+    """Every file the journal says was, or may have been, replaced goes back (or away, when it was
+    new). Safe to run again after an interruption: each restoration is journalled, and a file whose
+    saved copy is gone was restored already and is left as it is (audit A03)."""
+    for f in reversed(journal.get("files", [])):
+        if f.get("restored") or not (f.get("done") or f.get("replacing")):
+            continue
+        p = f["path"]
+        keep = os.path.join(PREV, p.lstrip("/"))
+        if f.get("prev"):
+            if os.path.exists(keep):
+                os.replace(keep, p)
+        else:
+            try:
+                os.remove(p)
+            except FileNotFoundError:
+                pass
+        f["restored"] = True
+        save(JOURNAL, journal)
+    os.sync()
+
+
+def cmd_install(args):
+    if not args:
+        raise Fail("install needs the bundle's path")
+    bundle = args[0]
+    if load(JOURNAL, {}).get("state") == "applying":
+        raise Fail("an interrupted install must be rolled back first")
+    progress("verify")
+    m = stage(bundle)
+    try:
+        note = funnel_off_before(m["version"], "not installed")     # an older version's bundle (#58)
+    except Fail:
+        shutil.rmtree(os.path.join(WORK, "stage"), ignore_errors=True)
+        raise
+    apply(m)
+    save(LAST, {"result": "installed", "version": m["version"], "when": time.time()})
+    progress("done")
+    restart_apps()
+    return f"ok {m['version']}{note}"
+
+
+def cmd_upgrade(args):
+    c = cmd_check(args)
+    if not c["newer"]:
+        return "ok up to date" if c["latest"] else "ok no release"
+    bundle = cmd_download([c["url"]])
+    return cmd_install([bundle])
+
+
+def cmd_rollback(args):
+    journal = load(JOURNAL)
+    if not journal or journal.get("state") == "rolled back":
+        raise Fail("nothing to roll back")
+    note = funnel_off_before(journal.get("from"), "not gone back")   # before any file goes back (#58)
+    undo(journal)
+    journal["state"] = "rolled back"
+    save(JOURNAL, journal)
+    if os.path.exists(PENDING):
+        os.remove(PENDING)
+    save_rollback(journal.get("version"), journal.get("from"), "hand")
+    restart_apps()
+    return f"ok back to {journal.get('from')}{note}"
+
+
+def cmd_confirm(args):
+    if os.path.exists(PENDING):
+        pend = load(PENDING, {})
+        os.remove(PENDING)
+        journal = load(JOURNAL)
+        if journal:
+            journal["state"] = "confirmed"
+            save(JOURNAL, journal)
+        save(LAST, {"result": "confirmed", "version": pend.get("version"), "when": time.time()})
+        return f"ok {pend.get('version')} confirmed"
+    return "ok nothing pending"
+
+
+def cmd_boot_check(args):
+    journal = load(JOURNAL)
+    if journal and journal.get("state") == "applying":   # power went during the swap
+        undo(journal)
+        journal["state"] = "rolled back"
+        save(JOURNAL, journal)
+        if os.path.exists(PENDING):
+            os.remove(PENDING)
+        save_rollback(journal.get("version"), journal.get("from"), "interrupted")
+        return "rolled back: interrupted install"
+    pend = load(PENDING)
+    if not pend:
+        return "ok"
+    pend["starts"] = int(pend.get("starts", 0)) + 1
+    if pend["starts"] > MAX_STARTS:
+        funnel_off_quietly(pend.get("from"))
+        if journal:
+            undo(journal)
+            journal["state"] = "rolled back"
+            save(JOURNAL, journal)
+        os.remove(PENDING)
+        # A GUI that came up on the defaults because it could not use the settings file said so (fault): it was
+        # never confirmed, but it did not die
+        if pend.get("fault") == "settings":
+            save_rollback(pend.get("version"), pend.get("from"), "settings")
+        else:
+            save_rollback(pend.get("version"), pend.get("from"), "starts", starts=MAX_STARTS)
+        return f"rolled back to {pend.get('from')}"
+    save(PENDING, pend)
+    return f"pending {pend.get('version')} start {pend['starts']}"
+
+
+def cmd_fault(args):
+    """The pending version's GUI could not use the settings file (params/db.c, database_version_fault): it runs on
+    the defaults and is not confirmed, and the step back after MAX_STARTS starts says why"""
+    if args != ["settings"]:
+        raise Fail("fault takes: settings")
+    pend = load(PENDING)
+    if not isinstance(pend, dict):
+        return "ok nothing pending"
+    if pend.get("fault") != "settings":
+        pend["fault"] = "settings"
+        save(PENDING, pend)
+    return f"ok {pend.get('version')} could not use the settings file"
+
+
+def cmd_notice(args):
+    """What the GUI says once at its start: the last step back, until it has been said, in two short lines for its
+    message box (screen_text). The mark goes into last.json, which the next install replaces"""
+    last = last_state()
+    if not last or last.get("result") != "rolled back" or last.get("shown"):
+        return "ok"
+    last["shown"] = time.time()
+    save(LAST, last)
+    return f"ok {screen_text(last)}"
+
+
+def cmd_status(args):
+    try:
+        with open(PROGRESS) as f:
+            prog = f.read().strip()
+    except OSError:
+        prog = ""
+    return {"running": running_version(), "pending": load(PENDING), "last": last_state(), "progress": prog,
+            "image": image_state()}
+
+
+def take_lock():
+    """The staging, the previous files and the journal are one set of state: a second updater
+    (the browser while the GUI installs, the start loop's boot-check) waits for the first, and
+    gives up with "busy" after LOCK_WAIT seconds. Held until this process exits (audit A20)."""
+    os.makedirs(STATE, exist_ok=True)
+    fd = os.open(LOCK, os.O_RDWR | os.O_CREAT, 0o600)
+    for _ in range(LOCK_WAIT * 2 + 1):
+        try:
+            fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            return fd
+        except BlockingIOError:
+            time.sleep(0.5)
+    raise Fail("busy: another update is running")
+
+
+def main(argv):
+    cmds = {"status": cmd_status, "check": cmd_check, "download": cmd_download, "install": cmd_install,
+            "upgrade": cmd_upgrade, "rollback": cmd_rollback, "confirm": cmd_confirm, "boot-check": cmd_boot_check,
+            "fault": cmd_fault, "notice": cmd_notice}
+    if not argv or argv[0] not in cmds:
+        print("error usage: x6100-update " + "|".join(cmds))
+        return 1
+    signal.signal(signal.SIGALRM, lambda *_: (print("error timed out"), sys.exit(1)))
+    signal.alarm(RUN_LIMIT)
+    try:
+        if argv[0] not in ("status", "check"):     # the two that change nothing
+            take_lock()
+        out = cmds[argv[0]](argv[1:])
+        print(json.dumps(out) if isinstance(out, dict) else out)
+        return 0
+    except Fail as e:
+        print(f"error {e}")
+    except Exception as e:
+        print(f"error {' '.join(str(e).split())[:120] or type(e).__name__}")
+    return 1
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

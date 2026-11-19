@@ -1,0 +1,448 @@
+#!/bin/bash
+#
+# Builds the SD card image locally, as .github/workflows/main.yml does on GitHub:
+# AetherX6100Buildroot (or, with MODEL=x6200, AetherX6200Buildroot) next to this repository,
+# patched to build this GUI and web server from the checkout, then buildroot. Run it in the
+# Ubuntu 22.04 container of the Dockerfile here, as yourself, with the parent of both
+# repositories mounted on /work:
+#
+#   docker build -t openx6x00-build buildroot
+#   docker run --rm -u $(id -u):$(id -g) -e HOME=/work/.brhome -v $(dirname $PWD):/work \
+#       openx6x00-build bash /work/OpenX6X00/buildroot/local-build.sh
+#   docker run --rm -u $(id -u):$(id -g) -e HOME=/work/.brhome -e MODEL=x6200 -v $(dirname $PWD):/work \
+#       openx6x00-build bash /work/OpenX6X00/buildroot/local-build.sh
+#
+# The image lands in ../AetherX6100Buildroot/build/images/OpenX6X00-x6100-local-sdcard.img, the
+# X6200's in ../AetherX6200Buildroot/build/images/OpenX6X00-x6200-local-sdcard.img.
+# About an hour the first time; ccache in $HOME/.buildroot-ccache keeps the next ones short.
+set -eo pipefail
+
+# The two radios share this GUI (src/hw/hw.h picks the backend, cmake -DHW_BACKEND) and the
+# web server, and each has its own buildroot tree from Aether Radio: the X6200's names its
+# packages x6200-gui and aether-x6200-control, its board X6200
+MODEL=${MODEL:-x6100}
+case $MODEL in
+    x6100) M=X6100; BRDEF=AetherX6100Buildroot; GUI_PKG=x6100-gui; GUI_VAR=X6100_GUI; OUT=OpenX6X00-x6100 ;;
+    x6200) M=X6200; BRDEF=AetherX6200Buildroot; GUI_PKG=x6200-gui; GUI_VAR=X6200_GUI; OUT=OpenX6X00-x6200 ;;
+    *) echo "MODEL must be x6100 or x6200, not '$MODEL'"; exit 1 ;;
+esac
+GUI=${GUI_DIR:-/work/OpenX6X00}
+BR=${BR_DIR:-/work/$BRDEF}
+EXT=$BR/br2_external
+GUI_MK=$EXT/package/$GUI_PKG/${GUI_PKG/-/_}.mk
+GUI_CONFIG_IN=$EXT/package/$GUI_PKG/Config.in
+WEB_MK=$EXT/package/x6100-webserver/x6100_webserver.mk
+DEFCONFIG=$EXT/configs/${M}_defconfig
+BOARD=$EXT/board/$M/linux
+KERNEL_DEFCONFIG=$BOARD/sun8i-r16-$MODEL\_defconfig
+mkdir -p "$HOME"
+
+# The buildroot trees are our forks, github.com/Guru-RF/AetherX6100Buildroot and .../AetherX6200Buildroot, of
+# Aether Radio's (the X6100's moved from gdyuldin to OpenX6100). A change upstream reaches an image only once it
+# is merged into the fork: each build says when upstream has commits the tree here has not, at the start and
+# again at the end, and on GitHub as a warning on the run. Work on upstream's other branches (pull requests on
+# their way) newer than the tree and not in it is named too, as a note. It never stops the build
+UPSTREAM=$([ $MODEL = x6100 ] && echo OpenX6100/AetherX6100Buildroot || echo gdyuldin/AetherX6200Buildroot)
+UPSTREAM_NOTE=""
+UPSTREAM_WORK=""
+upstream_check() {
+    local new head
+    # CI checks the tree out with one commit: its own history (small, not buildroot's) for the comparison
+    if [ "$(git -C $BR rev-parse --is-shallow-repository 2>/dev/null)" = true ]; then
+        git -C $BR fetch -q --unshallow 2>/dev/null || true
+    fi
+    if ! GIT_TERMINAL_PROMPT=0 git -C $BR fetch -q "https://github.com/$UPSTREAM" HEAD 2>/dev/null; then
+        echo "== Upstream $UPSTREAM: not reachable, not checked"
+        return 0
+    fi
+    head=$(git -C $BR rev-parse FETCH_HEAD)
+    upstream_branches "$head"
+    if git -C $BR merge-base --is-ancestor $head HEAD 2>/dev/null; then
+        echo "== Upstream $UPSTREAM: nothing new on its main branch (its head ${head:0:9} is in this tree)"
+        [ -n "$UPSTREAM_WORK" ] && printf '%s\n' "$UPSTREAM_WORK"
+        return 0
+    fi
+    new=$(git -C $BR log --oneline --no-decorate HEAD..$head 2>/dev/null | head -20 || true)
+    UPSTREAM_NOTE=$(printf '%s\n' \
+        "!! UPSTREAM CHANGED: $UPSTREAM has commits $BRDEF here has not:" \
+        "$(printf '%s\n' "${new:-(none listed: see https://github.com/$UPSTREAM/commits)}" | sed 's/^/!!   /')" \
+        "!! This image is built without them. Look at them, then merge them into Guru-RF/$BRDEF, or not.")
+    printf '%s\n' "$UPSTREAM_NOTE"
+    if [ -n "$GITHUB_ACTIONS" ]; then
+        echo "::warning title=Upstream $UPSTREAM changed::$(printf '%s\n' "$new" | grep -c .) commit(s) not in Guru-RF/$BRDEF; this image is built without them (see the job summary)"
+        [ -n "$GITHUB_STEP_SUMMARY" ] && printf '### Upstream %s changed\n\nNot in Guru-RF/%s, not in this image:\n\n```\n%s\n```\n' \
+            "$UPSTREAM" "$BRDEF" "$new" >> "$GITHUB_STEP_SUMMARY"
+    fi
+    [ -n "$UPSTREAM_WORK" ] && printf '%s\n' "$UPSTREAM_WORK"
+    return 0
+}
+# Upstream's other branches ($1: its main branch's head, left out) whose newest commit is newer than this tree's
+# and not in it: UPSTREAM_WORK, and on GitHub a notice and the summary. Older ones (merged or left long ago) are
+# not named, or they would be at every build
+upstream_branches() {
+    local since sha ref work=""
+
+    GIT_TERMINAL_PROMPT=0 git -C $BR fetch -q --prune "https://github.com/$UPSTREAM" '+refs/heads/*:refs/upstream-watch/*' \
+        2>/dev/null || return 0
+    since=$(git -C $BR log -1 --format=%ct HEAD)
+    while read -r sha ref; do
+        [ "$sha" = "$1" ] && continue
+        [ "$(git -C $BR log -1 --format=%ct $sha)" -gt "$since" ] || continue
+        git -C $BR merge-base --is-ancestor $sha HEAD 2>/dev/null && continue
+        work="$work$(git -C $BR log -1 --format="${ref#refs/upstream-watch/}, %cs, %an: %s" $sha)"$'\n'
+    done < <(git -C $BR for-each-ref --format='%(objectname) %(refname)' refs/upstream-watch/)
+    [ -n "$work" ] || return 0
+    UPSTREAM_WORK=$(printf '%s\n' "== Upstream $UPSTREAM: work on other branches, newer than this tree and not in it:" \
+        "$(printf '%s' "$work" | sed 's/^/     /')")
+    if [ -n "$GITHUB_ACTIONS" ]; then
+        echo "::notice title=Upstream $UPSTREAM: work on other branches::$(printf '%s' "$work" | grep -c .) branch(es) newer than Guru-RF/$BRDEF (see the job summary)"
+        [ -n "$GITHUB_STEP_SUMMARY" ] && printf '### Upstream %s: work on other branches\n\nNewer than Guru-RF/%s and not in it (pull requests on their way):\n\n```\n%s```\n' \
+            "$UPSTREAM" "$BRDEF" "$work" >> "$GITHUB_STEP_SUMMARY"
+    fi
+    return 0
+}
+upstream_check
+
+echo "== $M: GUI package $GUI_PKG from $GUI"
+sed -i "s,^${GUI_VAR}_SITE = .*,${GUI_VAR}_SITE = $GUI,g" $GUI_MK
+sed -i "s,^${GUI_VAR}_SITE_METHOD = git,${GUI_VAR}_SITE_METHOD = local,g" $GUI_MK
+sed -i "s,^${GUI_VAR}_GIT_SUBMODULES,# ${GUI_VAR}_GIT_SUBMODULES,g" $GUI_MK
+sed -i "s,^X6100_WEBSERVER_SITE = .*,X6100_WEBSERVER_SITE = $GUI/webserver,g" $WEB_MK
+sed -i "s,^X6100_WEBSERVER_SITE_METHOD = git,X6100_WEBSERVER_SITE_METHOD = local,g" $WEB_MK
+grep -E "^(${GUI_VAR}|X6100_WEBSERVER)_SITE" $GUI_MK $WEB_MK
+# The backend: the GUI's CMake defaults to the X6100. Before the eval line: what a .mk sets after
+# $(eval $(cmake-package)) the package never sees
+sed -i "/_CONF_OPTS += -DHW_BACKEND=/d" $GUI_MK
+# Not synced into the build: the worktrees under .claude (gigabytes) and the PC's own builds. In place of the line
+# the package may have of its own (the X6100's excludes build-host only)
+sed -i "/^${GUI_VAR}_OVERRIDE_SRCDIR_RSYNC_EXCLUSIONS/d" $GUI_MK
+sed -i "s|^\$(eval \$(cmake-package))|${GUI_VAR}_OVERRIDE_SRCDIR_RSYNC_EXCLUSIONS = --exclude /.claude --exclude /build --exclude /build-host --exclude /build-docker\n\n&|" $GUI_MK
+grep -q "^${GUI_VAR}_OVERRIDE_SRCDIR_RSYNC_EXCLUSIONS = --exclude /.claude" $GUI_MK
+sed -i "s|^\$(eval \$(cmake-package))|${GUI_VAR}_CONF_OPTS += -DHW_BACKEND=$MODEL\n\n&|" $GUI_MK
+grep -q "^${GUI_VAR}_CONF_OPTS += -DHW_BACKEND=$MODEL" $GUI_MK
+
+echo "== Pat, the Winlink client (tools/pat/build.sh): one static ARMv7 binary for both radios"
+# Built with its own pinned Go (buildroot's is too old for it) and kept in $HOME/.cache/openx6x00;
+# the GUI's CMake installs it as /usr/bin/pat, so it is in the image and in the update bundle
+PAT_BIN=$(bash $GUI/tools/pat/build.sh)
+[ -x "$PAT_BIN" ]
+sed -i "/_CONF_OPTS += -DPAT_BINARY=/d" $GUI_MK
+sed -i "s|^\$(eval \$(cmake-package))|${GUI_VAR}_CONF_OPTS += -DPAT_BINARY=$PAT_BIN\n&|" $GUI_MK
+grep -q "^${GUI_VAR}_CONF_OPTS += -DPAT_BINARY=$PAT_BIN" $GUI_MK
+
+echo "== JS8 dependencies, root certificates, libdrm"
+grep -q "boost fftw-single" $GUI_MK || sed -i "s,^${GUI_VAR}_DEPENDENCIES = \(.*\)$,${GUI_VAR}_DEPENDENCIES = \1 boost fftw-single," $GUI_MK
+grep -q "^BR2_PACKAGE_BOOST=y" $DEFCONFIG || echo "BR2_PACKAGE_BOOST=y" >> $DEFCONFIG
+grep -q "^BR2_PACKAGE_LIBDRM=y" $DEFCONFIG || echo "BR2_PACKAGE_LIBDRM=y" >> $DEFCONFIG
+grep -q "^BR2_PACKAGE_CA_CERTIFICATES=y" $DEFCONFIG || echo "BR2_PACKAGE_CA_CERTIFICATES=y" >> $DEFCONFIG
+# Python's ssl module and the openssl command: HTTPS from the helpers (spots, QRZ, GitHub) and the
+# web server's certificate; the upstream defconfig left both out, HTTPS failed silently
+grep -q "^BR2_PACKAGE_PYTHON3_SSL=y" $DEFCONFIG || echo "BR2_PACKAGE_PYTHON3_SSL=y" >> $DEFCONFIG
+grep -q "^BR2_PACKAGE_LIBOPENSSL_BIN=y" $DEFCONFIG || echo "BR2_PACKAGE_LIBOPENSSL_BIN=y" >> $DEFCONFIG
+# mDNS: x6100.local (rootfs/etc/avahi, S39hostname). The GUI package selects Avahi so that it is
+# installed first and our avahi-daemon.conf is the one left in the image
+grep -q "^BR2_PACKAGE_AVAHI=y" $DEFCONFIG || echo "BR2_PACKAGE_AVAHI=y" >> $DEFCONFIG
+grep -q "^BR2_PACKAGE_AVAHI_DAEMON=y" $DEFCONFIG || echo "BR2_PACKAGE_AVAHI_DAEMON=y" >> $DEFCONFIG
+grep -q "select BR2_PACKAGE_AVAHI_DAEMON" $GUI_CONFIG_IN || sed -i "s/^\tselect BR2_PACKAGE_LIBPNG$/\tselect BR2_PACKAGE_LIBPNG\n\tselect BR2_PACKAGE_AVAHI\n\tselect BR2_PACKAGE_AVAHI_DAEMON/" $GUI_CONFIG_IN
+grep -q "avahi" $GUI_MK || sed -i "/^${GUI_VAR}_DEPENDENCIES/s/$/ avahi/" $GUI_MK
+grep -q "libdrm" $GUI_MK || sed -i "/^${GUI_VAR}_DEPENDENCIES/s/$/ libdrm/" $GUI_MK
+
+echo "== No RHVoice: PulseAudio selected by the GUI itself"
+sed -i "/^${GUI_VAR}_DEPENDENCIES/s/\brhvoice\b/pulseaudio/" $GUI_MK
+sed -i "s/select BR2_PACKAGE_RHVOICE$/select BR2_PACKAGE_PULSEAUDIO/" $GUI_CONFIG_IN
+sed -i "/^BR2_PACKAGE_RHVOICE/d" $DEFCONFIG
+grep "^${GUI_VAR}_DEPENDENCIES" $GUI_MK
+! grep -in "rhvoice" $GUI_MK $GUI_CONFIG_IN $DEFCONFIG
+
+echo "== System cleanup: no PCI firmware, PulseAudio at 44.1 kHz, one Bluetooth setup"
+for o in BROADCOM_TIGON3 BNX2X CXGB4_T4 CXGB4_T5 INTEL_E100 INTEL_ICE MICROCHIP_VSC85XX_PHY QLOGIC_4X RTL_8169; do
+    sed -i "/^BR2_PACKAGE_LINUX_FIRMWARE_${o}=y/d" $DEFCONFIG
+done
+# The X6200 tree ships no daemon.conf: ours below (buildroot/br2_external) is at 44.1 kHz already
+[ -f $BOARD/rootfs-overlay/etc/pulse/daemon.conf ] && sed -i "s/^default-sample-rate = 48000/default-sample-rate = 44100/" $BOARD/rootfs-overlay/etc/pulse/daemon.conf
+mkdir -p $BOARD/rootfs-overlay/usr/bin
+cp $GUI/buildroot/bt_start.sh $BOARD/rootfs-overlay/usr/bin/bt_start.sh
+
+# rootfs/ is synced into the GUI package and installed as is: a __pycache__ left there by running
+# one of its scripts on the host (tests) would land in the image
+find $GUI/rootfs -name __pycache__ -type d -exec rm -rf {} + 2>/dev/null
+
+echo "== OpenX6X00 additions to the buildroot tree (buildroot/br2_external in this repository)"
+# The rtl8723bu WiFi driver package (the X6100's USB WiFi; the X6200's is on the board), the DATA
+# partition repair at boot, the USB tethering profile, the Bluetooth, NTP and PulseAudio settings:
+# copied over the upstream tree. Kept under board/X6100 in this repository; the X6200 tree gets
+# the same files under its board
+cp -a $GUI/buildroot/br2_external/package $EXT/
+cp -a $GUI/buildroot/br2_external/board/X6100/linux/. $BOARD/
+if [ $MODEL = x6200 ]; then
+    rm -f $BOARD/rootfs-overlay/etc/modprobe.d/x6100-wifi.conf
+    # module-bluez5-device with no path= in the X6200 tree's system.pa: upstream dropped it for the X6100 (ef0d395);
+    # the headphones come through module-bluetooth-discover
+    sed -i '/^load-module module-bluez5-device$/d' $BOARD/rootfs-overlay/etc/pulse/system.pa
+    # rtw88 (the RTL8723DU WiFi driver, pinned at 461b696): the upstream TX report timeout fixes (buildroot/x6200/rtw88)
+    cp $GUI/buildroot/x6200/rtw88/*.patch $EXT/package/rtw88/
+    sed -i "s/BR2_EXTERNAL_X6100_PATH/BR2_EXTERNAL_X6200_PATH/" $BOARD/device_table.txt 2>/dev/null || true
+fi
+grep -q "^default-sample-rate = 44100" $BOARD/rootfs-overlay/etc/pulse/daemon.conf
+rm -f $BOARD/rootfs-overlay/etc/init.d/S01create_data   # S00adata does it, with the repair
+# S00adata and the NTP hook are in rootfs/ (installed by the GUI's CMake, so the update bundle carries
+# them); the overlay's copies would be laid over them last
+rm -f $BOARD/rootfs-overlay/etc/init.d/S00adata $BOARD/rootfs-overlay/etc/NetworkManager/dispatcher.d/99-ntp-sync.sh
+# The WiFi and SSH backup at shutdown and restore at boot too (rootfs/etc/init.d, since v0.3.4)
+rm -f $BOARD/rootfs-overlay/etc/init.d/S04restore_backup_config
+# gpsd's start, which leaves an X6200's WR12 alone (rootfs/etc/init.d/S50gpsd, #134), goes into the overlay: buildroot's
+# gpsd package installs a start of its own (no control socket, the defconfig's ttyACM0 whatever it is), and only the
+# overlay, laid last, wins over it whatever the order the packages are installed in
+mkdir -p $BOARD/rootfs-overlay/etc/init.d
+cp $GUI/rootfs/etc/init.d/S50gpsd $BOARD/rootfs-overlay/etc/init.d/S50gpsd
+# And sshd_config, keys only (rootfs/etc/ssh): the upstream overlay's lets root in with the image's password
+rm -f $BOARD/rootfs-overlay/etc/ssh/sshd_config
+# The card image's level for this radio (rootfs/usr/share/x6100/image-required), stamped where no update writes:
+# x6100-update and the GUI compare it with what the running version wants and say when a newer image is worth
+# writing
+IMAGE_LEVEL=$(awk -v m=$MODEL '$1 == m && $2 ~ /^[0-9]+$/ {print $2}' $GUI/rootfs/usr/share/x6100/image-required)
+mkdir -p $BOARD/rootfs-overlay/etc
+printf 'model=%s\nlevel=%s\nversion=%s\n' $MODEL ${IMAGE_LEVEL:-1} \
+    "$(sed -n 's/.*define VERSION.* v\([0-9.]*\).*/\1/p' $GUI/src/main.h)" > $BOARD/rootfs-overlay/etc/openx6x00-image
+rm -f $BR/build/target/etc/init.d/S01create_data                         # and from an earlier build's target
+# The legacy updater (any x6100_r1cbu_*.tgz on the DATA partition unpacked over / at boot, unsigned,
+# unchecked): OpenX6X00 is installed as a card image, so it goes
+rm -f $BOARD/rootfs-overlay/etc/init.d/S02update $BR/build/target/etc/init.d/S02update
+if [ $MODEL = x6100 ]; then
+    grep -q "rtl8723bu-wifi/Config.in" $EXT/Config.in || echo 'source "$BR2_EXTERNAL_X6100_PATH/package/rtl8723bu-wifi/Config.in"' >> $EXT/Config.in
+    grep -q "^BR2_PACKAGE_RTL8723BU_WIFI=y" $DEFCONFIG || echo "BR2_PACKAGE_RTL8723BU_WIFI=y" >> $DEFCONFIG
+    # U-Boot: mainline 2026.07 built from source with the same U-Boot defconfig (issue #21). Up to v0.3.5 the image
+    # had a 2025 binary written over the 2023.01 buildroot built: it switches the DRAM supply on in an order
+    # mainline put back in 2025.04 (1dadb246a3) because it hung boards of this family at the kernel start, and a
+    # radio of #21 stopped there with our card and started with IU1WXY's v0.131, whose U-Boot 2026.07 is the only
+    # real difference (same kernel, same device tree). The dtsi adds U-Boot's own nodes. Another version needs its
+    # release SHA-256 in uboot_source's table below, or the build stops there
+    sed -i 's/^BR2_TARGET_UBOOT_CUSTOM_VERSION_VALUE=.*/BR2_TARGET_UBOOT_CUSTOM_VERSION_VALUE="2026.07"/' $DEFCONFIG
+    grep -q "^BR2_TARGET_UBOOT_NEEDS_PYTHON3=y" $DEFCONFIG || echo "BR2_TARGET_UBOOT_NEEDS_PYTHON3=y" >> $DEFCONFIG
+    sed -i 's|^\(BR2_TARGET_UBOOT_CUSTOM_DTS_PATH=".*/sun8i-r16-x6100\.dts\)"$|\1 $(BR2_EXTERNAL_X6100_PATH)/board/X6100/u-boot/sun8i-r16-x6100-u-boot.dtsi"|' $DEFCONFIG
+    cp $GUI/buildroot/br2_external/board/X6100/u-boot/sun8i-r16-x6100-u-boot.dtsi $EXT/board/X6100/u-boot/
+    # buildroot 2023.02 copies COPYING over Licenses/gpl-2.0.txt for U-Boot before 2013.10; in 2026.07 COPYING is a
+    # link to that file and the copy fails the extraction
+    sed -i 's#if \[ -f \$(@D)/COPYING \]; then#if [ -f $(@D)/COPYING ] \&\& [ ! -L $(@D)/COPYING ]; then#' $BR/buildroot/boot/uboot/uboot.mk
+    # and builds mkeficapsule (EFI capsules, which the radio does not use) with the build host's gnutls, which the
+    # container has not: a host tool only, the U-Boot binary is the same without it
+    grep -q "CONFIG_TOOLS_MKEFICAPSULE" $EXT/board/X6100/u-boot/sun8i-r16-x6100_defconfig \
+        || echo "# CONFIG_TOOLS_MKEFICAPSULE is not set" >> $EXT/board/X6100/u-boot/sun8i-r16-x6100_defconfig
+    grep -E "^BR2_TARGET_UBOOT_(CUSTOM_VERSION_VALUE|NEEDS_PYTHON3|CUSTOM_DTS_PATH)" $DEFCONFIG
+fi
+# The processor's voltage with its speed. The boards' device tree gives the processor no supply (cpu-supply), so the
+# kernel changes the clock but never the voltage: U-Boot's 1.2 V at every speed. With the power chip's vdd-cpu rail
+# (dcdc3) named, the kernel follows the processor's own table: 1.04 V up to 648 MHz, 1.1 V to 816 MHz, 1.2 V above, so
+# full speed (1008 MHz, the only one the GUI uses since v0.3.12) stays at the 1.2 V it has now, and a processor slowed
+# by its temperature limit runs at a lower voltage too. The same line as the kernel's own boards of this processor family. U-Boot builds the same file
+# (the X6100's: with its dtsi); it knows both labels
+DTS=$EXT/board/$M/dts/sun8i-r16-$MODEL.dts
+grep -q "cpu-supply" $DTS || printf '\n&cpu0 {\n\tcpu-supply = <&reg_dcdc3>;\n};\n' >> $DTS
+grep -A1 "^&cpu0" $DTS
+
+grep -q "^BR2_ROOTFS_DEVICE_TABLE=" $DEFCONFIG || echo "BR2_ROOTFS_DEVICE_TABLE=\"system/device_table.txt \$(BR2_EXTERNAL_${M}_PATH)/board/$M/linux/device_table.txt\"" >> $DEFCONFIG
+for o in CONFIG_USB_NET_RNDIS_HOST=m CONFIG_IP_ADVANCED_ROUTER=y CONFIG_IP_MULTIPLE_TABLES=y; do
+    grep -q "^$o" $KERNEL_DEFCONFIG || echo "$o" >> $KERNEL_DEFCONFIG
+done
+
+echo "== Kernel: UHID for Bluetooth Low Energy keyboards"
+grep -q "^CONFIG_UHID=" $KERNEL_DEFCONFIG || echo "CONFIG_UHID=m" >> $KERNEL_DEFCONFIG
+
+if [ $MODEL = x6200 ]; then
+    # The processor's temperature sensor (the R16's, an A33's: ths@1c25000 in sun8i-a33.dtsi). The DT's cpu-thermal
+    # zone reads it, slows the CPU down from 75 °C and powers the radio off at 110 °C, and its iio-hwmon node shows it
+    # under hwmon. The tree's kernel has sun8i_thermal, which knows the H3, A64 and their kin but not the A33, whose
+    # sensor is sun4i-gpadc-iio's: without it the sensor had no driver and there was no thermal zone at all.
+    # The X6100's kernel config is not changed
+    echo "== Kernel: the X6200's processor temperature sensor and its thermal zone"
+    for o in CONFIG_SUN4I_GPADC=y CONFIG_SENSORS_IIO_HWMON=y; do
+        grep -q "^${o%%=*}=" $KERNEL_DEFCONFIG || echo "$o" >> $KERNEL_DEFCONFIG
+    done
+fi
+
+echo "== Boot logo background"
+cp $GUI/boot/kernel_logo.png $BOARD/logo.png
+
+echo "== Configure"
+cd $BR && bash ./br_config.sh
+
+# XARA skipped: upstream x0rro/xara is discontinued and its release tarballs are
+# gone. The stock /usr/bin/xara binary is injected into the final image from the
+# original v0.3.12 card image, exactly as shipped.
+
+echo "== RADE, the RADE app's modem (tools/rade/build.sh): static libraries for the GUI, built with the same gcc"
+# rade_c (RADE V1) and the Opus fork with FARGAN, pinned and checked, kept in $HOME/.cache/openx6x00/rade; the GUI's
+# CMake links them (-DRADE_PREFIX) and installs their licences in /usr/share/x6100/licenses/rade. Opus is configured
+# with autotools, which the build container has not: buildroot's own (host/bin, first on the PATH as in buildroot's
+# own builds), which a tree built for the first time makes here
+XARA_CC=$BR/build/host/bin/arm-buildroot-linux-gnueabihf-gcc
+(cd $BR/build && make toolchain host-autoconf host-automake host-libtool)
+RADE_PREFIX=$(PATH=$BR/build/host/bin:$PATH CC=$XARA_CC bash $GUI/tools/rade/build.sh)
+[ -f "$RADE_PREFIX/lib/librade.a" ] && [ -f "$RADE_PREFIX/lib/libopus.a" ]
+sed -i "/_CONF_OPTS += -DRADE_PREFIX=/d" $GUI_MK
+sed -i "s|^\$(eval \$(cmake-package))|${GUI_VAR}_CONF_OPTS += -DRADE_PREFIX=$RADE_PREFIX\n&|" $GUI_MK
+grep -q "^${GUI_VAR}_CONF_OPTS += -DRADE_PREFIX=$RADE_PREFIX" $GUI_MK
+
+echo "== Build"
+cd $BR/build
+# U-Boot's release tarball comes from ftp.denx.de (buildroot's mirror has the X6100's 2026.07, not the X6200's
+# 2023.01). When that site doesn't answer (down for days in November 2026, PR #154) and buildroot's download folder
+# hasn't got the file, it is made from U-Boot's tag archive on GitHub: the tar in it is the release's byte for byte,
+# and bzip2 gives back the release tarball itself. buildroot checks no hash for a U-Boot version of one's own, so
+# the release's is checked here, wherever the file came from, and a version not in the table stops the build until
+# its release SHA-256 is added
+uboot_source() {
+    local ver sha f
+    ver=$(sed -n 's/^BR2_TARGET_UBOOT_VERSION="\(.*\)"$/\1/p' .config)
+    case $ver in
+        2023.01) sha=69423bad380f89a0916636e89e6dcbd2e4512d584308d922d1039d1e4331950f ;;
+        2026.07) sha=78e8bfc382fe388f9b55aa1daf8c563522a037779b5d4c349d1415e381f1243e ;;  # as in IU1WXY's v0.131 sources
+        *) echo "U-Boot $ver: no release SHA-256 for it in local-build.sh's table (uboot_source), add it there"; return 1 ;;
+    esac
+    f=$BR/buildroot/dl/uboot/u-boot-$ver.tar.bz2
+    if [ ! -s $f ] && ! curl -sfIL --max-time 30 -o /dev/null https://ftp.denx.de/pub/u-boot/u-boot-$ver.tar.bz2; then
+        echo "   U-Boot $ver: ftp.denx.de doesn't answer, the release tarball is made from its tag on GitHub"
+        mkdir -p ${f%/*}
+        curl -sSfL --retry 3 https://github.com/u-boot/u-boot/archive/refs/tags/v$ver.tar.gz | gunzip | bzip2 > $f.part
+        echo "$sha  $f.part" | sha256sum -c - || { rm -f $f.part; return 1; }
+        mv $f.part $f
+    fi
+    make uboot-source
+    echo "$sha  $f" | sha256sum -c -
+}
+if [ $MODEL = x6100 ]; then
+    # A U-Boot configured here before its defconfig turned mkeficapsule off is configured again
+    grep -qs "^CONFIG_TOOLS_MKEFICAPSULE=y" $BR/build/build/uboot-2026.07/.config && make uboot-dirclean
+fi
+# An X6200 kernel configured here before its defconfig had the temperature sensor's driver is configured again
+if [ $MODEL = x6200 ] && ls $BR/build/build/linux-[0-9]*/.config > /dev/null 2>&1 \
+        && ! grep -qs "^CONFIG_SUN4I_GPADC=y" $BR/build/build/linux-[0-9]*/.config; then
+    make linux-dirclean
+fi
+# A kernel built here before its board's DTS named the processor's supply (cpu-supply, above) builds its device tree
+# again: buildroot copies the DTS into the kernel's tree at the kernel's build step only, so the card image kept the
+# DTB without it (the voltage at 1.2 V at every speed)
+if ls $BR/build/build/linux-[0-9]*/.config > /dev/null 2>&1 && [ -f $BR/build/images/sun8i-r16-$MODEL.dtb ] \
+        && ! grep -qs "cpu-supply" $BR/build/images/sun8i-r16-$MODEL.dtb; then
+    make linux-rebuild
+fi
+uboot_source
+make lame mpg123
+make libsndfile-dirclean
+# A package patched after an earlier build here is built again: buildroot applies patches at extraction only
+if [ $MODEL = x6200 ] && ls -d $BR/build/build/rtw88-*/ > /dev/null 2>&1 \
+        && ! grep -qs "0001-wifi-rtw88-TX-report" $BR/build/build/rtw88-*/.applied_patches_list; then
+    make rtw88-dirclean
+fi
+if [ $MODEL = x6100 ] && ls -d $BR/build/build/rtl8723bu-wifi-*/ > /dev/null 2>&1 \
+        && ! grep -qs "0005-ht-capabilities-element" $BR/build/build/rtl8723bu-wifi-*/.applied_patches_list; then
+    make rtl8723bu-wifi-dirclean
+fi
+# The GUI and the web server come from this repository (a local site): buildroot syncs them
+# once and never again on its own, so they are re-synced and rebuilt every run
+# The sync into build/<gui package>-*/ adds and updates but never deletes: what left the repository
+# would stay there and be installed again (an old S01create_data was), as would what an earlier
+# build put in target/. A directory that held another GUI's sources (the stock X6200 GUI, in a tree
+# built stock before) is wiped once: its files would be compiled along with ours
+# A tree whose GUI was configured before, also one whose last build failed in the GUI (.stamp_built gone): the
+# first-build path below skipped the web server's reinstall there, and the bundle went without it. Also one whose
+# last run failed in the GUI's sync: its reconfigure had taken .stamp_configured away, and the next run took the
+# first-build path, without the web server it had removed from target/ (mkbundle.py stopped there: "missing in
+# target"). A tree this script built once has .openx6x00, which stays; a stock-built one has .stamp_configured only
+synced=""
+for f in $BR/build/build/$GUI_PKG-*/.stamp_configured $BR/build/build/$GUI_PKG-*/.openx6x00; do
+    [ -e "$f" ] && synced=1
+done
+if [ -n "$synced" ]; then
+    for d in $BR/build/build/$GUI_PKG-*/; do
+        [ -d "$d" ] && [ ! -f "$d/.openx6x00" ] && { echo "   wiping $d (not synced from OpenX6X00 before)"; rm -rf "$d"; }
+    done
+    # The synced rootfs copy goes first, and target/ loses what rootfs/ no longer has
+    for d in $BR/build/build/$GUI_PKG-*/rootfs; do
+        [ -d "$d" ] || continue
+        (cd "$d" && find . -type f) | while read -r f; do
+            [ -e "$GUI/rootfs/$f" ] || rm -f "$d/$f" "$BR/build/target/$f"
+        done
+        find "$d" -name __pycache__ -type d -exec rm -rf {} + 2>/dev/null   # emptied above, installed as a directory otherwise
+    done
+    find $BR/build/target/usr/sbin -name __pycache__ -type d -exec rm -rf {} + 2>/dev/null
+    # The web server the same way: its synced sources lose what webserver/ no longer has (a tree
+    # built stock first kept the stock web server's files, which went into the wheel), and it is
+    # reinstalled whole below, so what an earlier version installed goes first (the module, its
+    # dist-info and the script in bin, which the installer refuses to overwrite)
+    for d in $BR/build/build/x6100-webserver-*/src; do
+        [ -d "$d" ] || continue
+        (cd "$d" && find . -type f -not -path '*/__pycache__/*') | while read -r f; do
+            [ -e "$GUI/webserver/src/$f" ] || { echo "   stale web server file $f"; rm -f "$d/$f"; }
+        done
+    done
+    rm -rf $BR/build/target/usr/lib/python3*/site-packages/x6100_webserver* $BR/build/target/usr/bin/x6100_webserver
+    # The sync is buildroot's `rsync -au`: a file newer in the build directory than in the source is kept. A build
+    # from a worktree (GUI_DIR) leaves its files newer than another tree's, and the next build from there kept them:
+    # a bundle of main went out with a branch's GUI. What differs from the source is copied in now, with the time
+    # of now: the sync then leaves it, and make compiles it again (the sync would bring the source's older time,
+    # older than the objects of the other tree's file). What earlier builds synced of the worktrees and the PC's
+    # builds, no longer synced, goes
+    for d in $BR/build/build/$GUI_PKG-*/ $BR/build/build/x6100-webserver-*/; do
+        [ -d "$d" ] || continue
+        case $d in *webserver*) src=$GUI/webserver ;; *) src=$GUI; rm -rf "$d/.claude" "$d/build" "$d/build-host" "$d/build-docker" ;; esac
+        (cd "$d" && find . -type f -not -path './CMakeFiles/*' -not -name '.stamp_*' -not -name .openx6x00) |
+            while read -r f; do
+                if [ -f "$src/$f" ] && ! cmp -s "$src/$f" "$d/$f"; then
+                    echo "   $f differs from $src: copied in again"
+                    cp "$src/$f" "$d/$f"
+                fi
+            done
+    done
+    # The GUI is configured again, not only rebuilt: its options (HW_BACKEND above) live in CMake's
+    # cache, which a rebuild keeps
+    make $GUI_PKG-reconfigure x6100-webserver-rebuild
+else
+    # A tree built for the first time (the GitHub runner): the whole image in buildroot's own
+    # order. The GUI package names only part of what it links, the upstream control library
+    # nothing at all (libgpiod): asked for on their own, as above, they came before libgpiod
+    # and the rest were there and failed
+    echo "   first build of this tree: everything, in buildroot's order"
+    make
+fi
+for d in $BR/build/build/$GUI_PKG-*/; do touch "$d/.openx6x00"; done
+# Packages whose options changed after an earlier build here are not rebuilt by buildroot on
+# its own: python3 (the ssl module) and openssl (the command) are reconfigured when missing
+ls $BR/build/target/usr/lib/python3.11/lib-dynload/_ssl*.so > /dev/null 2>&1 || make python3-reconfigure
+[ -x $BR/build/target/usr/bin/openssl ] || make libopenssl-reconfigure
+# What a tree built stock before installed in target/ stays there (buildroot never removes what a
+# package put there) and would go into the image: the PCI firmware whose options were dropped above
+# (16 MB; RTL_815X, kept, is the rtl815x files of rtl_nic, the rest came with RTL_8169), RHVoice
+# (dropped above, 13 MB), the stock GUI's binary and data (/usr/sbin/x6200_gui, /usr/share/x6200)
+rm -rf $BR/build/target/lib/firmware/{bnx2x,cxgb4,e100,intel,microchip,qed,tigon}
+find $BR/build/target/lib/firmware/rtl_nic -type f ! -name 'rtl815*' -delete 2>/dev/null
+rm -rf $BR/build/target/usr/share/RHVoice $BR/build/target/usr/lib/libRHVoice* $BR/build/target/usr/bin/RHVoice*
+rm -rf $BR/build/target/usr/sbin/x6200_gui $BR/build/target/usr/share/x6200
+# and the RS theme the GUI installed up to v0.3.5 (cut from an Icom RS-BA1 screenshot: not shipped any more)
+rm -rf $BR/build/target/usr/share/x6100/themes
+make
+
+echo "== Update bundle (tools/update/mkbundle.py): what x6100-update installs on a running radio"
+# Signed with $UPDATE_KEY (default: $HOME/.config/openx6x00/update-key.pem, so inside the container
+# /work/.brhome/.config/openx6x00/update-key.pem); unsigned without it, which a radio only takes with
+# /mnt/update/allow-unsigned present
+VER=$(sed -n 's/.*define VERSION.* v\([0-9.]*\).*/\1/p' $GUI/src/main.h)
+KEY=${UPDATE_KEY:-$HOME/.config/openx6x00/update-key.pem}
+KEYARG=""; [ -f "$KEY" ] && KEYARG="--key $KEY"
+# The FT8 library goes in too (mkbundle.py LIB_FILES): the ft8lib package at the tree's pin, installed in target/ by
+# this build (an X6200 card image up to v0.3.8 has 117022b). Buildroot installs a version once: a tree that had
+# another pin after this one (the X6200's had 117022b) keeps that one's file in target/ when it comes back to this
+FT8LIB_VER=$(sed -n 's/^FT8LIB_VERSION = //p' $EXT/package/ft8lib/ft8lib.mk)
+FT8LIB_STAMP=$BR/build/build/ft8lib-$FT8LIB_VER/.stamp_target_installed
+[ -f $FT8LIB_STAMP ] || { echo "ft8_lib $FT8LIB_VER, the tree's pin, was never installed in target/"; exit 1; }
+[ "$(ls -t $BR/build/build/ft8lib-*/.stamp_target_installed | head -1)" = $FT8LIB_STAMP ] ||
+    { echo "ft8_lib $FT8LIB_VER: another version was installed in target/ after it (make ft8lib-dirclean, build again)"; exit 1; }
+echo "   ft8_lib ${FT8LIB_VER:0:7}: /usr/lib/libft8.so $(sha256sum $BR/build/target/usr/lib/libft8.so | cut -c1-12)"
+python3 $GUI/tools/update/mkbundle.py --target $BR/build/target --manifest $(ls -d $BR/build/build/$GUI_PKG-*/install_manifest.txt | head -1) \
+    --version $VER --model $MODEL --out $BR/build/images/$OUT-v$VER-update.tar.gz $KEYARG
+
+cp $BR/build/images/sdcard.img $BR/build/images/$OUT-local-sdcard.img
+ls -la $BR/build/images/$OUT-local-sdcard.img
+[ -n "$UPSTREAM_NOTE" ] && printf '%s\n' "$UPSTREAM_NOTE"     # again, after the long log
+[ -n "$UPSTREAM_WORK" ] && printf '%s\n' "$UPSTREAM_WORK"
+echo "== done"
