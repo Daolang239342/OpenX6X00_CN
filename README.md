@@ -4,10 +4,7 @@
 [OpenX6X00 v0.3.12](https://github.com/Guru-RF/OpenX6X00) 提供的中文界面版本。
 
 在不修改原固件任何功能的前提下，将电台屏幕界面（LVGL GUI）与网页配置器
-（Web configurator）的全部可见文字翻译为简体中文；`FT8`、`RTTY`、`CW`、
-`AGC`、`ATT`、`ATU`、`PRE`、`VOX`、`SWR`、`ALC`、`SSB`、`PWR`、`SNR`、
-`SOTA`、`POTA`、`WSPR`、`JS8`、`QSO`、`CQ` 等专业/协议术语保留不译。
-
+（Web configurator）翻译为中文。固件尚未完全测试与完善，请多多包涵与支持。
 ## 成品镜像
 
 | 型号 | 文件名 |
@@ -15,9 +12,7 @@
 | X6100 | `X6100/OpenX6X00-x6100-v0.3.12-cn-sdcard.img.zip` |
 | X6200 | `X6200/OpenX6X00-x6200-v0.3.12-cn-sdcard.img.zip` |
 
-刷机方式与原版一致：用
-[balenaEtcher](https://etcher.balena.io/) 将 zip 内的 `.img` 写入 microSD 卡
-即可。原版镜像位于各型号的 `raw_build/` 目录，未做任何改动。
+刷机方式：与原版一致。
 
 ## 本仓库内容
 
