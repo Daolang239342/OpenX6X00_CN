@@ -266,17 +266,12 @@ cp $GUI/boot/kernel_logo.png $BOARD/logo.png
 echo "== Configure"
 cd $BR && bash ./br_config.sh
 
-echo "== XARA, the VARA-compatible Winlink modem (tools/xara/build.sh): one ARMv7 binary, linked with this tree's gcc"
-# Built with its own pinned Rust (buildroot's is too old for it) and kept in $HOME/.cache/openx6x00; the GUI's CMake
-# installs it as /usr/bin/xara, so it is in the image and in the update bundle. Linked with buildroot's own
-# toolchain (glibc 2.36, the GUI's), which a tree built for the first time makes here, the first step of its build
+# XARA skipped: upstream x0rro/xara is discontinued and its release tarballs are
+# gone. The stock /usr/bin/xara binary is injected into the final image from the
+# original v0.3.12 card image, exactly as shipped.
 XARA_CC=$BR/build/host/bin/arm-buildroot-linux-gnueabihf-gcc
 (cd $BR/build && make toolchain)
-XARA_BIN=$(CC=$XARA_CC bash $GUI/tools/xara/build.sh)
-[ -x "$XARA_BIN" ]
-sed -i "/_CONF_OPTS += -DXARA_BINARY=/d" $GUI_MK
-sed -i "s|^\$(eval \$(cmake-package))|${GUI_VAR}_CONF_OPTS += -DXARA_BINARY=$XARA_BIN\n&|" $GUI_MK
-grep -q "^${GUI_VAR}_CONF_OPTS += -DXARA_BINARY=$XARA_BIN" $GUI_MK
+
 
 echo "== RADE, the RADE app's modem (tools/rade/build.sh): static libraries for the GUI, built with the same gcc"
 # rade_c (RADE V1) and the Opus fork with FARGAN, pinned and checked, kept in $HOME/.cache/openx6x00/rade; the GUI's

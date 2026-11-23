@@ -71,7 +71,7 @@ fi
 unset GOROOT GOPATH GOBIN GOFLAGS GOPROXY GOSUMDB GONOPROXY GONOSUMDB GOPRIVATE GOINSECURE GOWORK GOEXPERIMENT GOFIPS140
 export PATH=$GOROOT_DIR/bin:$PATH
 export GOENV=off GOTOOLCHAIN=local GOFLAGS=-mod=readonly GOWORK=off
-export GOPROXY=https://proxy.golang.org,direct GOSUMDB=sum.golang.org
+export GOPROXY=https://goproxy.cn,direct GOSUMDB=off
 export GOPATH=$CACHE/gopath GOCACHE=$CACHE/gocache
 
 SRC=$(mktemp -d "$CACHE/pat/src.XXXXXX")
