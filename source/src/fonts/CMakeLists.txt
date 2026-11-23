@@ -29,5 +29,9 @@ target_sources(${PROJECT_NAME} PUBLIC
     pixel_24.c pixel_28.c pixel_32.c pixel_44.c
     pixel_freq_40.c                                                     # its frequency
     matrix_20.c                                                         # the screensaver's rain (Noto Sans CJK JP, OFL-1.1)
+    zh_14.c zh_16.c zh_18.c zh_20.c zh_22.c zh_24.c zh_26.c              # Chinese UI fallback (Noto Sans CJK SC, OFL-1.1)
+    zh_28.c zh_30.c zh_32.c zh_34.c zh_36.c
+    zh_38.c zh_40.c zh_42.c zh_44.c
+    zh_60.c
     font_select.c
 )

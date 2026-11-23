@@ -12,7 +12,7 @@
 #define SIZES(X) X(14) X(16) X(18) X(20) X(22) X(24) X(26) X(28) X(30) \
                  X(32) X(34) X(36) X(38) X(40) X(42) X(44) X(60)
 
-#define DECL(n) extern lv_font_t sony_##n; extern const lv_font_t roboto_##n, dejavu_##n, arial_##n, rcond_##n, codec_##n;
+#define DECL(n) extern lv_font_t sony_##n; extern const lv_font_t roboto_##n, dejavu_##n, arial_##n, rcond_##n, codec_##n, zh_##n;
 SIZES(DECL)
 extern const lv_font_t pixel_12, pixel_14, pixel_16, pixel_18, pixel_20, pixel_22, pixel_24, pixel_28, pixel_32,
     pixel_44;
@@ -23,6 +23,7 @@ extern const lv_font_t pixel_12, pixel_14, pixel_16, pixel_18, pixel_20, pixel_2
 #define ARIAL(n) &arial_##n,
 #define RCOND(n) &rcond_##n,
 #define CODEC(n) &codec_##n,
+#define ZH(n) &zh_##n,
 static lv_font_t *const sony[] = { SIZES(SONY) };
 static const lv_font_t *const roboto[] = { SIZES(ROBOTO) };
 static const lv_font_t *const dejavu[] = { SIZES(DEJAVU) };
@@ -33,6 +34,7 @@ static const lv_font_t *const pixel[] = {
     &pixel_12, &pixel_12, &pixel_14, &pixel_16, &pixel_18, &pixel_20, &pixel_20, &pixel_22, &pixel_24,
     &pixel_24, &pixel_28, &pixel_28, &pixel_32, &pixel_32, &pixel_32, &pixel_32, &pixel_44,
 };
+static const lv_font_t *const zh[] = { SIZES(ZH) };
 static const lv_font_t *const codec[] = { SIZES(CODEC) };
 #define N_FONTS (sizeof(sony) / sizeof(sony[0]))
 _Static_assert(sizeof(pixel) / sizeof(pixel[0]) == N_FONTS, "a pixel font for every size");
@@ -46,13 +48,17 @@ int buttons_h = 54;  /* = BUTTONS_H_MIN */
 void fonts_apply(uint8_t choice) {
     for (unsigned i = 0; i < N_FONTS; i++) {
         if (!saved) orig[i] = *sony[i];
-        *sony[i] = orig[i];
+        *sony[i]   = orig[i];
+        orig[i].fallback = zh[i];
     }
     saved = true;
     buttons_h = 54;
     if (choice != FONT_ROBOTO && choice != FONT_DEJAVU && choice != FONT_ARIAL && choice != FONT_RCOND &&
-        choice != FONT_PIXEL && choice != FONT_CODEC)
+        choice != FONT_PIXEL && choice != FONT_CODEC) {
+        for (unsigned i = 0; i < N_FONTS; i++)
+            sony[i]->fallback = zh[i];
         return;
+    }
     if (choice == FONT_DEJAVU) buttons_h = 62;
     const lv_font_t *const *alt = choice == FONT_ROBOTO ? roboto : choice == FONT_DEJAVU ? dejavu :
                                    choice == FONT_ARIAL ? arial : choice == FONT_PIXEL ? pixel :
