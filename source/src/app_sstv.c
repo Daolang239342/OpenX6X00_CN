@@ -76,9 +76,9 @@ static void page_cb(button_data_t *b);
 
 /* ---- Window and buttons ---- */
 
-static button_data_t btn_p1 = { .type = BTN_TEXT, .label = "(SSTV 1:3)", .press = page_cb };
-static button_data_t btn_p2 = { .type = BTN_TEXT, .label = "(SSTV 2:3)", .press = page_cb };
-static button_data_t btn_p3 = { .type = BTN_TEXT, .label = "(SSTV 3:3)", .press = page_cb };
+static button_data_t btn_p1 = { .type = BTN_TEXT, .label = "（SSTV第1/3面）", .press = page_cb };
+static button_data_t btn_p2 = { .type = BTN_TEXT, .label = "（SSTV第2/3面）", .press = page_cb };
+static button_data_t btn_p3 = { .type = BTN_TEXT, .label = "（SSTV第3/3面）", .press = page_cb };
 static button_data_t btn_auto = { .type = BTN_TEXT, .label = "开始\\n自动接收", .press = auto_cb };
 static button_data_t btn_manual = { .type = BTN_TEXT, .label = "开始\\n手动接收", .press = manual_cb };
 button_data_t sstv_btn_mode = { .type = BTN_TEXT, .label = "接收模式\\n自动", .press = mode_cb };

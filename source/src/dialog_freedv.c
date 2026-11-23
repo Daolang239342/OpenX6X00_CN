@@ -75,9 +75,9 @@ static button_data_t btn_pwr     = {.type = BTN_TEXT_FN, .label_fn = pwr_label, 
 
 static buttons_page_t page_1, page_2;
 
-static button_data_t btn_page1 = {.type = BTN_TEXT, .label = "(RADE 1:2)", .press = button_next_page_cb,
+static button_data_t btn_page1 = {.type = BTN_TEXT, .label = "（RADE第1/2面）", .press = button_next_page_cb,
                                   .hold = button_prev_page_cb, .next = &page_2, .prev = &page_2};
-static button_data_t btn_page2 = {.type = BTN_TEXT, .label = "(RADE 2:2)", .press = button_next_page_cb,
+static button_data_t btn_page2 = {.type = BTN_TEXT, .label = "（RADE第2/2面）", .press = button_next_page_cb,
                                   .hold = button_prev_page_cb, .next = &page_1, .prev = &page_1};
 
 static buttons_page_t page_1 = {.items = {&btn_page1, &btn_freq, &btn_rec, &btn_send, &btn_close}};
@@ -252,7 +252,7 @@ static void show_tx_state(void)
             rec_end();
             over_drop();
             rx_resume();
-            msg_update_text_fmt("RADE: the radio keyed, recording dropped");
+            msg_update_text_fmt("RADE：电台已键控，但录音已丢失");
         } else if (t.full) {
             rec_end();
         }
@@ -263,7 +263,7 @@ static void show_tx_state(void)
         lv_label_set_text(frame.head_right, "就绪");
         buttons_update();
         if (!atomic_load(&tx_sent))
-            msg_update_text_fmt("RADE: not sent");
+            msg_update_text_fmt("RADE：未发送");
     }
 }
 
@@ -328,14 +328,14 @@ static void app_open(lv_obj_t *parent)
     lv_obj_clear_flag(body, LV_OBJ_FLAG_SCROLLABLE);
 
     row(body, "Sync", &lbl_sync);
-    row(body, "SNR, offset", &lbl_snr);
-    row(body, "Input level", &lbl_level);
-    row(body, "Speech to", &lbl_audio);
+    row(body, "SNR、偏移", &lbl_snr);
+    row(body, "输入电平", &lbl_level);
+    row(body, "语音输出至", &lbl_audio);
     row(body, "Lost", &lbl_loss);
     row(body, "CPU", &lbl_cpu);
     lv_obj_set_style_text_font(lbl_sync, &sony_22, 0);
 
-    lv_label_set_text(frame.status, "RADE V1   Rec: hand mic only, then Send   Filter wide, AGC and NR off");
+    lv_label_set_text(frame.status, "RADE V1   录音：仅支持手持麦克风，然后发送   滤波器设为宽带，并关闭 AGC 和 NR");
 
     /* The volume knob is not seen by the main screen while an app is open */
     lv_group_add_obj(keyboard_group, body);
@@ -423,18 +423,18 @@ static void rec_cb(button_data_t *data)
             return;
         }
         if (radio_get_state() != RADIO_RX) {
-            msg_update_text_fmt("RADE: the radio is transmitting");
+            msg_update_text_fmt("RADE：电台正在发射");
             return;
         }
         if (strlen(params.callsign.x) > FREEDV_CALL_MAX)
-            msg_update_text_fmt("RADE: callsign sent as the first %d characters", FREEDV_CALL_MAX);
+            msg_update_text_fmt("RADE：呼号作为前 %d 个字符发送", FREEDV_CALL_MAX);
         if (atomic_load(&state) == ST_READY)
             over_drop();
         freq_list_close();
         freedv_rx_stop();           /* the mic's audio is not the receiver's */
         started = false;
         if (!freedv_tx_begin(params.callsign.x)) {
-            msg_update_text_fmt("RADE: cannot start the encoder");
+            msg_update_text_fmt("RADE：无法启动编码器");
             rx_resume();
             return;
         }
@@ -457,7 +457,7 @@ static void send_cb(button_data_t *data)
     }
     freedv_tx_get_stats(&t);
     if (!t.done) {
-        msg_update_text_fmt("RADE: still encoding");
+        msg_update_text_fmt("RADE：仍在编码");
         return;
     }
     if (!params.callsign.x[0]) {
@@ -469,7 +469,7 @@ static void send_cb(button_data_t *data)
     atomic_store(&tx_finished, false);
     atomic_store(&tx_sent, false);
     if (pthread_create(&tx_thr, NULL, tx_worker, NULL) != 0) {
-        msg_update_text_fmt("RADE: cannot start the send");
+        msg_update_text_fmt("RADE：无法启动发送");
         return;
     }
     tx_thr_live = true;

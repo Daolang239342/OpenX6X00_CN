@@ -110,7 +110,7 @@ void ops_room_clock_draw(lv_obj_t *o, lv_draw_ctx_t *dc, const ops_room_clock_t 
         text(dc, &sony_14, dim, x1 + 12, y1 + 46, LV_TEXT_ALIGN_LEFT, "SUPPLY");
         snprintf(buf, sizeof(buf), "%.1f V", c->v_ext);
     } else {
-        text(dc, &sony_14, dim, x1 + 12, y1 + 46, LV_TEXT_ALIGN_LEFT, c->known && c->ext ? "TO FULL" : "LIMIT");
+        text(dc, &sony_14, dim, x1 + 12, y1 + 46, LV_TEXT_ALIGN_LEFT, c->known && c->ext ? "转到全屏" : "LIMIT");
         if (c->known && c->est_min >= 0)
             snprintf(buf, sizeof(buf), "%s%dh%02d", c->approx ? "~" : "", c->est_min / 60, c->est_min % 60);
         else if (c->known && c->full) snprintf(buf, sizeof(buf), "FULL");

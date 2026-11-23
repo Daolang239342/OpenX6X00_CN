@@ -341,13 +341,13 @@ static void exit_cb(button_data_t *d) {
 
 static buttons_page_t wlk_1, wlk_2, wlk_3, wlk_4;
 
-static button_data_t wlk_p1 = { .type = BTN_TEXT, .label = "(对讲 1:4)", .press = button_next_page_cb,
+static button_data_t wlk_p1 = { .type = BTN_TEXT, .label = "（对讲第1/4面）", .press = button_next_page_cb,
                                 .hold = button_prev_page_cb, .next = &wlk_2, .prev = &wlk_4 };
-static button_data_t wlk_p2 = { .type = BTN_TEXT, .label = "(对讲 2:4)", .press = button_next_page_cb,
+static button_data_t wlk_p2 = { .type = BTN_TEXT, .label = "（对讲第2/4面）", .press = button_next_page_cb,
                                 .hold = button_prev_page_cb, .next = &wlk_3, .prev = &wlk_1 };
-static button_data_t wlk_p3 = { .type = BTN_TEXT, .label = "(对讲 3:4)", .press = button_next_page_cb,
+static button_data_t wlk_p3 = { .type = BTN_TEXT, .label = "（对讲第3/4面）", .press = button_next_page_cb,
                                 .hold = button_prev_page_cb, .next = &wlk_4, .prev = &wlk_2 };
-static button_data_t wlk_p4 = { .type = BTN_TEXT, .label = "(对讲 4:4)", .press = button_next_page_cb,
+static button_data_t wlk_p4 = { .type = BTN_TEXT, .label = "（对讲第4/4面）", .press = button_next_page_cb,
                                 .hold = button_prev_page_cb, .next = &wlk_1, .prev = &wlk_3 };
 static button_data_t wlk_mem = { .type = BTN_TEXT, .label = "MEM\nVFO", .press = mem_toggle_cb };
 static button_data_t wlk_band_up = KEY_BTN("Band +", KEYPAD_BAND_UP, NULL);

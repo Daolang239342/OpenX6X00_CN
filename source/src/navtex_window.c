@@ -480,7 +480,7 @@ static void mode_show(void)
     } else {
         lv_obj_clear_flag(label, LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(dsc_list, LV_OBJ_FLAG_HIDDEN);
-        lv_label_set_text(frame.status, "SITOR-B 100 Bd / 170 Hz   MFK: scroll   Freq.: stations");
+        lv_label_set_text(frame.status, "SITOR-B 100 Bd / 170 Hz   功能旋钮：滚动   频率：电台");
     }
     body_scroll(dsc_mode ? 0 : LV_COORD_MAX);
     if (btn_mode.disp_btn) buttons_refresh(&btn_mode);
@@ -528,7 +528,7 @@ static void app_open(lv_obj_t *parent)
     lv_label_set_long_mode(txt, LV_LABEL_LONG_WRAP);
     lv_obj_set_style_text_font(txt, &sony_22, 0);
     lv_obj_set_style_text_color(txt, TC(text), 0);
-    lv_label_set_text(txt, "NAVTEX ready - 100 baud / 170 Hz shift\n");
+    lv_label_set_text(txt, "NAVTEX 就绪 - 100 波特 / 170 Hz 频移\n");
     label = txt;
 
     /* DSC calls, the newest on top */

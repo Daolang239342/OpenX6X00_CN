@@ -1,9 +1,9 @@
 % rebase('base.html', title='Network')
 <h2><svg class="i"><use href="#i-ethernet"/></svg>网络</h2>
-<p class="sub">The radio's name on the LAN, the other names it answers to, and a USB Ethernet adapter: DHCP, or a fixed address for networks that need one. The same settings as Settings &rarr; Wireless on the radio. WiFi's settings are not changed; a cable with a gateway holds WiFi off while it is connected, one without leaves the internet on WiFi.</p>
+<p class="sub">电台在局域网中的名称、它响应的其他名称，以及 USB 以太网适配器：可使用 DHCP，也可为需要固定地址的网络设置静态地址。与电台“设置 → 无线网络”中的设置相同。不会更改 Wi-Fi 设置；连接带网关的网线时会关闭 Wi-Fi，不带网关的网线则仍通过 Wi-Fi 连接互联网。</p>
 
 <form class="dp-card" id="nameform">
-  <div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-network"/></svg></span><div><h3>网络名称<span class="eff">Takes effect: now, reachable under the new name in a few seconds</span></h3><p>Any browser on the LAN reaches the radio as <b id="local">x6100.local</b> (mDNS, announced by Avahi), on WiFi and Ethernet alike. The name is kept on the DATA partition.</p></div></div>
+  <div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-network"/></svg></span><div><h3>网络名称<span class="eff">生效时间：立即生效，几秒钟后可通过新名称访问</span></h3><p>Any browser on the LAN reaches the radio as <b id="local">x6100.local</b> (mDNS, announced by Avahi), on WiFi and Ethernet alike. The name is kept on the DATA partition.</p></div></div>
   <div class="dp-row">
     <div class="dp-lbl"><label for="hn"><b>名称</b></label><span>字母、数字和“-”，最多32位</span></div>
     <div class="dp-ctl"><input id="hn" autocomplete="off" maxlength="32" spellcheck="false"></div>
@@ -15,9 +15,9 @@
 </form>
 
 <form class="dp-card" id="ownform">
-  <div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-globe"/></svg></span><div><h3>Other names<span class="eff">生效方式：立即</span></h3><p>These pages change settings and open the Files page, and the Panel, the Screen page and the Winlink mailbox connect, only when opened by one of the radio's own names: by any other name a page from another site could do the same through your browser. Its own names now: <span id="ownnow">its address</span>.</p></div></div>
+  <div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-globe"/></svg></span><div><h3>其他名称<span class="eff">生效方式：立即</span></h3><p>These pages change settings and open the Files page, and the Panel, the Screen page and the Winlink mailbox connect, only when opened by one of the radio's own names: by any other name a page from another site could do the same through your browser. Its own names now: <span id="ownnow">其地址</span>.</p></div></div>
   <div class="dp-body">
-    <input id="own" autocomplete="off" spellcheck="false" autocapitalize="off" aria-label="Other names" placeholder="x6100.example.nl">
+    <input id="own" autocomplete="off" spellcheck="false" autocapitalize="off" aria-label="其他名称" placeholder="x6100.example.nl">
     <p style="margin:10px 0 0;color:var(--dim);font-size:13px">Names your own DNS or a reverse proxy gives the radio, separated by spaces, up to <span id="ownmax">8</span>: whole names, not addresses (those count already), no wildcards. Only names of your own: a page opened by a name on this list can change everything here, so never add one a web site or a message asks for. <span id="ownauto"></span></p>
     <div class="actions">
       <button type="submit" class="primary">应用</button>
@@ -27,16 +27,16 @@
 </form>
 
 <h3 class="sub" style="margin-top:1.5em">有线网络</h3>
-<p id="none" hidden>No Ethernet adapter connected.</p>
+<p id="none" hidden>未连接以太网适配器。</p>
 
 <form class="dp-card" id="conf" hidden>
-  <div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-ethernet"/></svg></span><div><h3>适配器<span class="eff">Takes effect: now, the adapter reconnects</span></h3><p id="iface">-</p></div></div>
+  <div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-ethernet"/></svg></span><div><h3>适配器<span class="eff">生效时间：立即生效，适配器将重新连接</span></h3><p id="iface">-</p></div></div>
   <div class="dp-row">
     <div class="dp-lbl"><b>状态</b><span id="inuse">-</span></div>
     <div class="dp-ctl"><span class="status" id="state"></span></div>
   </div>
   <div class="dp-row">
-    <div class="dp-lbl"><b>模式</b><span>DHCP takes the address from the network</span></div>
+    <div class="dp-lbl"><b>模式</b><span>DHCP 从网络自动获取 IP 地址</span></div>
     <div class="dp-ctl"><div class="seg" id="mode"><button type="button" data-dhcp="1">DHCP</button><button type="button" data-dhcp="0">静态</button></div><input type="hidden" id="dhcpv"></div>
   </div>
   <div class="dp-row">
@@ -48,7 +48,7 @@
     <div class="dp-ctl"><input id="mask" class="st" autocomplete="off" maxlength="15"></div>
   </div>
   <div class="dp-row">
-    <div class="dp-lbl"><label for="gw"><b>网关</b></label><span>Optional. Leave it empty and internet stays on WiFi</span></div>
+    <div class="dp-lbl"><label for="gw"><b>网关</b></label><span>可选。留空则继续通过 Wi-Fi 连接互联网</span></div>
     <div class="dp-ctl"><input id="gw" class="st" autocomplete="off" maxlength="15" inputmode="decimal"></div>
   </div>
   <div class="dp-row">

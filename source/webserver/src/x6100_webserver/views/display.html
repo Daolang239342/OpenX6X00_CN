@@ -1,6 +1,6 @@
 % rebase('base.html', title='Display')
 <h2><svg class="i"><use href="#i-monitor"/></svg>显示</h2>
-<p class="sub">How the radio's screen looks (Settings &rarr; Display), and a few station options of the other tabs. Every change is applied on the radio as you make it and each row says so (Applied on the radio, or why not); Theme, Spectrum and Spectrum height restart the radio's screen for a few seconds.</p>
+<p class="sub">电台屏幕的显示效果（设置 → 显示），以及其他选项卡中的部分台站设置。每项更改都会立即应用到电台，并在每一行显示结果（已在电台上应用，或说明未能应用的原因）；主题、频谱和频谱高度设置会使电台屏幕重新启动几秒钟。</p>
 
 <style>
 .dp-grid{columns:2 430px;column-gap:18px}
@@ -28,12 +28,12 @@
 <!-- Not a GUI option: the web server keeps it (/api/boot_picture), so it works with the radio's screen down too -->
 <div class="dp-grid">
 <section class="dp-card" id="bootpic">
-<div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-image"/></svg></span><div><h3>开机图片<span class="eff">Takes effect: at the next start</span></h3><p>On the screen while the radio starts: the built-in logo, or a picture of your own</p></div></div>
+<div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-image"/></svg></span><div><h3>开机图片<span class="eff">生效时间：下次启动</span></h3><p>电台启动时屏幕显示的内容：内置徽标或你自己的图片</p></div></div>
 <div class="dp-body">
-<img class="bp-prev" id="bp_img" alt="The picture the radio starts with" hidden>
+<img class="bp-prev" id="bp_img" alt="电台启动时显示的图片" hidden>
 <p id="bp_now"></p>
-<p class="sub">A PNG of 800x480 pixels, the screen's size, up to 2 MB. It is kept on the card's DATA partition, so updates leave it as it is, and the Backup takes it along. Default goes back to the built-in logo.</p>
-<input type="file" id="bp_file" accept="image/png,.png" aria-label="Your picture, a PNG of 800x480">
+<p class="sub">一张 800×480 像素的 PNG 图片，与屏幕尺寸相同，最大 2 MB。图片保存在 SD 卡的 DATA 分区中，因此软件更新不会影响它，备份时也会一并保存。选择“默认”可恢复内置徽标。</p>
+<input type="file" id="bp_file" accept="image/png,.png" aria-label="你的图片，800×480 的 PNG 文件">
 <div class="actions">
   <button id="bp_upload" class="primary"><svg class="i"><use href="#i-upload"/></svg>上传</button>
   <button id="bp_default">默认</button>

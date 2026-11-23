@@ -3,31 +3,31 @@
 <p class="sub">Every QSO the radio logs, in every mode (FT8, FT4, FT2, JS8, voice, CW, Field Ops activations), goes to your <a href="https://github.com/wavelog/wavelog">Wavelog</a> as well, a few seconds after it is logged; the radio's own logs stay as they are. Without a network the QSOs wait on the SD card and go when the radio is back online. The display says what happened: "Wavelog: DL1ABC uploaded".</p>
 
 <form class="dp-card" id="conf">
-  <div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-server"/></svg></span><div><h3>上传<span class="eff">Takes effect: at the next QSO</span></h3><p>Your Wavelog's address and a read &amp; write API key: in Wavelog, your account menu, API Keys, Create a read &amp; write key (it starts with wl; in Wavelog 3.1 and later under Legacy API Keys (API v1)). The API tokens further down that page, wl2_... (API v2), don't work here yet. The QSOs go into the station profile chosen here, or, with Automatic, into the profile with the callsign the radio logged them with. Switched on, the QSOs from that moment on are sent, not the log from before<span id="since"></span>.</p></div></div>
+  <div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-server"/></svg></span><div><h3>上传<span class="eff">生效时间：下次 QSO</span></h3><p>Your Wavelog's address and a read &amp; write API key: in Wavelog, your account menu, API Keys, Create a read &amp; write key (it starts with wl; in Wavelog 3.1 and later under Legacy API Keys (API v1)). The API tokens further down that page, wl2_... (API v2), don't work here yet. The QSOs go into the station profile chosen here, or, with Automatic, into the profile with the callsign the radio logged them with. Switched on, the QSOs from that moment on are sent, not the log from before<span id="since"></span>.</p></div></div>
   <div class="dp-row">
-    <div class="dp-lbl"><b>Upload to Wavelog</b><span>Each QSO, a few seconds after it is logged</span></div>
-    <div class="dp-ctl"><label class="sw" title="Upload to Wavelog"><input id="enabled" type="checkbox" role="switch" aria-label="Upload to Wavelog"><i></i></label></div>
+    <div class="dp-lbl"><b>上传到 Wavelog</b><span>每次 QSO 记录完成后几秒钟</span></div>
+    <div class="dp-ctl"><label class="sw" title="上传到 Wavelog"><input id="enabled" type="checkbox" role="switch" aria-label="上传到 Wavelog"><i></i></label></div>
   </div>
   <div class="dp-row">
     <div class="dp-lbl"><label for="url"><b>Wavelog URL</b></label><span>The address you open Wavelog with, without /index.php</span></div>
     <div class="dp-ctl"><input id="url" type="url" autocomplete="off" maxlength="200" placeholder="https://log.example.org"></div>
   </div>
   <div class="dp-row">
-    <div class="dp-lbl"><label for="key"><b>API key</b></label><span>Key: <b id="key-state"></b>. A new key replaces the stored one; empty keeps it, for the same server only: with the URL of another one, type its key too. Clear takes it away and stops the upload.</span></div>
-    <div class="dp-ctl"><input id="key" type="password" autocomplete="off" maxlength="128" placeholder="New key (empty = keep)"> <button type="button" id="clear">清除</button></div>
+    <div class="dp-lbl"><label for="key"><b>API 密钥</b></label><span>Key: <b id="key-state"></b>。新密钥会替换已保存的密钥；留空则保留原密钥（仅限同一服务器）。如果 URL 指向另一台服务器，也必须填写该服务器的密钥。清除会删除密钥并停止上传。</span></div>
+    <div class="dp-ctl"><input id="key" type="password" autocomplete="off" maxlength="128" placeholder="新密钥（留空 = 保留）"> <button type="button" id="clear">清除</button></div>
   </div>
   <div class="dp-row">
-    <div class="dp-lbl"><label for="station"><b>Station profile</b></label><span>Automatic: each QSO goes to the profile with the radio's callsign, so changing the callsign on the radio (DF8MH, DF8MH/P) is all it takes. Load reads the profiles of the key from Wavelog</span></div>
+    <div class="dp-lbl"><label for="station"><b>台站配置档</b></label><span>自动模式：每次 QSO 都会上传到呼号与电台当前呼号相同的配置档，因此只需更改电台上的呼号（例如 DF8MH、DF8MH/P）即可。加载会读取该 Wavelog 密钥对应的配置档。</span></div>
     <div class="dp-ctl"><select id="station"></select> <button type="button" id="load"><svg class="i"><use href="#i-sync"/></svg>Load</button></div>
   </div>
   <div class="dp-row">
-    <div class="dp-lbl"><b>检查证书</b><span>Off only for a Wavelog at home with a self-signed certificate</span></div>
+    <div class="dp-lbl"><b>检查证书</b><span>仅当家中的 Wavelog 使用自签名证书时才关闭</span></div>
     <div class="dp-ctl"><label class="sw" title="检查证书"><input id="verify" type="checkbox" role="switch" aria-label="检查证书"><i></i></label></div>
   </div>
   <div class="dp-body" style="border-top:1px solid #1a283c">
     <div class="actions" style="margin-top:0">
       <button type="submit" class="primary">保存</button>
-      <button type="button" id="test">Test connection</button>
+      <button type="button" id="test">测试连接</button>
       <span class="status" id="status"></span>
     </div>
   </div>
@@ -37,7 +37,7 @@
   <div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-upload"/></svg></span><div><h3>状态</h3><p id="state"></p></div></div>
   <div class="dp-body">
     <div class="actions" style="margin-top:0">
-      <button type="button" class="primary" id="sync"><svg class="i"><use href="#i-sync"/></svg>Send now</button>
+      <button type="button" class="primary" id="sync"><svg class="i"><use href="#i-sync"/></svg>立即发送</button>
       <span class="status" id="sstatus"></span>
     </div>
   </div>

@@ -1,0 +1,551 @@
+来源	原文	译文（请填写）
+gui	 DHCP \n Static 	静态DHCP设置
+gui	 drift %+.1fs	
+web	(mDNS, announced by Avahi), on WiFi and Ethernet alike. The name is kept on the DATA partition.	
+web	(none = all)	
+web	(none ticked = all bands)	
+web	(none ticked = all spots)	
+web	(passwords or keys: stays on the radio)	
+gui	(SETTINGS\n1:3)	
+gui	(SETTINGS\n2:3)	
+gui	(SETTINGS\n3:3)	
+web	(the browser warns of the radio's own certificate: accept it, once for that address).	
+web	(the spotter's country, by its prefix; empty = all. Alerts still come through)	
+web	) and stays.	
+web	) is taken off the internet: the radio's switch alone puts it there.	
+web	, and keep the page it opens	
+web	, and the others on System &gt; Network): a page from another site cannot add a key through your browser.	
+gui	, some refused	
+gui	.  %d locked out	
+web	. A copy goes to	
+web	. A new key replaces the stored one; empty keeps it, for the same server only: with the URL of another one, type its key too. Clear takes it away and stops the upload.	
+web	. A new one replaces it, also one set in Pat's own Settings; empty keeps it. Clear takes it away, also the one in Pat's own Settings. It stays on the radio and is never shown again	
+web	/root/.ssh/authorized_keys	
+web	10 min	
+web	120 min	
+web	15 min	
+gui	20000 km	
+web	30 min	
+gui	3200 Hz	
+gui	3D depth:\n%i	
+gui	3D floor:\n+%i	
+gui	3D tilt:\n%i	
+web	50001 is what TCI clients expect	
+web	60 min	
+gui	73, GAME OVER\n#%06x Score %d - MFK to call CQ again#	
+web	: the radio uses a self-signed certificate, so the browser shows a warning once. Accept it (Advanced, then Proceed) and the option appears.	
+web	: whole names, not addresses (those count already), no wildcards. Only names of your own: a page opened by a name on this list can change everything here, so never add one a web site or a message asks for.	
+gui	"\""%s\"" already exists"	
+gui	\r\n	
+web	A browser only watches until it is paired with a code shown on the radio; one paired browser (or the radio's own keys, or a TCI client) controls the radio at a time, and the others take control on purpose.	
+gui	a browser types the code to operate	
+web	"A client on the network that is not allowed yet is answered ""not keyed"", and the radio asks on its screen: Allow once, Always or No; no answer in 20 s is No. Programs on the radio itself and the Panel of a paired browser are not asked. Those allowed always: Settings &gt; General &gt; TCI SERVER on the radio, Sessions on the Panel for the admin. Off: every operating client keys as before"	
+web	A low-power carrier for a tuner of its own at the antenna, at the radio's TUNE power and time limit (Settings &gt; TX Cal); press again to stop	
+web	A new key replaces the stored one; empty keeps it. Clear takes it away.	
+web	A PNG of 800x480 pixels, the screen's size, up to 2 MB. It is kept on the card's DATA partition, so updates leave it as it is, and the Backup takes it along. Default goes back to the built-in logo.	
+web	A QSO by hand (voice, CW, or PSK, Olivia, Contestia, JTTY, RTTY) on the radio's frequency, into the day's ADIF log on the radio (the web Logs page lists it). Its mode is the one of the app open on the radio, else the radio's; in USB-D or LSB-D with no app, away from FT8 and FT4, it has none: set it on the Logs page. FT8, FT4, FT2 and JS8 log their own QSOs. Each QSO is confirmed by the radio: one sent into a dropped connection is asked about when the link is back, and never logged twice.	
+gui	About %.0f s at %i WPM\nBeacon: %s%s%s	
+gui	About %.0f s in QRSS3\nBeacon: %s\n%s	
+web	Adds, changes and removes bands; Active binds a band to the up/down keys.	
+web	Adds, changes and removes the FT8/FT4 and JS8 frequencies.	
+gui	ALL MODES / SSB	
+web	All of it runs on the radio: CQ and AUTO go on calling and answering when this page closes or loses its link. TX off makes a dry run: the app listens, decodes and queues, and nothing keys the transmitter. A tap on a CQ or a call queues one reply for the next slot of ours and arms TX.	
+web	Allow Funnel	
+web	Allow in Tailscale	
+web	Answer by itself a station that calls you, and carry the QSO through; it never calls CQ on its own	
+gui	Antigua & Barbuda	
+web	Any browser on the LAN reaches the radio as	
+web	API key	
+web	ARDOP: the gateways in Pat's list. Mercury: faster on a good path, but only with a station that runs Mercury 1.9.20 or later (station to station, or one of the few gateways that run it), dialled by hand in Pat as VARA HF. XARA: speaks VARA HF, so the VARA HF gateways in Pat's list answer it (Connect, VARA HF), at VARA's free speed unless you tick your VARA HF licence below. Mercury and XARA cost the radio more processor and heat. One runs at a time	
+web	"as well, a few seconds after it is logged; the radio's own logs stay as they are. Without a network the QSOs wait on the SD card and go when the radio is back online. The display says what happened: ""Wavelog: DL1ABC uploaded""."	
+gui	Asiatic Russia	
+gui	Auto call every %i s\nInterval: page 2	
+gui	Auto call, TX or PTT: stop	
+gui	Auto call: repeats every %i s	
+gui	AUTO/HB PAUSED (idle)  	
+gui	Auto: 	
+web	Automatic: each QSO goes to the profile with the radio's callsign, so changing the callsign on the radio (DF8MH, DF8MH/P) is all it takes. Load reads the profiles of the key from Wavelog	
+gui	BAND OVERVIEW	
+gui	BAND\tACTIVITY\t\tSPOTS\tRBN\tHEARD YOU\t	
+gui	Battery %d%%	
+gui	Battery %d%%: about %d min left	
+gui	Battery %d%%: connect power	
+gui	BATTERY HIGH TEMP!	
+gui	BATTERY LOW TEMP!	
+gui	BEACONS  %.3f   #%06x %s# %s	
+gui	Belgian (AZERTY)	
+gui	BIRDIE CALIBRATION	
+web	bits or more, one key at a time, with no options before it. Step by step for Windows, a Mac, Linux and PuTTY:	
+gui	BROWSER REMOTE is off (General): turn it on	
+web	Call CQ every slot of ours until a station answers, or CQ off	
+web	Call, name, QTH, grid, reference…	
+web	Callsigns or prefixes you are looking for.	
+gui	CALL|rst sent|rst received[|name|qth|grid|country[|comment]]	
+gui	Cannot rename	
+web	cat ~\.ssh\id_ed25519.pub | clip	
+web	Choose a backup file. You can pick which parts to restore; the radio screen restarts (about 5 s) when settings are replaced.	
+web	Clear this list (the radio's is not touched)	
+web	Close the radio's digital apps (FT8, PSK, RTTY...) first: while one is open Winlink does not transmit or tune.	
+gui	CLUSTER #%06x %s# - %s	
+gui	Cluster %s - %s	
+gui	Connecting to %s...	
+gui	Connecting to %s... (try %d/%d)	
+web	Control, meters and audio for the VFO-Knob and other TCI clients: turn it on, set its port.	
+web	copies it). Taken: ssh-ed25519, ecdsa-sha2-nistp256, -nistp384 and -nistp521, and ssh-rsa of	
+gui	CQ %s	
+gui	CQ %s CQ	
+gui	CQ CQ %s DE %s %s K	
+gui	CQ CQ CQ DE %s\n%s %s	
+gui	CQ POTA	
+gui	CQ SOTA	
+gui	"CQ: sending \""%s\"" (CQ again: stop, hold CQ: level)"	
+web	cqhota.app takes spots with your own key: cqhota.app, My account, Integration API key. Without it HOTA spots go to the DX cluster only. Key:	
+gui	"cw \""...\"""	
+gui	CW KEYER - #%06x QRSS3: 30 m or 80 m#	
+gui	CW peak Q:\n%i	
+gui	CW peak:\n%s	
+gui	Czech (QWERTZ)	
+gui	Czech Republic	
+web	Day (UTC)	
+gui	DCIN TOO LOW!	
+gui	Dec SNR:\n%0.1f dB	
+gui	"Deleted \""%s\"""	
+gui	Dem. Rep. of the Congo	
+web	DHCP takes the address from the network	
+gui	Disconnect the antenna, then press Start. A few minutes: every active band the radio transmits on.	
+gui	dit %s, dah %s	
+gui	DNF auto:\n%s	
+gui	DNF freq:\n%i Hz	
+gui	DNF width:\n%i Hz	
+web	Download files from the DATA partition of the SD card (ADI log, screenshots, recordings, etc). Files that hold passwords or keys (the Wavelog and Field pages' keys,	
+web	downloaded while the radio writes it may come out damaged (the radio's copy is not touched): open it with any SQLite3 tool to check.	
+web	Downloads files from the SD card: ADIF log, screenshots, recordings.	
+gui	DPR of Korea	
+gui	DX cluster not running: no %s spot	
+gui	DX: %s	
+web	e.g. K1TTT-# , *-3	
+web	e.g. PA, ON	
+web	e.g. VP8*	
+web	e.g., Asia/Shanghai	
+web	Each QSO, a few seconds after it is logged	
+gui	Empty name	
+gui	Ethernet: %s	
+gui	Europe/Lisbon, Canary (WET/WEST)	
+gui	European Russia	
+gui	every browser forgotten	
+web	Every QSO the radio logs, in every mode (FT8, FT4, FT2, JS8, voice, CW, Field Ops activations), goes to your	
+web	Everyone on your tailnet reaches the radio as if they were on its own network: these pages have no login, TCI clients need none, and SSH takes the keys added on System &gt; SSH. Share the radio's machine in Tailscale only with people you would let in at home.	
+gui	everything off	
+web	Everything the configurator can change on the radio.	
+gui	Ext tune:\n%0.1f W	
+gui	Ext tune:\nStop	
+web	external tuner	
+gui	F%d is empty - hold to set it	
+gui	Fed. Rep. of Germany	
+web	Fetching Server Time...	
+web	Fetching Server Timezone...	
+gui	Field: wait, still busy	
+web	Filter and export	
+gui	Filter BW:\n%i Hz	
+gui	Filter high:\n%i Hz	
+gui	Filter low:\n%i Hz	
+gui	FIRE / EXPLOSION	
+gui	Font: this theme has its own	
+gui	For the app, the column and the waterfall. Alerts always show.\n	
+gui	Forgotten. Scan again when you like.	
+gui	French (AZERTY)	
+web	From a laptop or a phone with Tailscale on	
+gui	ft8 {...}	
+gui	German (QWERTZ)	
+gui	HB %um  	
+gui	HB %um next %02d:%02d  	
+gui	HB paused (Turbo)  	
+gui	Heard by 	
+web	Heard in	
+web	here (on Windows, in PowerShell,	
+web	Hold the TX offset: do not move onto the station answered	
+web	Holds passwords or keys: not downloaded here	
+web	HOTA spots	
+web	How the radio's screen looks (Settings &rarr; Display), and a few station options of the other tabs. Every change is applied on the radio as you make it and each row says so (Applied on the radio, or why not); Theme, Spectrum and Spectrum height restart the radio's screen for a few seconds.	
+web	https://	
+web	https://log.example.org	
+web	https://this radio/panel	
+web	https://this radio/remote	
+gui	Iambic:\n%s mode	
+gui	IF shift:\n%i	
+gui	Import: %s could not be read	
+gui	Imported %u QSOs	
+gui	Imported %u QSOs (%u already in the log, %u without a callsign, %d broken)	
+gui	Imported %u QSOs, %u not saved: the file is kept for the next start	
+gui	Importing QSO: %d/%d	
+web	In the file	
+web	In the mailbox: Connect, ARDOP, then the gateway list (with your locator, the nearest first) gives each gateway's call and frequency. The radio tunes there in USB-D when Pat connects, and back afterwards.	
+web	In-browser conversion needs a secure page. Open	
+web	Input Custom NTP Server Address	
+gui	Input level	
+web	Input Time	
+web	Input time (format: YYYY-MM-DD HH:MM:SS)	
+web	Install the file	
+web	Installs a newer OpenX6X00 from GitHub, or a bundle file, with automatic rollback.	
+web	Integration key	
+web	is the mail program, its mailbox a web page you open on a phone or a laptop on the radio's network; ARDOP is the modem, or Mercury or XARA (both experimental; XARA speaks VARA HF), through the radio's own audio. When Pat calls a gateway, the radio tunes to it and switches to USB-D. Off by default: when off, Pat and the modem do not run.	
+web	its address	
+gui	JTTY %s  %u.%03u MHz	
+gui	JTTY RX restart	
+web	Keep the mailbox open while Pat connects: it asks there whether to go ahead on a busy frequency, and for the password when none is set, and gives up when nobody answers.	
+gui	Key train is off: not playing	
+web	Key:	
+web	Keyboard: F1–F5, ← → the main knob, Shift + ← → faster, [ ] volume, PageUp/PageDown the MFK, Enter the MFK push, Space PTT. Knobs: drag around the ring, or the mouse wheel over it. Sound starts on a tap (browsers ask for one).	
+web	Label, dial frequency, mode and app	
+gui	Last 20 tries per character. Weak ones (red, yellow) come up more often in Learn.	
+web	last call	
+gui	last scan %i s ago	
+web	Last seen	
+web	Latest release	
+gui	Left Alt	
+gui	Left Ctrl	
+gui	Left Shift	
+gui	Level %i: new character %c	
+gui	Listen: %s %.3f, TX %.3f\nPress again to send: %i s	
+web	Listens for TCI clients on the network	
+gui	Lists: %d POTA, %d SOTA, %d WWBOTA, %d HOTA, %d WWFF, %d TOTA, %d WCA, %d MOTA, %d LH, 	
+web	Loading Local Time...	
+web	Local time	
+gui	"Log from the phone: \""%s\"" not logged"	
+web	Log in	
+web	Log in to Tailscale	
+web	Log out	
+gui	"Log: \""%s\"" is not a callsign"	
+gui	Low battery! Turning off in 30s.	
+gui	Low battery, DC IN under %d V! Turning off in 30s.	
+web	Main Page	
+web	makes one; paste the line of	
+gui	Marks:\nOff	
+web	matches anything: VP8*, */P, 3Y0J.	
+web	Max age	
+web	MEM slots	
+web	MEM slots are the radio's MEM 1-9 buttons (hold to save, tap to load). Channels are the named list in APP → Channels. A row is saved with its own Save, or all at once; a cleared slot or a deleted channel can be brought back for twenty seconds.	
+web	Mercury is experimental: tested between two stations on a PC, not yet on the air; on an X6100 it takes about one of the radio's four processor cores (not measured on an X6200 yet). In the mailbox: Connect, VARA HF, then the other station's call and frequency by hand: the VARA HF gateway list shows VARA gateways, which do not answer Mercury. ARDOP's gateways do not answer it either.	
+gui	MFK or VOL: 10 Hz steps - press MFK: done	
+gui	MFK or VOL: 5 min steps (%s clock) - press MFK: done	
+gui	MFK or VOL: how many - Until: next kind - MFK: done	
+gui	MFK or VOL: interval - press MFK: done	
+web	MFK push	
+gui	MFK: choose - press MFK: edit	
+gui	MFK: choose - press: confirm - %s: close	
+gui	MFK: choose, press: confirm   No in %d s	
+gui	Mic level: keep out of the red\nMax %i s	
+web	Mic needs an https page:	
+web	Modes, bands and activity are also on the radio: Settings → Cluster.	
+gui	Moni level:\n%i	
+gui	mouse buttons	
+gui	MSG %d NEW  	
+gui	N\tTIME\tCALL\tBAND\tMODE\tRST S / R	
+web	Name (optional)	
+web	Name, edges, default mode, TX shift and the Active flag	
+web	Name, host name and telnet port	
+web	Names your own DNS or a reverse proxy gives the radio, separated by spaces, up to	
+gui	NAVTEX ready - 100 baud / 170 Hz shift\n	
+gui	NB level:\n%i	
+gui	NB width:\n%i Hz	
+web	Needs internet on the radio	
+gui	NetworkManager is not running	
+gui	New card image out: Settings > Info	
+web	New key (empty = keep)	
+web	New password (empty = keep)	
+web	Newest at the bottom	
+gui	Next call in %i s\nInterval %i s	
+web	Next slot	
+gui	No %s spot: no %s key (web page, Field Ops)	
+gui	No activation yet	
+gui	No audio: recording uses the hand mic	
+web	No Ethernet adapter connected.	
+web	No key yet: SSH lets nobody in. Add one below.	
+web	No key yet? On your computer,	
+gui	No QSO readable in the ADIF file (%d broken): kept as %s	
+gui	No QSOs found in the ADIF file: kept as %s	
+web	No spots yet: the cluster is set on the radio (Cluster page).	
+gui	No voice CQ yet: Rec CQ on page 2, speak, Stop rec	
+gui	Not while transmitting	
+gui	NOT YOUR CLASS	
+web	Nothing is shown or sent to a browser from the internet before it presents the key of a browser paired at home. Pairing is refused over Funnel: pair at home (or once over Tailscale), then Use away from home.	
+gui	NR level:\n%i	
+web	Off only for a Wavelog at home with a self-signed certificate	
+web	Off: the radio holds no cluster login	
+gui	ok <id>	
+web	on the DATA partition after each change here and at every clean power-off, so a new card image takes them back.	
+web	On the internet	
+web	On the radio	
+web	On the radio now	
+web	On the radio, in userspace mode	
+web	On the screen while the radio starts: the built-in logo, or a picture of your own	
+web	On ws://&lt;radio IP&gt;:&lt;port&gt;/	
+web	On your tailnet	
+web	Only bands	
+web	Only mode	
+web	Only the Panel and the Screen page, and only for browsers paired at home. Needs Tailscale connected	
+web	Open it in a browser paired here: on the Panel at home press	
+web	OpenX6X00 · open firmware for the Xiegu X6100 ·	
+web	OpenX6X00 · the radio from away, through Tailscale Funnel ·	
+web	Operate: tune, change mode, key, as before. Listen only: hear and follow the radio; tuning and keying are answered with the state as it is	
+web	Optional. Leave it empty and internet stays on WiFi	
+web	"or any TCI client tunes it over the network, hears it and keys it. There is no login or pairing for TCI clients: enable it only on a network you trust, and choose below whether a client may operate the radio or only listen. An operating client takes control of the radio the moment it tunes or keys, as a knob would; a browser that was operating sees ""TCI client active"" and takes control back on purpose."	
+web	Other names	
+gui	PA HIGH TEMP!	
+web	page shows the radio's own display instead. No login: anyone on the network can reach this page.	
+web	page shows the radio's own display.	
+web	Panorama: tap or drag to tune, pinch (or the mouse wheel with Ctrl) to zoom, the wheel to tune by the step. Tap the frequency to type one, a spot to tune to it. Keyboard: ← → tune (Shift: ten steps), [ ] volume, Space PTT. Sound starts on a tap (browsers ask for one).	
+gui	Password is not used	
+gui	Password is required	
+web	Picture: balanced	
+web	Picture: fast	
+web	Picture: sharp	
+web	Picture: Sharp is the whole screen as it is; Fast is half the size and about three times the frames on a slow WiFi link	
+web	PNG files up to 4 MB are sent as they are; JPEG and other pictures are converted to PNG in this browser. A file with the same name is kept: the new one gets -1, -2... at the end.	
+web	Popup on the radio	
+web	POTA, SOTA, WWBOTA, HOTA, WWFF, TOTA, WCA, MOTA, LH (lighthouses), Tiles and LLOTA (lakes and lagoons) portable operation: reference lists for the radio, QRZ Logbook upload, HOTA and WWFF spots, activation logs.	
+gui	Press Spot again to post %s %.1f %s	
+web	Previous version	
+web	Profile 1	
+web	Profile 2	
+web	Profile 3	
+web	PSK, Olivia and JTTY	
+web	PTT (hold)	
+gui	PTT on: CapsLock+Space for off	
+web	Public key	
+web	Puts a backup file back on the radio	
+gui	QRSS3: frequency locked	
+gui	QRSS3: in CW or CW-R only	
+gui	QRSS3: not started	
+gui	QRSS3: on 30 m or 80 m only	
+gui	QRSS3: split or TX shift on	
+gui	QRSS3: XIT is set (%+i Hz)	
+web	QRZ Logbook	
+gui	QRZ: %s	
+gui	QSK time:\n%i ms	
+gui	QSO %d: %s %s %s %s	
+gui	QSO logged: %s %s %s %s%s%s	
+gui	RADE needs headphones, TCI or the browser	
+gui	RADE V1   Rec: hand mic only, then Send   Filter wide, AGC and NR off	
+gui	RADE: callsign sent as the first %d characters	
+gui	RADE: cannot start the encoder	
+gui	RADE: cannot start the send	
+gui	RADE: not sent	
+gui	RADE: still encoding	
+gui	RADE: the radio is transmitting	
+gui	RADE: the radio keyed, recording dropped	
+web	Radio clock, timezone and time synchronisation.	
+gui	RBN %s	
+gui	RBN %s.  	
+web	Reads, edits and clears the MEM slots and the named channels.	
+gui	Reference list: %s	
+web	Reference lists	
+web	Remote and Panel still ask for pairing before they operate, exactly as on the home network.	
+web	Removing a key does not end a session already open with it; the next login needs another key.	
+gui	Republic of Korea	
+gui	Republic of South Sudan	
+gui	Republic of the Congo	
+web	Restore selected	
+web	RF GAIN	
+gui	RF gain:\n%i	
+gui	Right Alt	
+gui	Right Ctrl	
+gui	Right Shift	
+web	Root's keys	
+web	RST r	
+web	RST s	
+gui	RX  %d:%02d	
+web	Save the radio settings to your computer, and put them back after flashing a new image.	
+gui	Saved QSO de %s %d %d	
+gui	Saved QSO de %s %d %d (%.0f %s)	
+web	Saves settings, memories, QSO log and more, and restores them after a new image.	
+gui	Scanning. Keep the antenna disconnected.	
+gui	SCOPE \xC2\xB1%d.%dk	
+gui	SCOPE \xC2\xB1%dk	
+gui	SCORE %04d   BEST %04d	
+web	Screen and RX recordings and screenshots, with thumbnails; AVI to MP4 in the browser.	
+gui	SD card full, recording saved	
+gui	SD card write error: the last file may be damaged	
+gui	SD card: about %d min left	
+web	Send now	
+gui	sent: watch who hears you	
+web	Server time	
+web	Server timezone	
+web	Servers the radio can use (APP → Cluster), the filters and the alerts. The one in use is marked; the radio reconnects when you change it. Filters and alerts apply to the next spots. A deleted server or alert can be brought back for twenty seconds.	
+web	Sessions with gateways work: reported on an X6100 on 80 m and from the UK to Germany on 40 m, and an X6200 got as far as the login.	
+web	Set server timezone	
+web	Set Timezone	
+web	Sets the radio clock to the date and time you type	
+web	Shows the radio clock and sets it by hand, by NTP or by timezone.	
+gui	SITOR-B 100 Bd / 170 Hz   MFK: scroll   Freq.: stations	
+gui	Skimmer data: Reverse Beacon Network (reversebeacon.net)	
+web	Skip spotters	
+gui	Slovak Republic	
+gui	SNR, offset	
+web	Sound takes about 50 kB/s each way, the spectrum about 15 kB/s; Tailscale relays it when it must.	
+gui	Sov Mil Order of Malta	
+gui	Speaker always off: Settings > Audio	
+gui	Speech to	
+gui	Speed:\n%i wpm	
+web	Spots hidden here disappear from APP Cluster, the cluster column and the waterfall marks	
+gui	SSB LL2LL	
+web	SSH keys	
+web	SSH on the radio takes keys only: password logins are off, since every radio came with the same root password. Add the public key of each computer you log in from;	
+web	ssh root@	
+web	ssh-ed25519 AAAA... you@computer	
+web	ssh-keygen -t ed25519	
+gui	St. Kitts & Nevis	
+gui	St. Vincent	
+web	Start at 500 Hz, or 200 Hz on a weak path: at the radio's few watts a 200 Hz call connected where the gateway list's 2000 Hz did not. The bandwidth above is the widest, also for a gateway the list shows wider.	
+web	Start, MHz	
+gui	Starts in %i:%02i:%02i - TX or PTT: stop	
+gui	Starts in %i:%02i:%02i, until %02i:%02i%s - TX or PTT: stop	
+web	Station profile	
+gui	Stats reset	
+web	Stop the transmission, drop the queued message, CQ off, TX off: nothing transmits until armed again	
+web	Stop, MHz	
+gui	Stop: save the message	
+gui	Swiss German	
+web	Sync Local Time to Server	
+web	Tailscale Funnel	
+web	tailscale funnel ...	
+web	Tailscale puts the radio on your own private network, your tailnet. With Tailscale on a laptop or a phone you reach the radio from anywhere as if you were at home: these pages, the Panel and the Screen page, and TCI. Nothing is opened on your router. When you turn it on, the radio downloads Tailscale once from Tailscale's site (37 MB) and asks you to log in with your Tailscale account. Tailscale's log upload is off.	
+web	Takes effect: at the next cycle	
+web	Takes effect: at the next login	
+web	Takes effect: at the next QSO	
+web	Takes effect: at the next spot	
+web	Takes effect: at the next spots	
+web	Takes effect: at the next start	
+web	Takes effect: at the next upload	
+web	Takes effect: now, reachable under the new name in a few seconds	
+web	Takes effect: now, the adapter reconnects	
+web	Takes effect: on the radio within a few seconds	
+web	Takes effect: the radio reconnects within a few seconds	
+web	Takes effect: within a few seconds	
+web	Takes effect: within seconds	
+web	Tap: screen on/off	
+web	Tap: type a frequency	
+web	TCI (Transceiver Control Interface, version 2.0) is the protocol of Expert Electronics' SDRs that AetherSDR and other programs serve: one WebSocket carries the frequency, mode, filter, AGC, PTT, the S-meter and the TX meters, and the audio both ways. The radio serves it here, so a	
+web	TCI server	
+web	Telnet servers; Use switches the radio to one	
+gui	Test beacon %s	
+gui	Test beacon %s, back on %.3f MHz	
+gui	Test beacon not sent%s%s\nThe radio stays on %.4f MHz	
+gui	Test beacon on %s: %s	
+gui	Test beacon on %s: no data from the base	
+gui	Test beacon on %s: the frequency is locked	
+web	Test connection	
+gui	TEST WAV  	
+web	The answers to INFO? and STATUS?, up to 64 characters each, empty for none	
+web	The app is closed: Open starts it on the radio.	
+web	The browser Panel on the internet, for a phone or a PC without Tailscale	
+web	The browser's microphone needs a secure page: open	
+web	The browser's microphone transmits while PTT is held	
+web	the HTTPS version of this page	
+web	The keys are root's, in	
+web	The keys that may log in to the radio over SSH: lists, adds and removes them. Passwords are not taken.	
+web	The login stays on the radio. A new card image keeps Tailscale on, but asks for a new login.	
+web	The macro buttons of the PSK31, Olivia and JTTY windows and the JS8 INFO and STATUS answers. The radio reads them the next time the window opens: close and reopen it to see a change. A row is saved with its own Save, or all at once; a deleted macro can be brought back for twenty seconds.	
+web	The mailbox answers only to the radio's address or its own name, and refuses pages from other sites: a web page you happen to visit cannot use it through your browser.	
+web	The mailbox has no login of its own: anyone on the radio's network, and on your tailnet with Tailscale on, can read and send your mail and make the radio transmit. Turn Winlink off on a network you do not trust.	
+web	the manual	
+web	The MEM 1-9 buttons: hold to save, tap to load	
+web	The messages of MSG &rarr; CW on the radio, sent with TX or as a beacon. Up to 64 characters each. A row is saved with its own Save, or all at once; a deleted message can be brought back for twenty seconds.	
+web	The name becomes public: every Funnel name gets an HTTPS certificate, and certificates are listed in public logs that scanners read. Anyone can find the address; only paired browsers get in.	
+web	The named list in APP → Channels. A name that starts with WEFAX also puts the channel in the WeFax app's Freq. list: give it the dial, 1.5 kHz below the fax station (7.7935 for a station on 7.795 MHz)	
+web	The page's links to the radio: link, picture, sound, microphone; this browser's access; who controls the radio	
+web	The page's links to the radio: link, spectrum, sound, microphone; this browser's access; who controls the radio	
+web	The panel alone, the height of the screen	
+web	The password is kept on the radio's system partition: not in the Backup, not on the Files page. A new card image asks for it again. The mail itself is on the SD card (	
+web	The picture the radio starts with	
+web	The public half: the one line of the	
+web	The radio from away, through Tailscale Funnel: the spectrum and the waterfall, every switch and level, the audio both ways. Only a browser paired with the radio at home gets in; you remain the control operator of every transmission. The	
+web	The radio in the browser: its screen live, the keys and knobs, the audio both ways. From a phone, a tablet or a PC.	
+web	The radio in your browser: the screen live, the keys and knobs as on the front panel, the audio both ways. What the radio shows and does, you see and do here, from a phone, a tablet or a PC on the same network. Hold PTT to transmit. Anyone on the network can watch this page; a browser operates the radio only once it is paired with a code shown on the radio, and one paired browser (or the radio's own keys, or a TCI client) controls the radio at a time.	
+web	The radio installs a newer OpenX6X00 by itself: the GUI, the web pages, the helpers and their data, from the project's GitHub releases or from a bundle file. The files are checked against the project's signature, the previous version is kept, and the radio software restarts at the end (about a minute). A version that does not come up is put back automatically. The kernel and the WiFi driver still come with a card image.	
+web	The radio logs in to one server. A cluster network takes a call on a few nodes at most, and a second login with the same call on a node ends the first: give the radio its own login (your call with -2) when a logger uses your call too	
+web	The radio worked from the browser: the spectrum and the waterfall live, tap or drag to tune, pinch to zoom, every switch and level at hand, the DX spots, the audio both ways. Phone, tablet or PC, on the same network as the radio. The	
+web	The radio's front keys, for its menus and apps: what they open shows on the Screen tab.	
+web	The radio's local time zone	
+web	The radio's name on the LAN, the other names it answers to, and a USB Ethernet adapter: DHCP, or a fixed address for networks that need one. The same settings as Settings &rarr; Wireless on the radio. WiFi's settings are not changed; a cable with a gateway holds WiFi off while it is connected, one without leaves the internet on WiFi.	
+web	The radio's own screen from away, through Tailscale Funnel, with its keys and knobs and the audio both ways. Only a browser paired with the radio at home gets in; you remain the control operator of every transmission. The	
+web	The telnet DX cluster server used by the Cluster app.	
+web	The waterfall's colours	
+web	The widest ARDOP may use, also with a gateway the list shows wider (Pat says so in its log). 500 Hz suits the radio's few watts and a crowded band; 200 Hz is the most robust, but a gateway fixed at 500 Hz or wider refuses it; 1000 and 2000 Hz are faster on a good path, with a gateway that runs them	
+web	The WWFF Spotline (spots.wwff.co) takes spots with your own API key, asked to the Spotline team. Without it WWFF spots go to the DX cluster only. Key:	
+web	then logs in with it.	
+web	These pages change settings and open the Files page, and the Panel, the Screen page and the Winlink mailbox connect, only when opened by one of the radio's own names: by any other name a page from another site could do the same through your browser. Its own names now:	
+web	This browser's access to the radio, and who controls it	
+web	This browser's clock and the radio's	
+web	This folder is empty.	
+web	This page answers only to the radio's address or its own names (	
+web	Tick only if you hold a VARA HF licence of your own; the radio does not check it. Off: VARA's free speed levels (1 to 4). On: XARA calls as a registered VARA station does, and the link may use every speed level	
+web	Tick the parts to save in the file	
+web	Time editor	
+web	Time Editor	
+web	Time information	
+gui	TO FULL	
+gui	Tone:\n%i Hz	
+gui	TOTA <ref> <mode>	
+gui	Trinidad & Tobago	
+gui	ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 	
+gui	TUNE %.1f W, %d s at most	
+gui	TUNE %.1f W, %d s, ATU off	
+gui	Turks & Caicos Islands	
+gui	TX %d	
+gui	TX %i Hz	
+web	TX Call: armed, the queued message goes out in its slot; off, the app only listens and decodes (a dry run)	
+web	TX Hz	
+gui	TX or PTT: stop	
+gui	TX or PTT: stop - %i:%02i to go	
+gui	TX power %.1f W: transverter %s	
+gui	TX power back to %.1f W	
+gui	TX power:\n%0.1f W	
+web	TX shift, kHz	
+gui	UK Base Areas on Cyprus	
+gui	United Arab Emirates	
+gui	United States	
+web	Up to 64 characters each	
+web	Up to three profiles, a callsign with its Logbook API key (QRZ.com, Logbook, Settings): the active one takes the uploads. The radio's log page can switch the active profile too. Uploading needs a QRZ.com Logbook API key, which QRZ.com only gives with a paid QRZ.com subscription (XML level or higher).	
+web	Upload to Wavelog	
+web	Use away from home	
+web	VOL push	
+gui	WATERFALL SNAKE\n#%06x Turn the knob to steer - MFK to start#	
+web	Wavelog URL	
+gui	WCA <ref>	
+gui	WF ref:\n%+i dB	
+web	What goes on the internet: the Panel and the Screen page, at https://&lt;name&gt;.&lt;tailnet&gt;.ts.net/panel. Not these pages, not TCI programs, not the Winlink mailbox, not SSH.	
+web	What Pat asks Mercury for, unless a connection names another. 2300 Hz uses all of Mercury's modes; 500 Hz keeps it within about 560 Hz, its most robust mode then a 500 Hz MFSK at half the speed (27 s a frame); 2750 Hz is 2300's modes for now. The narrower of the two stations' is used	
+web	What Pat asks XARA for, unless a connection names another: VARA HF's 500, 2300 or 2750 Hz. Call a gateway at the bandwidth Pat's VARA HF list gives it; 2300 Hz is the usual one, 500 Hz keeps to about 520 Hz on a crowded band	
+web	What runs now, and the latest release	
+web	What the app does now and next	
+web	What the band keys of those apps step through	
+web	What the link does now, as APP → Cluster shows it	
+web	When a spot matches an alert	
+web	Where the keys are kept	
+web	Where the newest decode comes in: at the bottom, as on the radio, or on top, under these buttons; this browser keeps the choice	
+gui	WiFi %s: %s	
+gui	WiFi %s: join failed (reason %u)	
+gui	WiFi %s: no longer in range, scan again	
+gui	WiFi: %s	
+web	Wireless)	
+web	with the radio's name and accept its certificate, as at home.	
+web	works the radio natively.	
+web	WSJT-X's coordinated slots: 160m at :00, 80m :02, 60m :04 ... 10m :18, again every 20 minutes. A band set to Off gives its slot to the other bands that are on, in turn. RX+TX transmits at the app's TX %; with the radio's ATU on, only on a band with a match stored for its WSPR frequency.	
+web	WSPR band hopping	
+web	WWFF spots	
+web	XARA is experimental: a VARA-compatible modem by another author (MIT licence), not VARA itself. Tested between two stations on a PC, not yet on the air from a radio or with a VARA gateway, and its processor load on the radios is not measured yet. In the mailbox: Connect, VARA HF, then a gateway from Pat's VARA HF list. It needs your callsign (up to 7 letters and digits, an SSID from -1 to -19). The VARA HF licence box is your own statement; the radio does not check it.	
+web	You remain the control operator of every transmission made from away, as the rules of your licence say.	
+web	your call	
+web	Your picture, a PNG of 800x480	
+web	{{!base}}	
+web	{{call + ' · ' if call else ''}}configurator	
+web	{{group}}	
+web	{{help}}	
+web	{{label}}	
+web	{{len(dirs)}} folders · {{len(files)}} files	
+web	{{name}}	
+web	{{request.path}}	
+web	{{title}} - X6100 from away	
+web	{{title}} - X6100 WebServer	
+web	~/.ssh/id_ed25519.pub	

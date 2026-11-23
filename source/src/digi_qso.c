@@ -127,7 +127,7 @@ const char *digi_qso_feed_rx(char c) {
                 digi_qso_set_dx(word);
                 /* msg_update_text_fmt() only queues an event, so it is safe
                  * from the audio thread. */
-                msg_update_text_fmt("DX: %s", qso_dx);
+                msg_update_text_fmt("DX：%s", qso_dx);
             }
             return word;
         }

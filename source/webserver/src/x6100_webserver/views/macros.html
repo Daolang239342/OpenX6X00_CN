@@ -1,6 +1,6 @@
 % rebase('base.html', title='Macros')
 <h2><svg class="i"><use href="#i-list"/></svg>宏</h2>
-<p class="sub">The macro buttons of the PSK31, Olivia and JTTY windows and the JS8 INFO and STATUS answers. The radio reads them the next time the window opens: close and reopen it to see a change. A row is saved with its own Save, or all at once; a deleted macro can be brought back for twenty seconds.</p>
+<p class="sub">PSK31、Olivia 和 JTTY 窗口中的宏按钮，以及 JS8 的 INFO 和 STATUS 应答。电台会在下次打开窗口时读取这些内容：关闭并重新打开窗口即可看到更改。每一行可单独保存，也可一次性全部保存；删除的宏可在 20 秒内恢复。</p>
 
 % for mode, label, help in (('psk', 'PSK31', 'Up to 12, name up to 23 characters, text up to 199. <MYCALL>, <CALL>, <RST> and <RSTR> are filled in when sent'),
 %                           ('olivia', 'Olivia', 'Up to 12, name up to 23 characters, text up to 199. <MYCALL>, <CALL>, <RST> and <RSTR> are filled in when sent'),
@@ -22,7 +22,7 @@
 % end
 
 <section class="dp-card">
-<div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-list"/></svg></span><div><h3>JS8</h3><p>The answers to INFO? and STATUS?, up to 64 characters each, empty for none</p></div></div>
+<div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-list"/></svg></span><div><h3>JS8</h3><p>对 INFO? 和 STATUS? 的应答，每条最多 64 个字符；留空表示不应答</p></div></div>
 <div class="dp-body tbl">
 <div class="table-wrap">
 <table id="t-js8">

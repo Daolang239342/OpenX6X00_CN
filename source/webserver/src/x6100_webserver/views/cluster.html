@@ -1,20 +1,20 @@
 % rebase('base.html', title='DX Cluster')
 <h2><svg class="i"><use href="#i-globe"/></svg>DX集群</h2>
-<p class="sub">Servers the radio can use (APP → Cluster), the filters and the alerts. The one in use is marked; the radio reconnects when you change it. Filters and alerts apply to the next spots. A deleted server or alert can be brought back for twenty seconds.</p>
+<p class="sub">电台可使用的服务器（APP → Cluster）、筛选条件和提醒。当前使用的服务器会被标记；更改服务器后，电台会重新连接。筛选条件和提醒会应用于之后收到的报点。已删除的服务器或提醒可以在 20 秒内恢复。</p>
 
 <section class="dp-card">
-  <div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-globe"/></svg></span><div><h3>Link<span class="eff">Takes effect: within a few seconds</span></h3><p>The radio logs in to one server. A cluster network takes a call on a few nodes at most, and a second login with the same call on a node ends the first: give the radio its own login (your call with -2) when a logger uses your call too</p></div></div>
+  <div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-globe"/></svg></span><div><h3>Link<span class="eff">生效时间：几秒钟内</span></h3><p>电台只会登录一台服务器。集群网络通常最多允许少数几个节点同时使用同一呼号登录；同一节点上使用相同呼号再次登录会结束先前会话：如果日志软件也使用你的呼号，请为电台单独设置一个登录呼号（在你的呼号后加 -2）。</p></div></div>
   <div class="dp-row">
-    <div class="dp-lbl"><b>集群连接</b><span>Off: the radio holds no cluster login</span></div>
+    <div class="dp-lbl"><b>集群连接</b><span>关闭：电台不会保存任何集群登录信息</span></div>
     <div class="dp-ctl"><label class="sw" title="集群连接"><input type="checkbox" role="switch" id="enabled" aria-label="集群连接"><i></i></label></div>
   </div>
   <div class="dp-row">
-    <div class="dp-lbl"><b>On the radio</b><span id="linkserver">What the link does now, as APP → Cluster shows it</span></div>
+    <div class="dp-lbl"><b>电台上</b><span id="linkserver">连接当前状态，与 APP → Cluster 中显示的内容相同</span></div>
     <div class="dp-ctl"><span class="status" id="linknow"></span></div>
   </div>
   <div class="dp-body">
     <div class="grid">
-      <div><label for="login">登录</label><input id="login" autocomplete="off" maxlength="15" pattern="[A-Za-z0-9/\-]{1,15}" placeholder="your call"></div>
+      <div><label for="login">登录</label><input id="login" autocomplete="off" maxlength="15" pattern="[A-Za-z0-9/\-]{1,15}" placeholder="你的呼号"></div>
     </div>
     <div class="actions">
       <button type="button" class="primary" id="save-link">保存</button>
@@ -24,7 +24,7 @@
 </section>
 
 <section class="dp-card">
-  <div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-server"/></svg></span><div><h3>Servers<span class="eff">Takes effect: the radio reconnects within a few seconds</span></h3><p>Telnet servers; Use switches the radio to one</p></div></div>
+  <div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-server"/></svg></span><div><h3>Servers<span class="eff">生效时间：电台将在几秒钟内重新连接</span></h3><p>Telnet 服务器；点击 Use 可让电台切换到其中一台</p></div></div>
   <div class="dp-body tbl">
 <div class="table-wrap">
 <table id="servers">
@@ -38,7 +38,7 @@
 </section>
 
 <form class="dp-card" id="add">
-  <div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-plus"/></svg></span><div><h3>添加服务器</h3><p>Name, host name and telnet port</p></div></div>
+  <div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-plus"/></svg></span><div><h3>添加服务器</h3><p>名称、主机名和 Telnet 端口</p></div></div>
   <div class="dp-body">
   <div class="grid" style="grid-template-columns:1fr 2fr 120px">
     <div><label for="name">名称</label><input id="name" autocomplete="off" required maxlength="31" pattern="[^|]+"></div>
@@ -53,9 +53,9 @@
 </form>
 
 <section class="dp-card">
-  <div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-filter"/></svg></span><div><h3>过滤器<span class="eff">Takes effect: at the next spots</span></h3><p>Spots hidden here disappear from APP Cluster, the cluster column and the waterfall marks</p></div></div>
+  <div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-filter"/></svg></span><div><h3>过滤器<span class="eff">生效时间：后续报点</span></h3><p>在此处隐藏的报点也会从 APP Cluster、集群侧栏和瀑布图标记中消失</p></div></div>
   <div class="dp-body">
-  <p class="sub">Modes, bands and activity are also on the radio: Settings → Cluster.</p>
+  <p class="sub">模式、频段和活动信息也会显示在电台上：设置 → Cluster。</p>
   <label>模式</label>
   <div class="chips" id="modes">
     <label><input type="checkbox" value="CW"> CW</label>
@@ -63,9 +63,9 @@
     <label><input type="checkbox" value="DIG"> Digital</label>
     <label><input type="checkbox" value="AMFM"> AM/FM</label>
   </div>
-  <label>Bands <small>(none ticked = all bands)</small></label>
+  <label>Bands <small>（不勾选 = 所有频段）</small></label>
   <div class="chips" id="fbands"></div>
-  <label>Activity <small>(none ticked = all spots)</small></label>
+  <label>Activity <small>（不勾选 = 所有报点）</small></label>
   <div class="chips" id="activity">
     <label><input type="checkbox" value="POTA"> POTA</label>
     <label><input type="checkbox" value="SOTA"> SOTA</label>
@@ -73,20 +73,20 @@
     <label><input type="checkbox" value="HOTA"> HOTA</label>
   </div>
   <div class="grid" style="grid-template-columns:1fr 2fr">
-    <div><label for="max_age">Max age</label>
+    <div><label for="max_age">最大时限</label>
       <select id="max_age">
         <option value="0">Off</option>
-        <option value="10">10 min</option>
-        <option value="15">15 min</option>
-        <option value="30">30 min</option>
-        <option value="60">60 min</option>
-        <option value="120">120 min</option>
+        <option value="10">10 分钟</option>
+        <option value="15">15 分钟</option>
+        <option value="30">30 分钟</option>
+        <option value="60">60 分钟</option>
+        <option value="120">120 分钟</option>
       </select></div>
-    <div><label for="skip">Skip spotters</label><input id="skip" autocomplete="off" maxlength="120" placeholder="e.g. K1TTT-# , *-3"></div>
+    <div><label for="skip">跳过报点者</label><input id="skip" autocomplete="off" maxlength="120" placeholder="例如 K1TTT-#、*-3"></div>
   </div>
   <div class="grid" style="grid-template-columns:1fr">
-    <div><label for="spotdxcc">Heard in <small>(the spotter's country, by its prefix; empty = all. Alerts still come through)</small></label>
-      <input id="spotdxcc" autocomplete="off" maxlength="120" placeholder="e.g. PA, ON"></div>
+    <div><label for="spotdxcc">Heard in <small>（报点者所在国家/地区，根据其前缀判断；留空 = 全部。提醒仍会正常送达）</small></label>
+      <input id="spotdxcc" autocomplete="off" maxlength="120" placeholder="例如 PA、ON"></div>
   </div>
   <div class="actions">
     <button type="button" class="primary" id="save-filters">保存</button>
@@ -96,20 +96,20 @@
 </section>
 
 <section class="dp-card">
-  <div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-bell"/></svg></span><div><h3>告警<span class="eff">Takes effect: at the next spots</span></h3><p>Callsigns or prefixes you are looking for. <code>*</code> matches anything: VP8*, */P, 3Y0J.</p></div></div>
+  <div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-bell"/></svg></span><div><h3>告警<span class="eff">生效时间：后续报点</span></h3><p>Callsigns or prefixes you are looking for. <code>*</code> matches anything: VP8*, */P, 3Y0J.</p></div></div>
   <div class="dp-row">
-    <div class="dp-lbl"><b>Popup on the radio</b><span>When a spot matches an alert</span></div>
-    <div class="dp-ctl"><label class="sw" title="Popup on the radio"><input type="checkbox" role="switch" id="popup" aria-label="Popup on the radio"><i></i></label></div>
+    <div class="dp-lbl"><b>在电台上弹出显示</b><span>报点与提醒条件匹配时</span></div>
+    <div class="dp-ctl"><label class="sw" title="在电台上弹出显示"><input type="checkbox" role="switch" id="popup" aria-label="在电台上弹出显示"><i></i></label></div>
   </div>
   <div class="dp-row">
-    <div class="dp-lbl"><b>提示音</b><span>When a spot matches an alert</span></div>
+    <div class="dp-lbl"><b>提示音</b><span>报点与提醒条件匹配时</span></div>
     <div class="dp-ctl"><label class="sw" title="提示音"><input type="checkbox" role="switch" id="beep" aria-label="提示音"><i></i></label></div>
   </div>
   <div class="dp-body tbl" style="border-top:1px solid var(--line)">
   <div class="table-wrap">
   <table id="alerts">
     <thead>
-      <tr><th>Pattern</th><th>Only bands</th><th>Only mode</th><th>Last seen</th><th></th></tr>
+      <tr><th>Pattern</th><th>仅频段</th><th>仅模式</th><th>最后出现时间</th><th></th></tr>
     </thead>
     <tbody></tbody>
   </table>
@@ -118,10 +118,10 @@
   <div class="dp-body" style="border-top:1px solid var(--line)">
   <form id="add-alert">
     <div class="grid" style="grid-template-columns:2fr 2fr 1fr">
-      <div><label for="pattern">Pattern</label><input id="pattern" autocomplete="off" required maxlength="31" pattern="[A-Za-z0-9/*]+" placeholder="e.g. VP8*"></div>
-      <div><label for="bands">Only bands <small>(none = all)</small></label>
+      <div><label for="pattern">Pattern</label><input id="pattern" autocomplete="off" required maxlength="31" pattern="[A-Za-z0-9/*]+" placeholder="例如 VP8*"></div>
+      <div><label for="bands">Only bands <small>（不选 = 全部）</small></label>
         <select id="bands" multiple size="4"></select></div>
-      <div><label for="mode">Only mode</label>
+      <div><label for="mode">仅模式</label>
         <select id="mode">
           <option value="">Any</option>
           <option value="CW">CW</option>

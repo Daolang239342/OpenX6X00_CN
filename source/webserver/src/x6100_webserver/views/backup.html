@@ -1,9 +1,9 @@
 % rebase('base.html', title='Backup')
 <h2><svg class="i"><use href="#i-archive"/></svg>备份</h2>
-<p class="sub">Save the radio settings to your computer, and put them back after flashing a new image.</p>
+<p class="sub">将电台设置保存到电脑，并在刷入新的镜像后恢复。</p>
 
 <section class="dp-card">
-<div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-download"/></svg></span><div><h3>下载备份</h3><p>Tick the parts to save in the file</p></div></div>
+<div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-download"/></svg></span><div><h3>下载备份</h3><p>勾选要保存到文件中的部分</p></div></div>
 <div class="dp-body">
 <div class="grid checks" id="parts"></div>
 <div class="actions">
@@ -14,21 +14,21 @@
 </section>
 
 <section class="dp-card">
-<div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-upload"/></svg></span><div><h3>恢复</h3><p>Puts a backup file back on the radio</p></div></div>
+<div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-upload"/></svg></span><div><h3>恢复</h3><p>将备份文件恢复到电台</p></div></div>
 <div class="dp-body">
-<p>Choose a backup file. You can pick which parts to restore; the radio screen restarts (about 5 s) when settings are replaced.</p>
+<p>选择备份文件。你可以选择要恢复的部分；替换设置后，电台屏幕会重新启动（约 5 秒）。</p>
 <input type="file" id="file" accept=".tar,.gz,.tgz,application/gzip,application/x-tar">
 <div id="restore" hidden>
   <div class="table-wrap" style="margin-top:14px">
   <table id="compare">
     <thead>
-      <tr><th></th><th>Part</th><th>In the file</th><th>On the radio now</th></tr>
+      <tr><th></th><th>Part</th><th>在文件中</th><th>当前电台上</th></tr>
     </thead>
     <tbody></tbody>
   </table>
   </div>
   <div class="actions">
-    <button id="restore_btn" class="primary"><svg class="i"><use href="#i-upload"/></svg>Restore selected</button>
+    <button id="restore_btn" class="primary"><svg class="i"><use href="#i-upload"/></svg>恢复所选项目</button>
   </div>
 </div>
 <div class="actions"><span class="status" id="status_restore"></span></div>

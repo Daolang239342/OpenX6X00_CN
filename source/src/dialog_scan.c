@@ -75,13 +75,13 @@ static void clear_cb(button_data_t *b);
 
 static buttons_page_t page_1, page_2;
 
-static button_data_t btn_p1     = {.type = BTN_TEXT, .label = "(扫描 1:2)", .press = button_next_page_cb,
+static button_data_t btn_p1     = {.type = BTN_TEXT, .label = "（扫描第1/2面）", .press = button_next_page_cb,
                                    .hold = button_prev_page_cb, .next = &page_2, .prev = &page_2};
 static button_data_t btn_source = {.type = BTN_TEXT, .label = "来源", .press = source_cb};
-static button_data_t btn_run    = {.type = BTN_TEXT, .label = "开始", .press = run_cb};
+static button_data_t btn_run    = {.type = BTN_TEXT, .label = "启动", .press = run_cb};
 static button_data_t btn_skip   = {.type = BTN_TEXT, .label = "跳过", .press = skip_cb};
 static button_data_t btn_lock   = {.type = BTN_TEXT, .label = "锁定\\n排除", .press = lock_cb};
-static button_data_t btn_p2     = {.type = BTN_TEXT, .label = "(扫描 2:2)", .press = button_next_page_cb,
+static button_data_t btn_p2     = {.type = BTN_TEXT, .label = "（扫描第2/2面）", .press = button_next_page_cb,
                                    .hold = button_prev_page_cb, .next = &page_1, .prev = &page_1};
 static button_data_t btn_stop   = {.type = BTN_TEXT, .label = "停止于\\n自动", .press = stop_at_cb};
 static button_data_t btn_speed  = {.type = BTN_TEXT, .label = "速度\\n正常", .press = speed_cb};
@@ -217,7 +217,7 @@ static void fill(void) {
     s_text(thr, s, sizeof(s));
     snprintf(buf, sizeof(buf), "待扫描%d，第%d遍。停止于%s%s", list_n, scan_passes() + 1,
              isnan(stops[stop_i].db) ? "Auto: " : "", isnan(thr) ? "learning" : s);
-    if (locked) snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf), ".  %d locked out", locked);
+    if (locked) snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf), "。%d 次锁定", locked);
     lv_label_set_text(lbl_info, buf);
 
     for (int k = 0; k < HITS_SHOWN; k++) {

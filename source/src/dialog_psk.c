@@ -287,7 +287,7 @@ static char macro_labels[PSK_MACRO_MAX][PSK_MACRO_NAME_LEN + 2];
 static buttons_page_t page_1, page_2, page_3, page_4, page_5, page_6;
 
 static button_data_t btn_p1 = {
-    .type = BTN_TEXT, .label = "(PSK 1:6)",
+    .type = BTN_TEXT, .label = "（PSK第1/6面）",
     .press = button_next_page_cb, .hold = button_prev_page_cb,
     .next = &page_2, .prev = &page_6,
 };
@@ -307,7 +307,7 @@ static button_data_t btn_sql = {
 };
 
 static button_data_t btn_p2 = {
-    .type = BTN_TEXT, .label = "(PSK 2:6)",
+    .type = BTN_TEXT, .label = "（PSK第2/6面）",
     .press = button_next_page_cb, .hold = button_prev_page_cb,
     .next = &page_3, .prev = &page_1,
 };
@@ -362,23 +362,23 @@ static button_data_t *const macro_btns[PSK_MACRO_MAX] = {
 };
 
 static button_data_t btn_p3 = {
-    .type = BTN_TEXT, .label = "(PSK 3:6)",
+    .type = BTN_TEXT, .label = "（PSK第3/6面）",
     .press = button_next_page_cb, .hold = button_prev_page_cb,
     .next = &page_4, .prev = &page_2,
 };
 static button_data_t btn_p4 = {
-    .type = BTN_TEXT, .label = "(PSK 4:6)",
+    .type = BTN_TEXT, .label = "（PSK第4/6面）",
     .press = button_next_page_cb, .hold = button_prev_page_cb,
     .next = &page_5, .prev = &page_3,
 };
 static button_data_t btn_p5 = {
-    .type = BTN_TEXT, .label = "(PSK 5:6)",
+    .type = BTN_TEXT, .label = "（PSK第5/6面）",
     .press = button_next_page_cb, .hold = button_prev_page_cb,
     .next = &page_6, .prev = &page_4,
 };
 /* TUNE for an external tuner, on the centre chosen for TX (ext_tune.h) */
 static button_data_t btn_p6 = {
-    .type = BTN_TEXT, .label = "(PSK 6:6)",
+    .type = BTN_TEXT, .label = "（PSK第6/6面）",
     .press = button_next_page_cb, .hold = button_prev_page_cb,
     .next = &page_1, .prev = &page_5,
 };

@@ -40,11 +40,11 @@ HERE=$(cd "$(dirname "$0")" && pwd)
 # rade_c's main of 7 October 2026. GitHub's tarballs of the commits (git archive): each SHA-256 is the tar's in it,
 # which gzip's own bytes do not change
 RADE_C_COMMIT=c8a3dc156045cae2cd251e1a4be0c304c9ddf2f9
-RADE_C_URL=https://gh-proxy.com/https://codeload.github.com/freedv/rade_c/tar.gz/$RADE_C_COMMIT
+RADE_C_URL=https://codeload.github.com/freedv/rade_c/tar.gz/$RADE_C_COMMIT
 RADE_C_TAR_SHA256=a0f42f79b56795511d0e868421298a2b03500d52eda98ddc1af6cd2bbeb3bed1
 # The Opus commit rade_c's cmake/BuildOpus.cmake builds
 OPUS_COMMIT=940d4e5af64351ca8ba8390df3f555484c567fbb
-OPUS_URL=https://gh-proxy.com/https://codeload.github.com/xiph/opus/tar.gz/$OPUS_COMMIT
+OPUS_URL=https://codeload.github.com/xiph/opus/tar.gz/$OPUS_COMMIT
 OPUS_TAR_SHA256=8d74a1cf71d1fe423f7a96eaa2c0a6f82cf03ff88b372bccb19563e253ad934f
 # The DNN model (the networks' weights as C sources) that commit's autogen.sh fetches with dnn/download_model.sh,
 # named by its SHA-256

@@ -59,7 +59,7 @@ static void show_sel(void) {
 }
 
 static void show_hint(void) {
-    lv_label_set_text_fmt(hint, "MFK: choose, press: confirm   No in %d s", left_s > 0 ? left_s : 0);
+    lv_label_set_text_fmt(hint, "功能旋钮：选择，按下确认   %d 秒后无操作", left_s > 0 ? left_s : 0);
 }
 
 /* The box gone, the keys back where they were if it still had them */

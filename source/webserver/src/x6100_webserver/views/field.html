@@ -1,20 +1,20 @@
 % rebase('base.html', title='Field')
 <h2><svg class="i"><use href="#i-mountain"/></svg>野外通联</h2>
-<p class="sub">POTA, SOTA, WWBOTA, HOTA, WWFF, TOTA, WCA, MOTA, LH (lighthouses), Tiles and LLOTA (lakes and lagoons) portable operation: reference lists for the radio, QRZ Logbook upload, HOTA and WWFF spots, activation logs.</p>
+<p class="sub">POTA、SOTA、WWBOTA、HOTA、WWFF、TOTA、WCA、MOTA、LH（灯塔）、Tiles 和 LLOTA（湖泊及泻湖）便携式操作：电台参考列表、QRZ 日志上传、HOTA 和 WWFF 报点以及活动日志。</p>
 
 <form class="dp-card" id="qrz">
-  <div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-key"/></svg></span><div><h3>QRZ Logbook<span class="eff">Takes effect: at the next upload</span></h3><p>Up to three profiles, a callsign with its Logbook API key (QRZ.com, Logbook, Settings): the active one takes the uploads. The radio's log page can switch the active profile too. Uploading needs a QRZ.com Logbook API key, which QRZ.com only gives with a paid QRZ.com subscription (XML level or higher).</p></div></div>
+  <div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-key"/></svg></span><div><h3>QRZ 日志<span class="eff">生效时间：下次上传</span></h3><p>最多三个配置档，每个配置档包含一个呼号及其 Logbook API 密钥（QRZ.com → Logbook → Settings）：当前启用的配置档负责上传。也可以在电台日志页面切换当前配置档。上传需要 QRZ.com Logbook API 密钥，而 QRZ.com 仅向付费订阅用户（XML 等级或更高级别）提供该密钥。</p></div></div>
   <div class="dp-row">
-    <div class="dp-lbl"><label for="qcall1"><b>Profile 1</b> <input type="radio" name="qactive" value="1" id="qact1"> active</label><span id="qstate1"></span></div>
-    <div class="dp-ctl"><input id="qcall1" type="text" autocomplete="off" maxlength="16" placeholder="呼号" style="width:9em;text-transform:uppercase"> <input id="qkey1" type="password" autocomplete="off" maxlength="128" placeholder="New key (empty = keep)"> <button type="button" class="qclear" data-n="1">清除</button></div>
+    <div class="dp-lbl"><label for="qcall1"><b>配置档 1</b> <input type="radio" name="qactive" value="1" id="qact1"> active</label><span id="qstate1"></span></div>
+    <div class="dp-ctl"><input id="qcall1" type="text" autocomplete="off" maxlength="16" placeholder="呼号" style="width:9em;text-transform:uppercase"> <input id="qkey1" type="password" autocomplete="off" maxlength="128" placeholder="新密钥（留空 = 保留）"> <button type="button" class="qclear" data-n="1">清除</button></div>
   </div>
   <div class="dp-row">
-    <div class="dp-lbl"><label for="qcall2"><b>Profile 2</b> <input type="radio" name="qactive" value="2" id="qact2"> active</label><span id="qstate2"></span></div>
-    <div class="dp-ctl"><input id="qcall2" type="text" autocomplete="off" maxlength="16" placeholder="呼号" style="width:9em;text-transform:uppercase"> <input id="qkey2" type="password" autocomplete="off" maxlength="128" placeholder="New key (empty = keep)"> <button type="button" class="qclear" data-n="2">清除</button></div>
+    <div class="dp-lbl"><label for="qcall2"><b>配置档 2</b> <input type="radio" name="qactive" value="2" id="qact2"> active</label><span id="qstate2"></span></div>
+    <div class="dp-ctl"><input id="qcall2" type="text" autocomplete="off" maxlength="16" placeholder="呼号" style="width:9em;text-transform:uppercase"> <input id="qkey2" type="password" autocomplete="off" maxlength="128" placeholder="新密钥（留空 = 保留）"> <button type="button" class="qclear" data-n="2">清除</button></div>
   </div>
   <div class="dp-row">
-    <div class="dp-lbl"><label for="qcall3"><b>Profile 3</b> <input type="radio" name="qactive" value="3" id="qact3"> active</label><span id="qstate3"></span></div>
-    <div class="dp-ctl"><input id="qcall3" type="text" autocomplete="off" maxlength="16" placeholder="呼号" style="width:9em;text-transform:uppercase"> <input id="qkey3" type="password" autocomplete="off" maxlength="128" placeholder="New key (empty = keep)"> <button type="button" class="qclear" data-n="3">清除</button></div>
+    <div class="dp-lbl"><label for="qcall3"><b>配置档 3</b> <input type="radio" name="qactive" value="3" id="qact3"> active</label><span id="qstate3"></span></div>
+    <div class="dp-ctl"><input id="qcall3" type="text" autocomplete="off" maxlength="16" placeholder="呼号" style="width:9em;text-transform:uppercase"> <input id="qkey3" type="password" autocomplete="off" maxlength="128" placeholder="新密钥（留空 = 保留）"> <button type="button" class="qclear" data-n="3">清除</button></div>
   </div>
   <div class="dp-body" style="border-top:1px solid #1a283c">
     <div class="actions" style="margin-top:0">
@@ -25,10 +25,10 @@
 </form>
 
 <form class="dp-card" id="hota">
-  <div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-key"/></svg></span><div><h3>HOTA spots<span class="eff">Takes effect: at the next spot</span></h3><p>cqhota.app takes spots with your own key: cqhota.app, My account, Integration API key. Without it HOTA spots go to the DX cluster only. Key: <b id="hkey-state"></b></p></div></div>
+  <div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-key"/></svg></span><div><h3>HOTA 报点<span class="eff">生效时间：下次报点</span></h3><p>cqhota.app takes spots with your own key: cqhota.app, My account, Integration API key. Without it HOTA spots go to the DX cluster only. Key: <b id="hkey-state"></b></p></div></div>
   <div class="dp-row">
-    <div class="dp-lbl"><label for="hkey"><b>Integration key</b></label><span>A new key replaces the stored one; empty keeps it. Clear takes it away.</span></div>
-    <div class="dp-ctl"><input id="hkey" type="password" autocomplete="off" maxlength="128" placeholder="New key (empty = keep)"> <button type="button" class="kclear" data-name="hota">清除</button></div>
+    <div class="dp-lbl"><label for="hkey"><b>集成密钥</b></label><span>新密钥会替换已保存的密钥；留空则保留原密钥。清除会删除密钥。</span></div>
+    <div class="dp-ctl"><input id="hkey" type="password" autocomplete="off" maxlength="128" placeholder="新密钥（留空 = 保留）"> <button type="button" class="kclear" data-name="hota">清除</button></div>
   </div>
   <div class="dp-body" style="border-top:1px solid #1a283c">
     <div class="actions" style="margin-top:0">
@@ -39,10 +39,10 @@
 </form>
 
 <form class="dp-card" id="wwff">
-  <div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-key"/></svg></span><div><h3>WWFF spots<span class="eff">Takes effect: at the next spot</span></h3><p>The WWFF Spotline (spots.wwff.co) takes spots with your own API key, asked to the Spotline team. Without it WWFF spots go to the DX cluster only. Key: <b id="wkey-state"></b></p></div></div>
+  <div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-key"/></svg></span><div><h3>WWFF 报点<span class="eff">生效时间：下次报点</span></h3><p>The WWFF Spotline (spots.wwff.co) takes spots with your own API key, asked to the Spotline team. Without it WWFF spots go to the DX cluster only. Key: <b id="wkey-state"></b></p></div></div>
   <div class="dp-row">
-    <div class="dp-lbl"><label for="wkey"><b>API key</b></label><span>A new key replaces the stored one; empty keeps it. Clear takes it away.</span></div>
-    <div class="dp-ctl"><input id="wkey" type="password" autocomplete="off" maxlength="128" placeholder="New key (empty = keep)"> <button type="button" class="kclear" data-name="wwff">清除</button></div>
+    <div class="dp-lbl"><label for="wkey"><b>API 密钥</b></label><span>新密钥会替换已保存的密钥；留空则保留原密钥。清除会删除密钥。</span></div>
+    <div class="dp-ctl"><input id="wkey" type="password" autocomplete="off" maxlength="128" placeholder="新密钥（留空 = 保留）"> <button type="button" class="kclear" data-name="wwff">清除</button></div>
   </div>
   <div class="dp-body" style="border-top:1px solid #1a283c">
     <div class="actions" style="margin-top:0">
@@ -53,7 +53,7 @@
 </form>
 
 <section class="dp-card">
-  <div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-pin"/></svg></span><div><h3>Reference lists</h3><p id="refs"></p></div></div>
+  <div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-pin"/></svg></span><div><h3>参考列表</h3><p id="refs"></p></div></div>
   <div class="dp-body">
     <div class="actions" style="margin-top:0">
       <button type="button" class="primary" id="update"><svg class="i"><use href="#i-sync"/></svg>Update the lists</button>

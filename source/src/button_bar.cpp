@@ -131,7 +131,7 @@ static const char *on_off(int32_t v) {
 }
 
 static const char *agc_label() {
-    static const char *const names[] = {"关闭", "Slow", "Fast", "Auto"};
+    static const char *const names[] = {"关", "Slow", "Fast", "Auto"};
     int32_t                  agc = cfg_sm.cp_cur_agc.get();
 
     return text("AGC:\n%s", agc >= 0 && agc <= radio_agc_auto ? names[agc] : "?");
@@ -199,7 +199,7 @@ static void dig_pwr_cb(button_data_t *data) {
 /* TUNE for an external tuner: a press starts it at its own power (the label's), again stops it. ext_tune.c
  * refreshes and marks it as it starts and ends */
 static const char *ext_tune_label() {
-    return ext_tune_on() ? "Ext tune:\nStop" : text("Ext tune:\n%0.1f W", cfg_sm.p_tune_pwr.get());
+    return ext_tune_on() ? "外置天调：\n停止" : text("外置天调：\n%0.1f W", cfg_sm.p_tune_pwr.get());
 }
 
 /* ---- the buttons ---- */
@@ -243,21 +243,21 @@ static button_data_t btn_vol = {.type = BTN_TEXT_FN,
                                 .subj = (Subject *)&cfg_sm.p_volume};   /* never off its knob */
 static button_data_t btn_sql = knob([] { return text("Squelch:\n%i", cfg_sm.p_squelch.get()); },
                                     CTRL_SQL, &cfg_sm.p_squelch);
-static button_data_t btn_rfg = knob([] { return text("RF gain:\n%i", cfg_sm.p_rfgain.get()); },
+static button_data_t btn_rfg = knob([] { return text("射频增益：\n%i", cfg_sm.p_rfgain.get()); },
                                     CTRL_RFG, &cfg_sm.p_rfgain);
-button_data_t btn_tx_pwr = knob([] { return text("TX power:\n%0.1f W", cfg_sm.p_pwr.get()); },
+button_data_t btn_tx_pwr = knob([] { return text("TX 功率：\n%0.1f W", cfg_sm.p_pwr.get()); },
                                 CTRL_PWR, &cfg_sm.p_pwr);
 button_data_t btn_dig_pwr = fn_btn(dig_pwr_label, dig_pwr_cb, &cfg_sm.p_pwr);
 button_data_t btn_ext_tune = fn_btn(ext_tune_label, [](button_data_t *) { ext_tune_toggle(); }, &cfg_sm.p_tune_pwr);
-static button_data_t btn_moni = knob([] { return text("Moni level:\n%i", cfg_sm.p_moni.get()); },
+static button_data_t btn_moni = knob([] { return text("监听电平：\n%i", cfg_sm.p_moni.get()); },
                                      CTRL_MONI, &cfg_sm.p_moni);
 
 /* DFL */
-static button_data_t btn_flt_low = knob([] { return text("Filter low:\n%i Hz", cfg_sm.cp_cur_filter_low.get()); },
+static button_data_t btn_flt_low = knob([] { return text("滤波器低端：\n%i Hz", cfg_sm.cp_cur_filter_low.get()); },
                                         CTRL_FILTER_LOW, &cfg_sm.cp_cur_filter_low);
-static button_data_t btn_flt_high = knob([] { return text("Filter high:\n%i Hz", cfg_sm.cp_cur_filter_high.get()); },
+static button_data_t btn_flt_high = knob([] { return text("滤波器高端：\n%i Hz", cfg_sm.cp_cur_filter_high.get()); },
                                          CTRL_FILTER_HIGH, &cfg_sm.cp_cur_filter_high);
-static button_data_t btn_flt_bw = knob([] { return text("Filter BW:\n%i Hz", cfg_sm.cp_cur_filter_bw.get()); },
+static button_data_t btn_flt_bw = knob([] { return text("滤波器带宽：\n%i Hz", cfg_sm.cp_cur_filter_bw.get()); },
                                        CTRL_FILTER_BW, &cfg_sm.cp_cur_filter_bw);
 
 /* MFK */
@@ -265,7 +265,7 @@ static button_data_t btn_rit = knob([] { return text("RIT:\n%+i", cfg_sm.p_rit.g
 static button_data_t btn_xit = knob([] { return text("XIT:\n%+i", cfg_sm.p_xit.get()); }, CTRL_XIT, &cfg_sm.p_xit);
 static button_data_t btn_zoom = {.type = BTN_TEXT, .label = "频谱\\n缩放", .press = knob_press,
                                  .hold = knob_bind_hold, .ctrl = CTRL_SPECTRUM_FACTOR, .encoder_allowed = true};
-static button_data_t btn_wf_ref = knob([] { return text("WF ref:\n%+i dB", cfg_sm.p_waterfall_ref.get()); },
+static button_data_t btn_wf_ref = knob([] { return text("瀑布图参考：\n%+i dB", cfg_sm.p_waterfall_ref.get()); },
                                        CTRL_WF_REF, &cfg_sm.p_waterfall_ref);
 /* AGC, PRE, ATT and ATU: a press does what their key does; held, they go on a knob like NB and NR */
 static button_data_t btn_agc = knob_toggle(agc_label, [](button_data_t *) { main_screen_agc_next(); }, CTRL_AGC,
@@ -296,47 +296,47 @@ static button_data_t btn_step = knob([] {
                                      &cfg_sm.p_mode_freq_step);
 static button_data_t btn_comp = knob([] { return text("Comp:\n%s", params_comp_str_get(cfg_sm.p_comp.get())); },
                                      CTRL_COMP, &cfg_sm.p_comp);
-static button_data_t btn_if_shift = knob([] { return text("IF shift:\n%i", cfg_sm.p_band_if_shift.get()); },
+static button_data_t btn_if_shift = knob([] { return text("中频偏移：\n%i", cfg_sm.p_band_if_shift.get()); },
                                          CTRL_IF_SHIFT, &cfg_sm.p_band_if_shift);
 static button_data_t btn_vox = knob_toggle([] { return text("VOX:\n%s", on_off(cfg_sm.p_vox_en.get())); },
                                            controls_toggle_vox, CTRL_VOX_ON, &cfg_sm.p_vox_en);
 static button_data_t btn_wf_mode = knob_toggle(wf_mode_label, controls_toggle_wf_mode, CTRL_WF_MODE, &cfg_sm.p_wf_mode);
 static button_data_t btn_wf_3d = knob_toggle(wf_3d_label, controls_toggle_wf_3d, CTRL_WF_3D, &cfg_sm.p_wf_3d);
-static button_data_t btn_3d_depth = knob([] { return text("3D depth:\n%i", cfg_sm.p_wf_3d_depth.get()); },
+static button_data_t btn_3d_depth = knob([] { return text("3D 深度：\n%i", cfg_sm.p_wf_3d_depth.get()); },
                                          CTRL_WF_3D_DEPTH, &cfg_sm.p_wf_3d_depth);
-static button_data_t btn_3d_tilt = knob([] { return text("3D tilt:\n%i", cfg_sm.p_wf_3d_tilt.get()); },
+static button_data_t btn_3d_tilt = knob([] { return text("3D 倾斜：\n%i", cfg_sm.p_wf_3d_tilt.get()); },
                                         CTRL_WF_3D_TILT, &cfg_sm.p_wf_3d_tilt);
-static button_data_t btn_3d_floor = knob([] { return text("3D floor:\n+%i", cfg_sm.p_wf_3d_floor.get()); },
+static button_data_t btn_3d_floor = knob([] { return text("3D 底部：\n+%i", cfg_sm.p_wf_3d_floor.get()); },
                                          CTRL_WF_3D_FLOOR, &cfg_sm.p_wf_3d_floor);
 static button_data_t btn_span_wider = fn_btn(span_wider_label, controls_span_wider, &cfg_sm.p_mode_zoom);
 static button_data_t btn_span_narrower = fn_btn(span_narrower_label, controls_span_narrower, &cfg_sm.p_mode_zoom);
 static button_data_t btn_screen_rec = fn_btn(screen_rec_label, [](button_data_t *) { screen_rec_toggle(); }, NULL);
 
 /* KEY */
-static button_data_t btn_key_speed = knob([] { return text("Speed:\n%i wpm", cfg_sm.p_key_speed.get()); },
+static button_data_t btn_key_speed = knob([] { return text("速度：\n%i WPM", cfg_sm.p_key_speed.get()); },
                                           CTRL_KEY_SPEED, &cfg_sm.p_key_speed);
 static button_data_t btn_key_vol = knob([] { return text("Volume:\n%i", cfg_sm.p_key_vol.get()); },
                                         CTRL_KEY_VOL, &cfg_sm.p_key_vol);
 static button_data_t btn_key_train = knob_toggle([] { return text("Train:\n%s", on_off(cfg_sm.p_key_train.get())); },
                                                  controls_toggle_key_train, CTRL_KEY_TRAIN, &cfg_sm.p_key_train);
-static button_data_t btn_key_tone = knob([] { return text("Tone:\n%i Hz", cfg_sm.p_key_tone.get()); },
+static button_data_t btn_key_tone = knob([] { return text("音调：\n%i Hz", cfg_sm.p_key_tone.get()); },
                                          CTRL_KEY_TONE, &cfg_sm.p_key_tone);
 static button_data_t btn_key_mode = knob(
     [] { return text("Mode:\n%s", params_key_mode_str_get((radio_key_mode_t)cfg_sm.p_key_mode.get())); },
     CTRL_KEY_MODE, &cfg_sm.p_key_mode);
 static button_data_t btn_iambic = knob_toggle(
-    [] { return text("Iambic:\n%s mode", params_iambic_mode_str_ger((radio_iambic_mode_t)cfg_sm.p_iambic_mode.get())); },
+    [] { return text("Iambic：\n%s 模式", params_iambic_mode_str_ger((radio_iambic_mode_t)cfg_sm.p_iambic_mode.get())); },
     controls_toggle_key_iambic_mode, CTRL_IAMBIC_MODE, &cfg_sm.p_iambic_mode);
-static button_data_t btn_qsk = knob([] { return text("QSK time:\n%i ms", cfg_sm.p_qsk_time.get()); },
+static button_data_t btn_qsk = knob([] { return text("QSK 时间：\n%i ms", cfg_sm.p_qsk_time.get()); },
                                     CTRL_QSK_TIME, &cfg_sm.p_qsk_time);
 static button_data_t btn_ratio = knob([] { return text("Ratio:\n%0.1f", cfg_sm.p_key_ratio.get()); },
                                       CTRL_KEY_RATIO, &cfg_sm.p_key_ratio);
 
 /* CW decoder */
 static button_data_t btn_cw_zap = {.type = BTN_TEXT, .label = "CW\\n加速", .press = controls_cw_zap};
-static button_data_t btn_cw_peak = knob_toggle([] { return text("CW peak:\n%s", on_off(cfg_sm.p_cw_peak_on.get())); },
+static button_data_t btn_cw_peak = knob_toggle([] { return text("CW 峰值：\n%s", on_off(cfg_sm.p_cw_peak_on.get())); },
                                                controls_toggle_cw_peak, CTRL_CW_PEAK_ON, &cfg_sm.p_cw_peak_on);
-static button_data_t btn_cw_peak_q = knob([] { return text("CW peak Q:\n%i", cfg_sm.p_cw_peak_q.get()); },
+static button_data_t btn_cw_peak_q = knob([] { return text("CW 峰值 Q：\n%i", cfg_sm.p_cw_peak_q.get()); },
                                           CTRL_CW_PEAK_Q, &cfg_sm.p_cw_peak_q);
 static button_data_t btn_cw_log = {.type = BTN_TEXT, .label = "记录\\nQSO",
                                    .press = [](button_data_t *) { cw_field_log_open(); }};
@@ -345,7 +345,7 @@ static button_data_t btn_cw_decoder = knob_toggle(
     controls_toggle_cw_decoder, CTRL_CW_DECODER, &cfg_sm.p_cw_decoder);
 static button_data_t btn_cw_tuner = knob_toggle([] { return text("Tuner:\n%s", on_off(cfg_sm.p_cw_tune.get())); },
                                                 controls_toggle_cw_tuner, CTRL_CW_TUNE, &cfg_sm.p_cw_tune);
-static button_data_t btn_cw_snr = knob([] { return text("Dec SNR:\n%0.1f dB", cfg_sm.p_cw_decoder_snr.get()); },
+static button_data_t btn_cw_snr = knob([] { return text("解码 SNR：\n%0.1f dB", cfg_sm.p_cw_decoder_snr.get()); },
                                        CTRL_CW_DECODER_SNR, &cfg_sm.p_cw_decoder_snr);
 static button_data_t btn_cw_parse = fn_btn([] { return cfg_sm.p_cw_parse.get() ? "Parse:\nOn" : "Parse:\nOff"; },
                                            [](button_data_t *) { cfg_sm.p_cw_parse.set(!cfg_sm.p_cw_parse.get()); },
@@ -354,21 +354,21 @@ static button_data_t btn_cw_parse = fn_btn([] { return cfg_sm.p_cw_parse.get() ?
 /* DFN */
 static button_data_t btn_dnf = knob_toggle([] { return text("DNF:\n%s", on_off(cfg_sm.p_dnf.get())); },
                                            controls_toggle_dnf, CTRL_DNF, &cfg_sm.p_dnf);
-static button_data_t btn_dnf_center = knob([] { return text("DNF freq:\n%i Hz", cfg_sm.p_dnf_center.get()); },
+static button_data_t btn_dnf_center = knob([] { return text("DNF 频率：\n%i Hz", cfg_sm.p_dnf_center.get()); },
                                            CTRL_DNF_CENTER, &cfg_sm.p_dnf_center);
-static button_data_t btn_dnf_width = knob([] { return text("DNF width:\n%i Hz", cfg_sm.p_dnf_width.get()); },
+static button_data_t btn_dnf_width = knob([] { return text("DNF 带宽：\n%i Hz", cfg_sm.p_dnf_width.get()); },
                                           CTRL_DNF_WIDTH, &cfg_sm.p_dnf_width);
-static button_data_t btn_dnf_auto = knob_toggle([] { return text("DNF auto:\n%s", on_off(cfg_sm.p_dnf_auto.get())); },
+static button_data_t btn_dnf_auto = knob_toggle([] { return text("DNF 自动：\n%s", on_off(cfg_sm.p_dnf_auto.get())); },
                                                 controls_toggle_dnf_auto, CTRL_DNF_AUTO, &cfg_sm.p_dnf_auto);
 static button_data_t btn_nb = knob_toggle([] { return text("NB:\n%s", on_off(cfg_sm.p_nb.get())); },
                                           controls_toggle_nb, CTRL_NB, &cfg_sm.p_nb);
-static button_data_t btn_nb_level = knob([] { return text("NB level:\n%i", cfg_sm.p_nb_level.get()); },
+static button_data_t btn_nb_level = knob([] { return text("NB 电平：\n%i", cfg_sm.p_nb_level.get()); },
                                          CTRL_NB_LEVEL, &cfg_sm.p_nb_level);
-static button_data_t btn_nb_width = knob([] { return text("NB width:\n%i Hz", cfg_sm.p_nb_width.get()); },
+static button_data_t btn_nb_width = knob([] { return text("NB 带宽：\n%i Hz", cfg_sm.p_nb_width.get()); },
                                          CTRL_NB_WIDTH, &cfg_sm.p_nb_width);
 static button_data_t btn_nr = knob_toggle([] { return text("NR:\n%s", on_off(cfg_sm.p_nr.get())); },
                                           controls_toggle_nr, CTRL_NR, &cfg_sm.p_nr);
-static button_data_t btn_nr_level = knob([] { return text("NR level:\n%i", cfg_sm.p_nr_level.get()); },
+static button_data_t btn_nr_level = knob([] { return text("NR 电平：\n%i", cfg_sm.p_nr_level.get()); },
                                          CTRL_NR_LEVEL, &cfg_sm.p_nr_level);
 
 /* VM: held saves the memory, a press loads it */
@@ -401,10 +401,10 @@ static button_data_t btn_rtty_center = {.type = BTN_TEXT, .label = "中心", .pr
                                         .ctrl = CTRL_RTTY_CENTER, .encoder_allowed = true};
 static button_data_t btn_rtty_reverse = {.type = BTN_TEXT, .label = "反转", .press = knob_press,
                                          .ctrl = CTRL_RTTY_REVERSE, .encoder_allowed = true};
-static button_data_t btn_rtty_p2 = {.type = BTN_TEXT, .label = "(RTTY 2:2)", .press = button_next_page_cb,
+static button_data_t btn_rtty_p2 = {.type = BTN_TEXT, .label = "（RTTY第2/2面）", .press = button_next_page_cb,
                                     .hold = button_prev_page_cb, .next = &buttons_page_rtty, .prev = &buttons_page_rtty};
 static buttons_page_t page_rtty_2 = {{&btn_rtty_p2, &btn_dig_pwr}};
-static button_data_t btn_rtty_p1 = {.type = BTN_TEXT, .label = "(RTTY 1:2)", .press = button_next_page_cb,
+static button_data_t btn_rtty_p1 = {.type = BTN_TEXT, .label = "（RTTY第1/2面）", .press = button_next_page_cb,
                                     .hold = button_prev_page_cb, .next = &page_rtty_2, .prev = &page_rtty_2};
 buttons_page_t buttons_page_rtty = {{&btn_rtty_p1, &btn_rtty_rate, &btn_rtty_shift, &btn_rtty_center, &btn_rtty_reverse}};
 

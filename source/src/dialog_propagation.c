@@ -61,9 +61,9 @@ static void refresh_cb(button_data_t *b);
 static void mode_cb(button_data_t *b);
 static void band_cb(button_data_t *b);
 
-static button_data_t btn_cond_page = {.type = BTN_TEXT, .label = "(PROP 1:1)"};
+static button_data_t btn_cond_page = {.type = BTN_TEXT, .label = "（传播第1/1面）"};
 static button_data_t btn_beacons   = {.type = BTN_TEXT, .label = "信标", .press = view_cb};
-static button_data_t btn_refresh   = {.type = BTN_TEXT, .label = "Refresh", .press = refresh_cb};
+static button_data_t btn_refresh   = {.type = BTN_TEXT, .label = "刷新", .press = refresh_cb};
 
 static button_data_t btn_bcn_page  = {.type = BTN_TEXT, .label = "(信标)"};
 static button_data_t btn_cond      = {.type = BTN_TEXT, .label = "传播条件", .press = view_cb};
@@ -363,7 +363,7 @@ static void bcn_fill(time_t t) {
 
     app_frame_bar(&frame, ms / 10, theme_hex(TC_accent));
     if (tuned >= 0 && on >= 0)
-        lv_label_set_text_fmt(frame.head_left, "BEACONS  %.3f   #%06x %s# %s", tuned_freq / 1e6,
+        lv_label_set_text_fmt(frame.head_left, "信标  %.3f   #%06x %s# %s", tuned_freq / 1e6,
                               theme_hex(TC_text_head), beacons[on].call, beacons[on].where);
     /* The schedule is by the clock: a clock off by seconds names the wrong beacons */
     char clock[40] = "";

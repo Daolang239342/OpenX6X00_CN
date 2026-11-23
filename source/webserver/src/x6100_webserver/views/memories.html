@@ -1,9 +1,9 @@
 % rebase('base.html', title='Memories')
 <h2><svg class="i"><use href="#i-bookmark"/></svg>记忆</h2>
-<p class="sub">MEM slots are the radio's MEM 1-9 buttons (hold to save, tap to load). Channels are the named list in APP → Channels. A row is saved with its own Save, or all at once; a cleared slot or a deleted channel can be brought back for twenty seconds.</p>
+<p class="sub">MEM 存储位对应电台上的 MEM 1-9 按键（按住保存，短按加载）。频道则是 APP → Channels 中的命名列表。每一行都可以单独保存，也可以一次性全部保存；已清空的存储位或已删除的频道可以在 20 秒内恢复。</p>
 
 <section class="dp-card">
-<div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-bookmark"/></svg></span><div><h3>MEM slots</h3><p>The MEM 1-9 buttons: hold to save, tap to load</p></div></div>
+<div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-bookmark"/></svg></span><div><h3>MEM 存储位</h3><p>MEM 1-9 按键：按住保存，短按加载</p></div></div>
 <div class="dp-body tbl">
 <div class="table-wrap">
 <table id="slots">
@@ -18,7 +18,7 @@
 </section>
 
 <section class="dp-card">
-<div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-list"/></svg></span><div><h3>信道</h3><p>The named list in APP → Channels. A name that starts with WEFAX also puts the channel in the WeFax app's Freq. list: give it the dial, 1.5 kHz below the fax station (7.7935 for a station on 7.795 MHz)</p></div><div class="dp-x"><button id="add" class="primary"><svg class="i"><use href="#i-plus"/></svg>添加</button></div></div>
+<div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-list"/></svg></span><div><h3>信道</h3><p>APP → Channels 中的命名列表。以 WEFAX 开头的名称还会将该频道加入 WeFax 应用的 Freq. 列表：填写拨盘频率，应比传真台站频率低 1.5 kHz（例如台站频率为 7.795 MHz 时填写 7.7935）。</p></div><div class="dp-x"><button id="add" class="primary"><svg class="i"><use href="#i-plus"/></svg>添加</button></div></div>
 <div class="dp-body tbl">
 <div class="table-wrap">
 <table id="channels">

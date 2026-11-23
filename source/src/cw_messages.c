@@ -83,19 +83,19 @@ static const char *qfreq_label(void);
 static const char *start_label(void);
 static const char *until_label(void);
 
-static button_data_t btn_p1 = {.type = BTN_TEXT, .label = "(MSG 1:3)", .press = button_next_page_cb};
+static button_data_t btn_p1 = {.type = BTN_TEXT, .label = "（消息第1/3面）", .press = button_next_page_cb};
 static button_data_t btn_tx = {.type = BTN_TEXT_FN, .label_fn = tx_label, .press = tx_btn_cb};
 static button_data_t btn_new = {.type = BTN_TEXT, .label = "新建", .press = new_cb};
 static button_data_t btn_edit = {.type = BTN_TEXT, .label = "编辑", .press = edit_cb};
 static button_data_t btn_close = {.type = BTN_TEXT, .label = "关闭", .press = close_cb};
 
-static button_data_t btn_p2 = {.type = BTN_TEXT, .label = "(MSG 2:3)", .press = button_next_page_cb};
+static button_data_t btn_p2 = {.type = BTN_TEXT, .label = "（消息第2/3面）", .press = button_next_page_cb};
 static button_data_t btn_beacon = {.type = BTN_TEXT_FN, .label_fn = beacon_label, .press = beacon_cb};
 static button_data_t btn_delete = {.type = BTN_TEXT, .label = "删除", .press = delete_cb};
 static button_data_t btn_qrss = {.type = BTN_TEXT_FN, .label_fn = qrss_label, .press = qrss_cb};
 static button_data_t btn_close2 = {.type = BTN_TEXT, .label = "关闭", .press = close_cb};
 
-static button_data_t btn_p3 = {.type = BTN_TEXT, .label = "(MSG 3:3)", .press = button_next_page_cb};
+static button_data_t btn_p3 = {.type = BTN_TEXT, .label = "（消息第3/3面）", .press = button_next_page_cb};
 static button_data_t btn_start = {.type = BTN_TEXT_FN, .label_fn = start_label, .press = start_cb};
 static button_data_t btn_until = {.type = BTN_TEXT_FN, .label_fn = until_label, .press = until_cb};
 static button_data_t btn_qfreq = {.type = BTN_TEXT_FN, .label_fn = qfreq_label, .press = qfreq_cb};
@@ -347,7 +347,7 @@ static void update_status(void) {
     else if (band >= 0)
         lv_label_set_text_fmt(head, "CW键控 - #%06x QRSS3 %s MHz#", theme_hex(TC_text), mhz(f, qrss_hz(band)));
     else
-        lv_label_set_text_fmt(head, "CW KEYER - #%06x QRSS3: 30 m or 80 m#", theme_hex(TC_text));
+        lv_label_set_text_fmt(head, "CW 键控器 - #%06x QRSS3：30 米或 80 米#", theme_hex(TC_text));
     lv_label_set_text(text_lbl, text ? text : "-");
 
     switch (cw_encoder_state()) {
@@ -356,9 +356,9 @@ static void update_status(void) {
             set_state("ON AIR", theme_hex(TC_tx_bg), theme_hex(TC_text));
             if (cw_encoder_qrss3()) {
                 int left = cw_encoder_send_left();
-                lv_label_set_text_fmt(hint, "TX or PTT: stop - %i:%02i to go", left / 60, left % 60);
+                lv_label_set_text_fmt(hint, "TX 或 PTT：停止 - 剩余 %i:%02i", left / 60, left % 60);
             } else {
-                lv_label_set_text(hint, "TX or PTT: stop");
+                lv_label_set_text(hint, "TX 或 PTT：停止");
             }
             break;
         case CW_ENCODER_BEACON_IDLE: {
@@ -384,23 +384,23 @@ static void update_status(void) {
             snprintf(buf, sizeof(buf), "AT %02i:%02i", s.start_min / 60 % 24, s.start_min % 60);
             set_state(buf, theme_hex(TC_chip), theme_hex(TC_warn));
             if (s.until == BCN_UNTIL_TIME)
-                lv_label_set_text_fmt(hint, "Starts in %i:%02i:%02i, until %02i:%02i%s - TX or PTT: stop", left / 3600,
+                lv_label_set_text_fmt(hint, "将在 %i:%02i:%02i 后开始，持续至 %02i:%02i%s - TX 或 PTT：停止", left / 3600,
                                       left / 60 % 60, left % 60, s.end_min / 60, s.end_min % 60, end_day(s));
             else
-                lv_label_set_text_fmt(hint, "Starts in %i:%02i:%02i - TX or PTT: stop", left / 3600, left / 60 % 60,
+                lv_label_set_text_fmt(hint, "将在 %i:%02i:%02i 后开始 - TX 或 PTT：停止", left / 3600, left / 60 % 60,
                                       left % 60);
             break;
         }
         default:
             set_state("READY", theme_hex(TC_chip), theme_hex(TC_text_head));
             if (adjusting == ADJ_QRSS)
-                lv_label_set_text(hint, "MFK or VOL: 10 Hz steps - press MFK: done");
+                lv_label_set_text(hint, "功能旋钮或音量旋钮：每步 10 Hz - 按下功能旋钮：完成");
             else if (adjusting == ADJ_START || (adjusting == ADJ_UNTIL && sched_set().until == BCN_UNTIL_TIME))
-                lv_label_set_text_fmt(hint, "MFK or VOL: 5 min steps (%s clock) - press MFK: done", zone());
+                lv_label_set_text_fmt(hint, "功能旋钮或音量旋钮：每步 5 分钟（%s 时钟）- 按下功能旋钮：完成", zone());
             else if (adjusting == ADJ_UNTIL)
-                lv_label_set_text(hint, "MFK or VOL: how many - Until: next kind - MFK: done");
+                lv_label_set_text(hint, "功能旋钮或音量旋钮：数量 - 结束时间：下一类型 - 功能旋钮：完成");
             else
-                lv_label_set_text(hint, count ? "MFK: choose - press MFK: edit" : "新建：编写第一条消息");
+                lv_label_set_text(hint, count ? "功能旋钮：选择 - 按下功能旋钮：编辑" : "新建：编写第一条消息");
             break;
     }
 
@@ -413,11 +413,11 @@ static void update_status(void) {
         else if (band >= 0)
             snprintf(win, sizeof(win), "Window %s-%s", mhz(lo, qrss_bands[band].win_lo_hz),
                      mhz(hi, qrss_bands[band].win_hi_hz));
-        lv_label_set_text_fmt(info_lbl, secs < 120.0f ? "About %.0f s in QRSS3\nBeacon: %s\n%s"
+        lv_label_set_text_fmt(info_lbl, secs < 120.0f ? "QRSS3 约 %.0f 秒\n信标：%s\n%s"
                                                       : "About %.0f min in QRSS3\nBeacon: %s\n%s",
                               secs < 120.0f ? secs : secs / 60.0f, beacon_on ? "on" : "off (page 2)", win);
     } else if (text) {
-        lv_label_set_text_fmt(info_lbl, "About %.0f s at %i WPM\nBeacon: %s%s%s", text_secs(text), wpm,
+        lv_label_set_text_fmt(info_lbl, "约 %.0f 秒，速度 %i WPM\n信标：%s%s%s", text_secs(text), wpm,
                               beacon_on ? "on" : "off (page 2)", beacon_on ? "\n" : "", beacon_on ? sched_words() : "");
     } else {
         lv_label_set_text(info_lbl, "");
@@ -591,19 +591,19 @@ static void qrss_start(const char *text) {
     int32_t      hz;
 
     if (mode != radio_mode_cw && mode != radio_mode_cwr) {
-        msg_update_text_fmt("QRSS3: in CW or CW-R only");
+        msg_update_text_fmt("QRSS3：仅允许 CW 或 CW-R 模式");
         return;
     }
     if (band < 0) {
-        msg_update_text_fmt("QRSS3: on 30 m or 80 m only");
+        msg_update_text_fmt("QRSS3：仅限 30 米或 80 米频段");
         return;
     }
     if (param_i_get(cfg_band_split)) {      /* before the move: the carrier would go out on the other VFO */
-        msg_update_text_fmt("QRSS3: split or TX shift on");
+        msg_update_text_fmt("QRSS3：已启用分离频率或 TX 偏移");
         return;
     }
     if (param_i_get(cfg_xit)) {     /* the base adds it in TX: the carrier beside the window, or past the band's edge */
-        msg_update_text_fmt("QRSS3: XIT is set (%+i Hz)", (int)param_i_get(cfg_xit));
+        msg_update_text_fmt("QRSS3：XIT 已设置（%+i Hz）", (int)param_i_get(cfg_xit));
         return;
     }
     if (radio_say_no_data("No TX", true)) {     /* none from the base (#152): before the dial moves */
@@ -612,13 +612,13 @@ static void qrss_start(const char *text) {
     hz = qrss_hz(band);
     if (cparam_i_get(cfg_fg_freq) != hz) {
         if (main_screen_freq_locked()) {
-            msg_update_text_fmt("QRSS3: frequency locked");
+            msg_update_text_fmt("QRSS3：频率已锁定");
             return;
         }
         main_screen_set_freq(hz);
     }
     if (radio_tx_freq() != hz) {
-        msg_update_text_fmt("QRSS3: split or TX shift on");
+        msg_update_text_fmt("QRSS3：已启用分离频率或 TX 偏移");
         return;
     }
     if (radio_say_no_tx("No TX", hz, true)) {    /* receive only, outside the amateur bands (#121) */
@@ -628,7 +628,7 @@ static void qrss_start(const char *text) {
         bcn_sched_t s = sched_set();
         cw_encoder_schedule(&s);
     }
-    if (!cw_encoder_send_qrss3(text, beacon_on)) msg_update_text_fmt("QRSS3: not started");
+    if (!cw_encoder_send_qrss3(text, beacon_on)) msg_update_text_fmt("QRSS3：尚未启动");
 }
 
 /* A message or a beacon not started where the radio may not transmit (#121), nor while the base sends no data (#152):
@@ -727,7 +727,7 @@ static void qfreq_cb(button_data_t *btn) {
     (void)btn;
     if (sending()) return;
     if (qrss_band() < 0) {
-        msg_update_text_fmt("QRSS3: on 30 m or 80 m only");
+        msg_update_text_fmt("QRSS3：仅限 30 米或 80 米频段");
         return;
     }
     set_adjust(adjusting == ADJ_QRSS ? ADJ_NONE : ADJ_QRSS);

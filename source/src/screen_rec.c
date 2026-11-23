@@ -389,7 +389,7 @@ static void timer_cb(lv_timer_t *t) {
 
         if (low >= 0 && low != warned_min) {        /* again each minute less */
             warned_min = low;
-            msg_schedule_long_text_fmt("SD card: about %d min left", low);
+            msg_schedule_long_text_fmt("SD 卡：剩余约 %d 分钟", low);
         }
     } else if (s == IDLE) {                         /* the writer is done, or failed */
         if (active) {
@@ -398,9 +398,9 @@ static void timer_cb(lv_timer_t *t) {
             buttons_screen_rec_update();
         }
         if (error == 4) {
-            msg_schedule_long_text_fmt("SD card full, recording saved");
+            msg_schedule_long_text_fmt("SD 卡已满，录音已保存");
         } else if (error == 1) {
-            msg_schedule_long_text_fmt("SD card write error: the last file may be damaged");
+            msg_schedule_long_text_fmt("SD 卡写入错误：最后一个文件可能已损坏");
         } else if (error == 3) {
             msg_schedule_long_text_fmt("Cannot create the file on the SD card");
         } else if (error) {

@@ -47,7 +47,7 @@ static void msg_btn_cb(button_data_t *btn);
 static void enqueue(const char *text);
 static bool enqueue_raw(const char *text, bool space);
 
-static button_data_t btn_p1    = {.type = BTN_TEXT, .label = "(CW键盘 1:1)", .press = NULL};
+static button_data_t btn_p1    = {.type = BTN_TEXT, .label = "（CW键盘第1/1面）", .press = NULL};
 static button_data_t btn_send  = {.type = BTN_TEXT, .label = "发送", .press = send_btn_cb};
 static button_data_t btn_stop  = {.type = BTN_TEXT, .label = "停止", .press = stop_btn_cb};
 static button_data_t btn_clear = {.type = BTN_TEXT, .label = "清除", .press = clear_btn_cb};

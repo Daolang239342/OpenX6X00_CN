@@ -535,7 +535,7 @@ void main_screen_start_app(press_action_t app_action) {
     /* RADE's speech can't go to the speaker (the base plays no app audio there while it receives): it needs Bluetooth
      * headphones or a TCI client, the browser's Panel and Remote pages too */
     if (app_action == ACTION_APP_FREEDV && !dialog_freedv_can_open()) {
-        msg_schedule_long_text_fmt("RADE needs headphones, TCI or the browser");
+        msg_schedule_long_text_fmt("RADE 需要耳机、TCI 或浏览器");
         return;
     }
     close_apps();
@@ -1502,7 +1502,7 @@ static void kbd_ptt_chord_run(void) {
     if (ok) {
         kbd_ptt_carrier = cw_mode();
         kbd_ptt_timer   = lv_timer_create(kbd_ptt_tick_cb, KBD_PTT_TICK_MS, NULL);
-        msg_update_text_fmt("PTT on: CapsLock+Space for off");
+        msg_update_text_fmt("PTT 已开启：按 CapsLock+Space 关闭");
     }
 }
 
@@ -1990,10 +1990,10 @@ void main_screen_notify_low_power(bool is_low) {
 
         clock_power_get(&ext, &bat, &cap, &chg);
         if (ext >= 3.0f) {
-            msg_schedule_long_text_fmt("Low battery, DC IN under %d V! Turning off in 30s.", BOARD_BAT_EXT_MIN / 10);
+            msg_schedule_long_text_fmt("电池电量低，直流输入电压低于 %d V！将在 30 秒后关机。", BOARD_BAT_EXT_MIN / 10);
             return;
         }
 #endif
-        msg_schedule_long_text_fmt("Low battery! Turning off in 30s.");
+        msg_schedule_long_text_fmt("电池电量低！将在 30 秒后关机。");
     }
 }

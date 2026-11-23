@@ -202,7 +202,7 @@ static char macro_labels[OLIVIA_MACRO_MAX][OLIVIA_MACRO_NAME_LEN + 2];
 static buttons_page_t page_1, page_2, page_3, page_4, page_5, page_6;
 
 static button_data_t btn_p1 = {
-    .type = BTN_TEXT, .label = "(OLV 1:6)",
+    .type = BTN_TEXT, .label = "（OLVIA第1/6面）",
     .press = button_next_page_cb, .hold = button_prev_page_cb,
     .next = &page_2, .prev = &page_6,
 };
@@ -222,7 +222,7 @@ static button_data_t btn_status = {
 };
 
 static button_data_t btn_p2 = {
-    .type = BTN_TEXT, .label = "(OLV 2:6)",
+    .type = BTN_TEXT, .label = "（OLVIA第2/6面）",
     .press = button_next_page_cb, .hold = button_prev_page_cb,
     .next = &page_3, .prev = &page_1,
 };
@@ -279,23 +279,23 @@ static button_data_t *const macro_btns[OLIVIA_MACRO_MAX] = {
 };
 
 static button_data_t btn_p3 = {
-    .type = BTN_TEXT, .label = "(OLV 3:6)",
+    .type = BTN_TEXT, .label = "（OLVIA第3/6面）",
     .press = button_next_page_cb, .hold = button_prev_page_cb,
     .next = &page_4, .prev = &page_2,
 };
 static button_data_t btn_p4 = {
-    .type = BTN_TEXT, .label = "(OLV 4:6)",
+    .type = BTN_TEXT, .label = "（OLVIA第4/6面）",
     .press = button_next_page_cb, .hold = button_prev_page_cb,
     .next = &page_5, .prev = &page_3,
 };
 static button_data_t btn_p5 = {
-    .type = BTN_TEXT, .label = "(OLV 5:6)",
+    .type = BTN_TEXT, .label = "（OLVIA第5/6面）",
     .press = button_next_page_cb, .hold = button_prev_page_cb,
     .next = &page_6, .prev = &page_4,
 };
 /* TUNE for an external tuner, on the centre chosen for TX (ext_tune.h) */
 static button_data_t btn_p6 = {
-    .type = BTN_TEXT, .label = "(OLV 6:6)",
+    .type = BTN_TEXT, .label = "（OLVIA第6/6面）",
     .press = button_next_page_cb, .hold = button_prev_page_cb,
     .next = &page_1, .prev = &page_5,
 };

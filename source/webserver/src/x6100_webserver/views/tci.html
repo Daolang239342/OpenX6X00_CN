@@ -1,23 +1,23 @@
 % rebase('base.html', title='TCI')
-<h2><svg class="i"><use href="#i-network"/></svg>TCI server</h2>
+<h2><svg class="i"><use href="#i-network"/></svg>TCI 服务器</h2>
 <p class="sub">TCI (Transceiver Control Interface, version 2.0) is the protocol of Expert Electronics' SDRs that AetherSDR and other programs serve: one WebSocket carries the frequency, mode, filter, AGC, PTT, the S-meter and the TX meters, and the audio both ways. The radio serves it here, so a <a href="https://github.com/Guru-RF/VFO-Knob">VFO-Knob</a> or any TCI client tunes it over the network, hears it and keys it. There is no login or pairing for TCI clients: enable it only on a network you trust, and choose below whether a client may operate the radio or only listen. An operating client takes control of the radio the moment it tunes or keys, as a knob would; a browser that was operating sees "TCI client active" and takes control back on purpose.</p>
 
 <form class="dp-card" id="conf">
-  <div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-server"/></svg></span><div><h3>服务器<span class="eff">Takes effect: on the radio within a few seconds</span></h3><p>On ws://&lt;radio IP&gt;:&lt;port&gt;/</p></div></div>
+  <div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-server"/></svg></span><div><h3>服务器<span class="eff">生效时间：几秒钟内在电台上生效</span></h3><p>在 ws://&lt;radio IP&gt;:&lt;port&gt;/ 上</p></div></div>
   <div class="dp-row">
-    <div class="dp-lbl"><b>启用</b><span>Listens for TCI clients on the network</span></div>
+    <div class="dp-lbl"><b>启用</b><span>监听网络中的 TCI 客户端</span></div>
     <div class="dp-ctl"><label class="sw" title="启用"><input id="enabled" type="checkbox" role="switch" aria-label="启用"><i></i></label></div>
   </div>
   <div class="dp-row">
-    <div class="dp-lbl"><label for="port"><b>端口</b></label><span>50001 is what TCI clients expect</span></div>
+    <div class="dp-lbl"><label for="port"><b>端口</b></label><span>50001 是 TCI 客户端所期望使用的端口</span></div>
     <div class="dp-ctl"><input id="port" type="number" inputmode="numeric" required min="1024" max="65535" step="1"></div>
   </div>
   <div class="dp-row">
-    <div class="dp-lbl"><label for="trust"><b>客户端可以</b></label><span>Operate: tune, change mode, key, as before. Listen only: hear and follow the radio; tuning and keying are answered with the state as it is</span></div>
+    <div class="dp-lbl"><label for="trust"><b>客户端可以</b></label><span>操作模式：像平时一样调谐、切换模式和发射。仅监听模式：收听并跟随电台状态；调谐和发射操作只会返回当前状态。</span></div>
     <div class="dp-ctl"><select id="trust"><option value="operate">Operate</option><option value="view">仅监听</option></select></div>
   </div>
   <div class="dp-row">
-    <div class="dp-lbl"><b>发射前询问</b><span>A client on the network that is not allowed yet is answered "not keyed", and the radio asks on its screen: Allow once, Always or No; no answer in 20 s is No. Programs on the radio itself and the Panel of a paired browser are not asked. Those allowed always: Settings &gt; General &gt; TCI SERVER on the radio, Sessions on the Panel for the admin. Off: every operating client keys as before</span></div>
+    <div class="dp-lbl"><b>发射前询问</b><span>尚未获准的网络客户端会收到“未授权”回应，电台屏幕上会询问：允许一次、始终允许或拒绝；20 秒内未作答则视为拒绝。电台本机上的程序和已配对浏览器的控制面板不会收到询问。始终允许的客户端：在电台上进入“设置 > 常规 > TCI 服务器”设置；管理员可在控制面板的 Sessions 中管理。关闭后：所有操作客户端仍须像以前一样进行授权。</span></div>
     <div class="dp-ctl"><label class="sw" title="发射前询问"><input id="tx_confirm" type="checkbox" role="switch" aria-label="发射前询问"><i></i></label></div>
   </div>
   <div class="dp-body" style="border-top:1px solid #1a283c">

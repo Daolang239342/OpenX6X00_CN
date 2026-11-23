@@ -251,7 +251,7 @@ void controls_encoder_update(cfg_ctrl_t ctrl, int32_t diff, std::string &msg) {
 
         case CTRL_AGC: {        /* Off, Slow, Fast, Auto, a step a detent; it stops at either end. The AGC key goes
                                  * round, but a knob turned on past Auto landed on Off, the loudest */
-            static const char *const names[] = {"关闭", "Slow", "Fast", "Auto"};
+            static const char *const names[] = {"关", "Slow", "Fast", "Auto"};
 
             i = cfg_sm.cp_cur_agc.get();
             if (diff) {

@@ -154,8 +154,8 @@ static void redraw(void) {
     last_fgen  = flt->gen;
     last_order = by_time;
     last_all   = all;
-    lv_label_set_text_fmt(title, "Cluster %s - %s", all ? "全部" : (cb >= 0 ? cluster_band_name(cb) : "--"),
-                          by_time ? "Time" : "频率");
+    lv_label_set_text_fmt(title, "集群 %s - %s", all ? "全部" : (cb >= 0 ? cluster_band_name(cb) : "--"),
+                          by_time ? "时间" : "频率");
     if (all || cb >= 0) {
         for (int i = 0; i < spots_n; i++) {
             if ((all || cluster_band_of(spots[i].freq_hz) == cb) && cluster_filter_pass(flt, &spots[i], now)) {

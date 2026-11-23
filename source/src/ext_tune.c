@@ -172,9 +172,9 @@ const char *ext_tune_start(int who) {
     }
     pthread_detach(th);
     if (atu_off) {
-        msg_update_text_fmt("TUNE %.1f W, %d s, ATU off", plan.pwr_w, (int)(plan.limit_ms / 1000));
+        msg_update_text_fmt("TUNE %.1f W，%d 秒，ATU 关闭", plan.pwr_w, (int)(plan.limit_ms / 1000));
     } else {
-        msg_update_text_fmt("TUNE %.1f W, %d s at most", plan.pwr_w, (int)(plan.limit_ms / 1000));
+        msg_update_text_fmt("TUNE %.1f W，最多 %d 秒", plan.pwr_w, (int)(plan.limit_ms / 1000));
     }
     buttons_mark(&btn_ext_tune, true);
     buttons_refresh(&btn_ext_tune);

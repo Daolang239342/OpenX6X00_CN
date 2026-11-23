@@ -7,7 +7,7 @@ for one of them takes the place of the built-in one on its band (its other entri
 one is back. They always go to USB-D, whatever the Mode column says.</p>
 
 <section class="dp-card" id="keyboard_card" hidden>
-<div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-bands"/></svg></span><div><h3>PSK, Olivia and JTTY</h3><p id="keyboard_plan">What the band keys of those apps step through</p></div></div>
+<div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-bands"/></svg></span><div><h3>PSK、Olivia 和 JTTY</h3><p id="keyboard_plan">这些应用的频段按键会依次切换哪些频段</p></div></div>
 <div class="dp-body">
 <div class="table-wrap">
 <table id="keyboard_lists"><tbody></tbody></table>
@@ -16,7 +16,7 @@ one is back. They always go to USB-D, whatever the Mode column says.</p>
 </section>
 
 <section class="dp-card">
-<div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-list"/></svg></span><div><h3>频率</h3><p>Label, dial frequency, mode and app</p></div><div class="dp-x"><button id="add_mode" class="primary"><svg class="i"><use href="#i-plus"/></svg>添加频点</button></div></div>
+<div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-list"/></svg></span><div><h3>频率</h3><p>标签、拨盘频率、模式和应用</p></div><div class="dp-x"><button id="add_mode" class="primary"><svg class="i"><use href="#i-plus"/></svg>添加频点</button></div></div>
 <div class="dp-body tbl">
 <div class="table-wrap">
 <table id="freq_list">
@@ -30,7 +30,7 @@ one is back. They always go to USB-D, whatever the Mode column says.</p>
 <!-- The WSPR app's Hop (its page 2) and each band's use (its page 3), set live through the GUI (/api/display, the
      wspr_hop and wspr_bands options of src/cfg_socket.cpp): shown only when the radio answers -->
 <section class="dp-card" id="wspr_hop" hidden>
-<div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-bands"/></svg></span><div><h3>WSPR band hopping<span class="eff">Takes effect: at the next cycle</span></h3><p>WSJT-X's coordinated slots: 160m at :00, 80m :02, 60m :04 ... 10m :18, again every 20 minutes. A band set to Off gives its slot to the other bands that are on, in turn. RX+TX transmits at the app's TX %; with the radio's ATU on, only on a band with a match stored for its WSPR frequency.</p></div></div>
+<div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-bands"/></svg></span><div><h3>WSPR 频段跳转<span class="eff">生效时间：下一个周期</span></h3><p>WSJT-X 协调时隙：160 米在 :00，80 米在 :02，60 米在 :04……10 米在 :18，每 20 分钟重复一次。设为 Off 的频段会将其时隙依次让给其他已启用频段。RX+TX 会按照应用中的 TX 百分比发射；如果电台启用了 ATU，则仅在已为该 WSPR 频率保存匹配结果的频段上发射。</p></div></div>
 <div id="hop_rows"></div>
 <div class="dp-body"><div class="actions"><span class="status" id="hop_status"></span></div></div>
 </section>

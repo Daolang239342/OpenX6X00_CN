@@ -216,7 +216,7 @@ static int plan_build(int plan, bool pacific, bp_seg_t *out) {
 static const theme_color_t colors[] = { TC_bp_cw, TC_bp_dig, TC_bp_ssb, TC_bp_bcn, TC_bp_out };
 /* Longest first: the first label that fits the segment is used */
 static const char *const labels[][2] = {
-    { "CW", NULL }, { "DIG", NULL }, { "ALL MODES / SSB", "SSB" }, { "BCN", NULL }, { "NOT YOUR CLASS", "OUT" },
+    { "CW", NULL }, { "DIG", NULL }, { "所有模式 / SSB", "SSB" }, { "BCN", NULL }, { "不是你的类别", "OUT" },
 };
 
 typedef struct {

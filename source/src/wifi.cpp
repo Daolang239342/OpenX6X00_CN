@@ -378,7 +378,7 @@ static void saved_join_cb(GObject *connection, GAsyncResult *result, gpointer us
 
     if (!nm_remote_connection_commit_changes_finish(rc, result, &error)) {
         LV_LOG_ERROR("Failed to save connection '%s': %s", nm_connection_get_id(NM_CONNECTION(rc)), error->message);
-        msg_update_text_fmt("WiFi: %s", error->message);
+        msg_update_text_fmt("Wi-Fi：%s", error->message);
         retry_uuid[0] = '\0';
         g_error_free(error);
     } else if (device != NULL) {
@@ -435,7 +435,7 @@ static void join_saved(NMRemoteConnection *rc, NMAccessPoint *ap, const wifi_ap_
     join_ssid_len = ap_info->ssid_len;
     retry_start(nm_connection_get_uuid(NM_CONNECTION(rc)), ap_info->ssid);
     LV_LOG_USER("Saving connection %s again (%s)", ap_info->ssid, nm_access_point_get_bssid(ap));
-    msg_update_text_fmt("Connecting to %s...", shown(ap_info->ssid));
+    msg_update_text_fmt("正在连接到 %s……", shown(ap_info->ssid));
     nm_connection_replace_settings_from_connection(NM_CONNECTION(rc), c);
     nm_remote_connection_commit_changes_async(rc, TRUE, NULL, saved_join_cb, NULL);
     g_object_unref(c);
@@ -445,7 +445,7 @@ void wifi_add_connection(const wifi_ap_info_t *ap_info, const char *password) {
     NMAccessPoint *ap = find_ap(ap_info->ssid_raw, ap_info->ssid_len);
 
     if (!ap) {
-        msg_update_text_fmt("WiFi %s: no longer in range, scan again", shown(ap_info->ssid));
+        msg_update_text_fmt("Wi-Fi %s：已超出信号范围，请重新扫描", shown(ap_info->ssid));
         return;
     }
     NMRemoteConnection *saved = saved_for_ssid(ap_info->ssid_raw, ap_info->ssid_len);
@@ -526,7 +526,7 @@ void wifi_add_connection(const wifi_ap_info_t *ap_info, const char *password) {
     /* On the access point the list showed: NetworkManager otherwise looked for one itself, and with none that
      * fits (a security other than the profile's) it saved the profile as a hidden network, "known" from then on */
     LV_LOG_USER("Adding connection to %s (%s)", ssid, nm_access_point_get_bssid(ap));
-    msg_update_text_fmt("Connecting to %s...", shown(ssid));
+    msg_update_text_fmt("正在连接到 %s……", shown(ssid));
     nm_client_add_and_activate_connection_async(client, connection, device, nm_object_get_path(NM_OBJECT(ap)), NULL,
                                                 connection_adding_and_activating_cb, NULL);
     g_object_unref(connection);
@@ -580,7 +580,7 @@ void wifi_connect(const char *uuid) {
         rem_con = nm_client_get_connection_by_uuid(client, uuid);
         if (rem_con != NULL) {
             retry_start(uuid, nm_connection_get_id(NM_CONNECTION(rem_con)));
-            msg_update_text_fmt("Connecting to %s...", shown(retry_ssid));
+            msg_update_text_fmt("正在连接到 %s……", shown(retry_ssid));
             nm_client_activate_connection_async(client, NM_CONNECTION(rem_con), device, NULL, NULL,
                                                 connection_activating_cb, loop);
         } else {
@@ -836,7 +836,7 @@ static void connection_adding_and_activating_cb(GObject *client, GAsyncResult *r
     if (error) {
         LV_LOG_ERROR("Error adding and activating connection: %s (code: %d, domain: %u)", error->message, error->code,
                      error->domain);
-        msg_update_text_fmt("WiFi: %s", error->message);
+        msg_update_text_fmt("Wi-Fi：%s", error->message);
         retry_uuid[0] = '\0';
         wifi_log(retry_ssid);   /* refused before the join started: no device state change writes it */
         g_error_free(error);
@@ -857,7 +857,7 @@ static void connection_modify_cb(GObject *connection, GAsyncResult *result, gpoi
     if (!nm_remote_connection_commit_changes_finish(NM_REMOTE_CONNECTION(connection), result, &error)) {
         LV_LOG_ERROR(("Error: Failed to modify connection '%s': %s"), nm_connection_get_id(NM_CONNECTION(connection)),
                      error->message);
-        msg_update_text_fmt("WiFi: %s", error->message);
+        msg_update_text_fmt("Wi-Fi：%s", error->message);
         g_error_free(error);
     } else {
         LV_LOG_USER(("Connection '%s' (%s) successfully modified.\n"), nm_connection_get_id(NM_CONNECTION(connection)),
@@ -933,15 +933,15 @@ static void device_state_changed_sig_cb(NMDevice *device, guint new_state, guint
             retry_us = g_get_monotonic_time();
             LV_LOG_WARN("WiFi %s: %s (reason %u), try %d/%d", retry_ssid, why ? why : "failed", reason, retry_n + 1,
                         RETRY_TRIES);
-            msg_update_text_fmt("Connecting to %s... (try %d/%d)", shown(retry_ssid), retry_n + 1, RETRY_TRIES);
+            msg_update_text_fmt("正在连接到 %s……（尝试 %d/%d）", shown(retry_ssid), retry_n + 1, RETRY_TRIES);
             nm_client_activate_connection_async(client, NM_CONNECTION(rc), device, NULL, NULL,
                                                 connection_activating_cb, loop);
         } else {
             LV_LOG_WARN("WiFi %s: %s (reason %u)", retry_ssid, why ? why : "failed", reason);
             if (why) {
-                msg_update_text_fmt("WiFi %s: %s", shown(retry_ssid), why);
+                msg_update_text_fmt("Wi-Fi %s：%s", shown(retry_ssid), why);
             } else {
-                msg_update_text_fmt("WiFi %s: join failed (reason %u)", shown(retry_ssid), reason);
+                msg_update_text_fmt("Wi-Fi %s：连接失败（原因 %u）", shown(retry_ssid), reason);
             }
             retry_uuid[0] = '\0';
             retry_n = 0;
@@ -975,7 +975,7 @@ static void connection_activating_cb(GObject *client, GAsyncResult *result, gpoi
     if (error) {
         LV_LOG_ERROR("Error activating connection: %s (code: %d, domain: %u)", error->message, error->code,
                      error->domain);
-        msg_update_text_fmt("WiFi: %s", error->message);
+        msg_update_text_fmt("Wi-Fi：%s", error->message);
         retry_uuid[0] = '\0';
         wifi_log(retry_ssid);
         g_error_free(error);
@@ -1260,7 +1260,7 @@ static NMConnection *eth_connection_new(const eth_cfg_t *cfg, const char *uuid) 
 
 static void eth_error(const char *what, GError *error) {
     LV_LOG_ERROR("Ethernet %s: %s", what, error->message);
-    msg_update_text_fmt("Ethernet: %s", error->message);
+    msg_update_text_fmt("以太网：%s", error->message);
     g_error_free(error);
 }
 
@@ -1308,7 +1308,7 @@ static void eth_saved_cb(GObject *obj, GAsyncResult *result, gpointer user_data)
 
 void eth_apply(const eth_cfg_t *cfg) {
     if (!client) {
-        msg_update_text_fmt("NetworkManager is not running");
+        msg_update_text_fmt("NetworkManager 未运行");
         return;
     }
     NMRemoteConnection *rc = nm_client_get_connection_by_id(client, ETH_CON_ID);

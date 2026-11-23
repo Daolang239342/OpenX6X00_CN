@@ -209,8 +209,8 @@ static void deck_update(Subject *subj, void *user_data) {
     else if (step % 1000) snprintf(st, sizeof(st), "%d.%d kHz", (int)(step / 1000), (int)(step % 1000 / 100));
     else snprintf(st, sizeof(st), "%d kHz", (int)(step / 1000));
     lv_label_set_text_fmt(deck_info, "带宽 %s   中频 %+d   步进 %s", b, (int)param_i_get(cfg_band_if_shift), st);
-    if (half % 1000) lv_label_set_text_fmt(deck_scope, "SCOPE \xC2\xB1%d.%dk", (int)(half / 1000), (int)(half % 1000 / 100));
-    else lv_label_set_text_fmt(deck_scope, "SCOPE \xC2\xB1%dk", (int)(half / 1000));
+    if (half % 1000) lv_label_set_text_fmt(deck_scope, "频谱范围 ±%d.%dk", (int)(half / 1000), (int)(half % 1000 / 100));
+    else lv_label_set_text_fmt(deck_scope, "频谱范围 ±%dk", (int)(half / 1000));
 }
 
 static lv_obj_t *deck_row(lv_coord_t y) {

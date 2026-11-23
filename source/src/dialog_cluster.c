@@ -93,9 +93,9 @@ static void link_write(void);
 static buttons_page_t btn_page_1, btn_page_2;
 
 static button_data_t btn_page = {
-    .type = BTN_TEXT, .label = "(集群\\n1:2)", .press = button_next_page_cb, .next = &btn_page_2};
+    .type = BTN_TEXT, .label = "（集群第1/2面）", .press = button_next_page_cb, .next = &btn_page_2};
 static button_data_t btn_page2 = {
-    .type = BTN_TEXT, .label = "(集群\\n2:2)", .press = button_next_page_cb, .next = &btn_page_1};
+    .type = BTN_TEXT, .label = "（集群第2/2面）", .press = button_next_page_cb, .next = &btn_page_1};
 static button_data_t btn_server = {.type = BTN_TEXT, .label = "服务器", .press = server_cb};
 static button_data_t btn_band = {.type = BTN_TEXT_FN, .label_fn = band_label, .press = band_all_cb};
 static button_data_t btn_mode = {.type = BTN_TEXT_FN, .label_fn = mode_label, .press = mode_cb};
@@ -462,7 +462,7 @@ static void rebuild(void) {
 
 static void update_header(void) {
     int32_t vfo = cparam_i_get(cfg_fg_freq);
-    lv_label_set_text_fmt(head_left, "CLUSTER #%06x %s# - %s", theme_hex(TC_text), server,
+    lv_label_set_text_fmt(head_left, "集群 #%06x %s# - %s", theme_hex(TC_text), server,
                           params.callsign.x[0] ? params.callsign.x : "no callsign");
     lv_label_set_text_fmt(head_mid, "#%06x %s# - VFO #%06x %d.%03d.%02d#", theme_hex(TC_text),
                           showing_all() ? "All" : cluster_band_name(vfo_band()), theme_hex(TC_text), vfo / 1000000,

@@ -172,7 +172,7 @@ static void fkey(int n);
 static buttons_page_t page_1, page_2, page_3, page_4, page_5;
 
 static button_data_t btn_p1 = {
-    .type = BTN_TEXT, .label = "(JTTY 1:5)",
+    .type = BTN_TEXT, .label = "（JTTY第1/5面）",
     .press = button_next_page_cb, .hold = button_prev_page_cb, .next = &page_2, .prev = &page_5,
 };
 static button_data_t btn_text = {.type = BTN_TEXT, .label = "自由\\n文本", .press = text_press_cb};
@@ -207,20 +207,20 @@ static button_data_t *const fkey_btns[FKEYS] = {&btn_f1, &btn_f2, &btn_f3, &btn_
                                                  &btn_f5, &btn_f6, &btn_f7, &btn_f8};
 
 static button_data_t btn_p2 = {
-    .type = BTN_TEXT, .label = "(JTTY 2:5)",
+    .type = BTN_TEXT, .label = "（JTTY第2/5面）",
     .press = button_next_page_cb, .hold = button_prev_page_cb, .next = &page_3, .prev = &page_1,
 };
 static button_data_t btn_p3 = {
-    .type = BTN_TEXT, .label = "(JTTY 3:5)",
+    .type = BTN_TEXT, .label = "（JTTY第3/5面）",
     .press = button_next_page_cb, .hold = button_prev_page_cb, .next = &page_4, .prev = &page_2,
 };
 static button_data_t btn_p4 = {
-    .type = BTN_TEXT, .label = "(JTTY 4:5)",
+    .type = BTN_TEXT, .label = "（JTTY第4/5面）",
     .press = button_next_page_cb, .hold = button_prev_page_cb, .next = &page_5, .prev = &page_3,
 };
 /* TUNE for an external tuner, on the TX frequency chosen (ext_tune.h) */
 static button_data_t btn_p5 = {
-    .type = BTN_TEXT, .label = "(JTTY 5:5)",
+    .type = BTN_TEXT, .label = "（JTTY第5/5面）",
     .press = button_next_page_cb, .hold = button_prev_page_cb, .next = &page_1, .prev = &page_4,
 };
 static button_data_t btn_serial = {
@@ -957,7 +957,7 @@ static void fkey(int n)
     if (input_active || n < 1 || n > FKEYS)
         return;
     if (n > fkey_count) {
-        msg_update_text_fmt("F%d is empty - hold to set it", n);
+        msg_update_text_fmt("F%d 为空 - 按住以设置", n);
         return;
     }
     tpl = fkey_text[n - 1];
@@ -1027,7 +1027,7 @@ static void status_press_cb(button_data_t *b)
 {
     (void)b;
     jtty_rx_reset();
-    msg_update_text_fmt("JTTY RX restart");
+    msg_update_text_fmt("JTTY 接收重启");
 }
 
 static void clear_press_cb(button_data_t *b)

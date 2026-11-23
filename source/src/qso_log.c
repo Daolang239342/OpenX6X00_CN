@@ -210,7 +210,7 @@ static void *import_thread(void *arg) {
     pthread_detach(pthread_self());
     total = adif_read(path, &recs, &unreadable);
     if (total < 0) {
-        msg_update_text_fmt("Import: %s could not be read", path);
+        msg_update_text_fmt("导入：无法读取 %s", path);
         return NULL;
     }
 
@@ -228,7 +228,7 @@ static void *import_thread(void *arg) {
         if (n > 0) added += n;
         else if (n == 0) dup++;
         else failed++;
-        if ((i + 1) % 10 == 0) msg_update_text_fmt("Importing QSO: %d/%d", i + 1, total);
+        if ((i + 1) % 10 == 0) msg_update_text_fmt("正在导入 QSO：%d/%d", i + 1, total);
     }
     free(recs);
 
@@ -236,19 +236,19 @@ static void *import_thread(void *arg) {
         snprintf(to, sizeof(to), "%s.failed", path);
         rename(path, to);
         if (unreadable)
-            msg_update_text_fmt("No QSO readable in the ADIF file (%d broken): kept as %s", unreadable, to);
+            msg_update_text_fmt("ADIF 文件中没有可读取的 QSO（%d 个损坏）：已保留为 %s", unreadable, to);
         else
-            msg_update_text_fmt("No QSOs found in the ADIF file: kept as %s", to);
+            msg_update_text_fmt("ADIF 文件中没有找到 QSO：已保留为 %s", to);
     } else if (failed) {
-        msg_update_text_fmt("Imported %u QSOs, %u not saved: the file is kept for the next start", added, failed);
+        msg_update_text_fmt("已导入 %u 个 QSO，另有 %u 个未保存：文件将保留，供下次启动时继续处理", added, failed);
     } else {
         snprintf(to, sizeof(to), "%s.bak", path);
         rename(path, to);
         if (dup || nocall || unreadable)
-            msg_update_text_fmt("Imported %u QSOs (%u already in the log, %u without a callsign, %d broken)",
+            msg_update_text_fmt("已导入 %u 个 QSO（%u 个已存在于日志中，%u 个缺少呼号，%d 个损坏）",
                                 added, dup, nocall, unreadable);
         else
-            msg_update_text_fmt("Imported %u QSOs", added);
+            msg_update_text_fmt("已导入 %u 个 QSO", added);
     }
     return NULL;
 }

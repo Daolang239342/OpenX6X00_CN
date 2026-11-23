@@ -9,7 +9,7 @@ is not half-translated by a shorter key.
 import os, sys, re
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-WEB = os.path.abspath(os.path.join(HERE, '..', 'source', 'webserver', 'src', 'x6100_webserver'))
+WEB = os.path.abspath(sys.argv[1]) if len(sys.argv) > 1 else os.path.abspath(os.path.join(HERE, '..', 'source', 'webserver', 'src', 'x6100_webserver'))
 sys.path.insert(0, HERE)
 from dict_zh import load as load_dict
 

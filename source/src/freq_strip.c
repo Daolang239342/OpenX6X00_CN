@@ -364,7 +364,7 @@ static void lock_create(lv_obj_t *right) {
     const lv_font_t *font = theme_shape.vision ? &sony_28 : theme_shape.deck ? &sony_24 : &sony_20;
 
     lock_tag = lv_label_create(theme_shape.deck ? strip : theme_shape.vision ? right : mid);
-    lv_label_set_text(lock_tag, "锁定");
+    lv_label_set_text(lock_tag, "LOCK");
     lv_obj_set_style_text_font(lock_tag, font, 0);
     lv_obj_set_style_text_color(lock_tag, TC(bg), 0);
     lv_obj_set_style_bg_color(lock_tag, TC(lock), 0);

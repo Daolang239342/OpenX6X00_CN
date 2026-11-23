@@ -168,13 +168,13 @@ static const char *tx_label(void);
 static const char *auto_label(void);
 static const char *interval_label(void);
 
-static button_data_t btn_p1 = {.type = BTN_TEXT, .label = "(MSG 1:2)", .press = button_next_page_cb};
+static button_data_t btn_p1 = {.type = BTN_TEXT, .label = "（消息第1/2面）", .press = button_next_page_cb};
 static button_data_t btn_rec = {.type = BTN_TEXT_FN, .label_fn = rec_label, .press = rec_cb};
 static button_data_t btn_listen = {.type = BTN_TEXT_FN, .label_fn = listen_label, .press = listen_cb};
 static button_data_t btn_tx = {.type = BTN_TEXT_FN, .label_fn = tx_label, .press = tx_btn_cb};
 static button_data_t btn_auto = {.type = BTN_TEXT_FN, .label_fn = auto_label, .press = auto_cb};
 
-static button_data_t btn_p2 = {.type = BTN_TEXT, .label = "(MSG 2:2)", .press = button_next_page_cb};
+static button_data_t btn_p2 = {.type = BTN_TEXT, .label = "（消息第2/2面）", .press = button_next_page_cb};
 static button_data_t btn_interval = {.type = BTN_TEXT_FN, .label_fn = interval_label, .press = interval_cb};
 static button_data_t btn_rename = {.type = BTN_TEXT, .label = "重命名", .press = rename_cb};
 static button_data_t btn_close = {.type = BTN_TEXT, .label = "关闭", .press = close_cb};
@@ -430,7 +430,7 @@ void dialog_msg_voice_put_audio_samples(size_t nsamples, int16_t *samples) {
 static void rec_check_quiet(void) {
     if (state != MSG_VOICE_RECORD || rec_warned || rec_frames < 3L * AUDIO_CAPTURE_RATE) return;
     rec_warned = true;
-    if (rec_max < 330) msg_update_text_fmt("No audio: recording uses the hand mic");
+    if (rec_max < 330) msg_update_text_fmt("没有音频：录音将使用手持麦克风");
 }
 
 msg_voice_state_t dialog_msg_voice_get_state() {
@@ -561,8 +561,8 @@ static void update_status(void) {
         lv_label_set_text(name_lbl, rec_name);
         lv_bar_set_value(bar, rec_peak * 100 / 32768, LV_ANIM_OFF);
         lv_obj_set_style_bg_color(bar, (rec_peak > 26000 ? TC(bar_high) : TC(ok_bar)), LV_PART_INDICATOR);
-        lv_label_set_text_fmt(info_lbl, "Mic level: keep out of the red\nMax %i s", REC_MAX_S);
-        lv_label_set_text(hint, "Stop: save the message");
+        lv_label_set_text_fmt(info_lbl, "麦克风电平：不要进入红色区域\n最长 %i 秒", REC_MAX_S);
+        lv_label_set_text(hint, "停止：保存消息");
         return;
     }
 
@@ -582,10 +582,10 @@ static void update_status(void) {
         if (!job_loop)
             lv_label_set_text(info_lbl, "单次发射");
         else if (pausing)
-            lv_label_set_text_fmt(info_lbl, "Next call in %i s\nInterval %i s", pause_left, interval_s());
+            lv_label_set_text_fmt(info_lbl, "下次呼叫：%i 秒后\n间隔 %i 秒", pause_left, interval_s());
         else
-            lv_label_set_text_fmt(info_lbl, "Auto call: repeats every %i s", interval_s());
-        lv_label_set_text(hint, job_loop ? "Auto call, TX or PTT: stop" : "TX or PTT: stop");
+            lv_label_set_text_fmt(info_lbl, "自动呼叫：每隔 %i 秒重复一次", interval_s());
+        lv_label_set_text(hint, job_loop ? "自动呼叫、TX 或 PTT：停止" : "TX 或 PTT：停止");
     } else if (listening()) {
         set_state("LISTEN", theme_hex(TC_ok_bg), theme_hex(TC_ok));
         lv_obj_set_style_bg_color(bar, TC(ok_bar), LV_PART_INDICATOR);
@@ -595,8 +595,8 @@ static void update_status(void) {
     } else {
         set_state("READY", theme_hex(TC_chip), theme_hex(TC_text_head));
         lv_bar_set_value(bar, 0, LV_ANIM_OFF);
-        lv_label_set_text_fmt(info_lbl, "Auto call every %i s\nInterval: page 2", interval_s());
-        lv_label_set_text(hint, adjusting ? "MFK or VOL: interval - press MFK: done"
+        lv_label_set_text_fmt(info_lbl, "每 %i 秒自动呼叫一次\n间隔：第 2 页", interval_s());
+        lv_label_set_text(hint, adjusting ? "功能旋钮或音量旋钮：间隔 - 按下功能旋钮：完成"
                           : count ? "MFK: choose - press MFK: listen" : "Rec: record the first message");
     }
 }
@@ -784,7 +784,7 @@ static void delete_cb(button_data_t *btn) {
     file_path(p, sizeof(p), name);
     unlink(p);
     delete_armed = 0;
-    msg_update_text_fmt("Deleted \"%s\"", name);
+    msg_update_text_fmt("已删除“%s”", name);
     load_items(NULL);
     timer_cb(NULL);
 }
@@ -807,7 +807,7 @@ static bool rename_ok(void) {
     size_t n = strlen(s);
     while (n > 0 && s[n - 1] == ' ') s[--n] = '\0';
     if (n == 0) {
-        msg_update_text_fmt("Empty name");
+        msg_update_text_fmt("名称为空");
         return false;
     }
 
@@ -815,11 +815,11 @@ static bool rename_ok(void) {
     file_path(to, sizeof(to), s);
     if (strcmp(from, to) != 0) {
         if (access(to, F_OK) == 0) {
-            msg_update_text_fmt("\"%s\" already exists", s);
+            msg_update_text_fmt("“%s”已存在", s);
             return false;
         }
         if (rename(from, to) != 0) {
-            msg_update_text_fmt("Cannot rename");
+            msg_update_text_fmt("无法重命名");
             return false;
         }
     }

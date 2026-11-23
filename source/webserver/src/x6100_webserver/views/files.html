@@ -3,7 +3,7 @@
 <p class="sub">Download files from the DATA partition of the SD card (ADI log, screenshots, recordings, etc). Files that hold passwords or keys (the Wavelog and Field pages' keys, <code>backups/</code>) are listed but stay on the radio.
 A <code>params.db</code> downloaded while the radio writes it may come out damaged (the radio's copy is not touched): open it with any SQLite3 tool to check.</p>
 <section class="dp-card">
-<div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-folder"/></svg></span><div><h3>{{request.path}}</h3><p>{{len(dirs)}} folders · {{len(files)}} files</p></div></div>
+<div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-folder"/></svg></span><div><h3>{{request.path}}</h3><p>{{len(dirs)}} 个文件夹 · {{len(files)}} 个文件</p></div></div>
 <div class="dp-body tbl files">
 <a href=".."><svg class="i"><use href="#i-folder"/></svg> ..</a>
 % for name in dirs:  # href(): '#', '?' or '%' in a name would cut the link
@@ -11,7 +11,7 @@ A <code>params.db</code> downloaded while the radio writes it may come out damag
 % end
 % for name in files:
 %   if name in locked:  # passwords or keys: listed, never sent (config_pages.secret_file)
-<span class="locked" title="Holds passwords or keys: not downloaded here"><svg class="i"><use href="#i-key"/></svg> {{name}} <small>(passwords or keys: stays on the radio)</small></span>
+<span class="locked" title="包含密码或密钥：不会在此处下载"><svg class="i"><use href="#i-key"/></svg> {{name}} <small>（密码或密钥：保留在电台中）</small></span>
 %   else:
 <a href="{{href(name)}}" download><svg class="i"><use href="#i-file"/></svg> {{name}}</a>
 %   end

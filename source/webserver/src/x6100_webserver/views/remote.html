@@ -61,18 +61,18 @@
 % if get('funnel', False):
 <p class="sub" id="intro-away">The radio's own screen from away, through Tailscale Funnel, with its keys and knobs and the audio both ways. Only a browser paired with the radio at home gets in; you remain the control operator of every transmission. The <a href="/panel">面板</a> works the radio natively.</p>
 % else:
-<p class="sub" id="intro">The radio in your browser: the screen live, the keys and knobs as on the front panel, the audio both ways. What the radio shows and does, you see and do here, from a phone, a tablet or a PC on the same network. Hold PTT to transmit. Anyone on the network can watch this page; a browser operates the radio only once it is paired with a code shown on the radio, and one paired browser (or the radio's own keys, or a TCI client) controls the radio at a time.</p>
+<p class="sub" id="intro">在浏览器中操作电台：实时屏幕、与前面板相同的按键和旋钮、双向音频。在与电台处于同一网络的手机、平板电脑或 PC 上，你可以看到并操作电台显示和执行的所有内容。按住 PTT 即可发射。网络中的任何人都可以查看此页面；浏览器只有输入电台显示的配对码后才能操作电台，并且同一时间只能由一个已配对浏览器（或电台自身按键，或 TCI 客户端）控制电台。</p>
 % end
 
 <div class="rm-bar">
   <button type="button" id="snd" aria-pressed="false">Sound</button>
-  <button type="button" id="mic" aria-pressed="false" title="The browser's microphone transmits while PTT is held">Mic</button>
+  <button type="button" id="mic" aria-pressed="false" title="按住 PTT 时，浏览器麦克风会进行发射">Mic</button>
   <button type="button" id="full">全屏</button>
-  <select id="pic" title="Picture: Sharp is the whole screen as it is; Fast is half the size and about three times the frames on a slow WiFi link">
-    <option value="sharp">Picture: sharp</option><option value="balanced">Picture: balanced</option><option value="fast">Picture: fast</option>
+  <select id="pic" title="清晰模式使用完整屏幕分辨率；快速模式使用一半分辨率，在较慢的 Wi-Fi 链路上帧率约提高到三倍">
+    <option value="sharp">图像：清晰</option><option value="balanced">图像：均衡</option><option value="fast">图像：快速</option>
   </select>
-  <span class="sesbar" id="ses" title="This browser's access to the radio, and who controls it"></span>
-  <span class="health" id="hl" title="The page's links to the radio: link, picture, sound, microphone; this browser's access; who controls the radio"></span>
+  <span class="sesbar" id="ses" title="此浏览器对电台的访问权限，以及当前控制电台的客户端"></span>
+  <span class="health" id="hl" title="此页面与电台之间的连接：链接、图片、声音、麦克风；此浏览器的访问权限；当前控制电台的客户端"></span>
   <span class="status" id="st"></span>
 </div>
 
@@ -99,9 +99,9 @@
     <div class="wide mainblock">
       <div class="side"><button class="k small" data-key="BAND_UP">BAND ▲</button><button class="k small" data-key="BAND_DOWN">BAND ▼</button><button class="k small" data-key="LOCK">LOCK</button></div>
       <div class="dial lg" id="main"><span class="lbl">MAIN</span><div class="ring"><i></i></div><div class="krow"><button class="k" data-knob="main" data-step="-1">−</button><button class="k" data-knob="main" data-step="1">+</button></div></div>
-      <div class="side"><button class="k small" data-key="POWER" title="Tap: screen on/off">POWER</button></div>
+      <div class="side"><button class="k small" data-key="POWER" title="点击：屏幕开 / 关">POWER</button></div>
     </div>
-    <button class="k ptt wide" data-key="PTT" id="pttbtn">PTT (hold)</button>
+    <button class="k ptt wide" data-key="PTT" id="pttbtn">PTT（按住）</button>
   </div>
 </div>
 

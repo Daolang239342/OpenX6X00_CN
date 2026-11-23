@@ -192,9 +192,9 @@ static const char *skip_label(void);
 static const char *stats_label(void);
 static const char *reset_label(void);
 
-static button_data_t btn_p1 = {.type = BTN_TEXT, .label = "(CWT 1:3)", .press = button_next_page_cb, .hold = button_prev_page_cb};
-static button_data_t btn_p2 = {.type = BTN_TEXT, .label = "(CWT 2:3)", .press = button_next_page_cb, .hold = button_prev_page_cb};
-static button_data_t btn_p3 = {.type = BTN_TEXT, .label = "(CWT 3:3)", .press = button_next_page_cb, .hold = button_prev_page_cb};
+static button_data_t btn_p1 = {.type = BTN_TEXT, .label = "（CW训练第1/3面）", .press = button_next_page_cb, .hold = button_prev_page_cb};
+static button_data_t btn_p2 = {.type = BTN_TEXT, .label = "（CW训练第2/3面）", .press = button_next_page_cb, .hold = button_prev_page_cb};
+static button_data_t btn_p3 = {.type = BTN_TEXT, .label = "（CW训练第3/3面）", .press = button_next_page_cb, .hold = button_prev_page_cb};
 static button_data_t btn_play  = {.type = BTN_TEXT_FN, .label_fn = play_label, .press = play_cb};
 static button_data_t btn_skip  = {.type = BTN_TEXT_FN, .label_fn = skip_label, .press = skip_cb};
 static button_data_t btn_mode  = {.type = BTN_TEXT_FN, .label_fn = mode_label, .press = mode_cb};
@@ -497,7 +497,7 @@ static void new_target(void) {
 
 static bool play(void) {
     if (!force_train()) {
-        msg_update_text_fmt("Key train is off: not playing");
+        msg_update_text_fmt("CW 训练已关闭：不播放");
         return false;
     }
     heard[0] = 0;
@@ -558,7 +558,7 @@ static void evaluate(void) {
         for (int i = 0; i < WINDOW; i++) good += hist[i];
         if (good * 100 >= PASS_PCT * WINDOW && level() < KOCH_N) {
             set_level(level() + 1);
-            msg_update_text_fmt("Level %i: new character %c", level(), koch[level() - 1].c);
+            msg_update_text_fmt("等级 %i：新字符 %c", level(), koch[level() - 1].c);
         }
     }
 }
@@ -816,7 +816,7 @@ static void reset_cb(button_data_t *b) {
         memset(stats.n, 0, sizeof(stats.n));
         stats.tries = stats.right = stats.ms = 0;
         stats_save();
-        msg_update_text_fmt("Stats reset");
+        msg_update_text_fmt("统计数据已重置");
     } else {
         reset_armed = true;
         reset_t     = lv_tick_get();
@@ -973,7 +973,7 @@ static void refresh_stats(void) {
     snprintf(buf, sizeof(buf), "Today: %u tries, %u%% right, %u min", (unsigned)stats.tries,
              stats.tries ? (unsigned)(stats.right * 100 / stats.tries) : 0u, (unsigned)((stats.ms + 30000) / 60000));
     lv_label_set_text(st_today, buf);
-    lv_label_set_text(hint, "Last 20 tries per character. Weak ones (red, yellow) come up more often in Learn.");
+    lv_label_set_text(hint, "每个字符最近 20 次练习记录。较弱的字符（红色、黄色）会在 Learn 模式中更频繁出现。");
 }
 
 /* A line of Learn into the label l, Sent or Heard: its head, the characters as shown in color, then the dits and dahs

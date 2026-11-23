@@ -1070,7 +1070,7 @@ static void draw_station_columns(lv_obj_draw_part_dsc_t *d, lv_obj_t *tbl, int16
     }
 
     /* Heard sending to @X6100, while we are in it: a small tag at the end of
-     * the row, right of the longest distance ("20000 km"). */
+     * the row, right of the longest distance ("20000 公里"). */
     if (st_rows[slot].x6100 && js8_x6100_joined(groups_text)) {
         lv_draw_label_dsc_t tag = *d->label_dsc;
         tag.font                = &sony_14;

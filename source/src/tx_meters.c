@@ -84,7 +84,7 @@ static bool alc_greyed(void) {
 }
 
 /* The three readings: names and scales */
-static const char *const row_name[] = {"PWR", "SWR", "ALC"};
+static const char *const row_name[] = {"功率", "SWR", "ALC"};
 static const float       row_min[]  = {0.0f, SWR_MIN, 0.0f};
 static const float       row_max[]  = {PWR_MAX, SWR_MAX, ALC_MAX};
 
@@ -399,7 +399,7 @@ lv_obj_t *tx_info_init(lv_obj_t *parent) {
     lv_obj_set_style_bg_color(line, TC(panel_border), 0);
     lv_obj_set_style_bg_opa(line, LV_OPA_COVER, 0);
 
-    static const char *names[] = {"PWR", "SWR", "ALC"};
+    static const char *names[] = {"功率", "SWR", "ALC"};
     lv_obj_t          *values[3];
     for (int i = 0; i < 3; i++) {
         lv_obj_t *n = alc_name = make_label(panel, &sony_22, theme_hex(TC_text_value));   /* the last: ALC */
@@ -444,7 +444,7 @@ lv_obj_t *tx_info_init(lv_obj_t *parent) {
     lv_obj_center(l);
 
     l = make_label(strip, &sony_18, 0x9A9A9A);
-    lv_label_set_text(l, "PWR");
+    lv_label_set_text(l, "功率");
     lv_obj_align(l, LV_ALIGN_LEFT_MID, 82, 0);
 
     lv_obj_t *track = lv_obj_create(strip);

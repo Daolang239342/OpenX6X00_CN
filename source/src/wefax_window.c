@@ -143,13 +143,13 @@ static char          tx_path[192];
 
 /* ---- buttons: F1 goes round the 4 pages ---- */
 
-static button_data_t btn_page_1  = {.type = BTN_TEXT, .label = "(FAX 1:4)", .press = page_2_cb};
+static button_data_t btn_page_1  = {.type = BTN_TEXT, .label = "（传真第1/4面）", .press = page_2_cb};
 static button_data_t btn_freq    = {.type = BTN_TEXT, .label = "频率", .press = freq_cb};
 static button_data_t btn_rx_mode = {.type = BTN_TEXT_FN, .label_fn = rx_mode_label, .press = rx_mode_cb};
 static button_data_t btn_clear   = {.type = BTN_TEXT, .label = "清除", .press = clear_cb};
 static button_data_t btn_close   = {.type = BTN_TEXT, .label = "关闭", .press = close_cb};
 
-static button_data_t btn_page_2 = {.type = BTN_TEXT, .label = "(FAX 2:4)", .press = page_3_cb};
+static button_data_t btn_page_2 = {.type = BTN_TEXT, .label = "（传真第2/4面）", .press = page_3_cb};
 static button_data_t btn_align  = {.type = BTN_TEXT_FN, .label_fn = align_label, .press = align_cb,
                                    .ctrl = CTRL_WEFAX_ALIGN, .encoder_allowed = true};
 static button_data_t btn_tilt   = {.type = BTN_TEXT_FN, .label_fn = tilt_label, .press = tilt_cb,
@@ -157,14 +157,14 @@ static button_data_t btn_tilt   = {.type = BTN_TEXT_FN, .label_fn = tilt_label, 
 static button_data_t btn_view   = {.type = BTN_TEXT, .label = "视图\\n放大", .press = view_cb};
 static button_data_t btn_save   = {.type = BTN_TEXT, .label = "保存", .press = save_cb};
 
-static button_data_t btn_page_3    = {.type = BTN_TEXT, .label = "(FAX 3:4)", .press = page_4_cb};
+static button_data_t btn_page_3    = {.type = BTN_TEXT, .label = "（传真第3/4面）", .press = page_4_cb};
 static button_data_t btn_browser   = {.type = BTN_TEXT, .label = "传真\\n浏览器", .press = browser_cb};
 static button_data_t btn_fix_align = {.type = BTN_TEXT, .label = "修正\\n对齐", .press = fix_align_cb, .disabled = true};
 static button_data_t btn_fix_tilt  = {.type = BTN_TEXT, .label = "修正\\n倾斜", .press = fix_tilt_cb, .disabled = true};
 static button_data_t btn_done      = {.type = BTN_TEXT, .label = "完成", .press = done_cb, .disabled = true};
 
 /* page 4: TX power */
-static button_data_t btn_page_4 = {.type = BTN_TEXT, .label = "(FAX 4:4)", .press = page_1_cb};
+static button_data_t btn_page_4 = {.type = BTN_TEXT, .label = "（传真第4/4面）", .press = page_1_cb};
 
 static buttons_page_t page_1 = {.items = {&btn_page_1, &btn_freq, &btn_rx_mode, &btn_clear, &btn_close}};
 static buttons_page_t page_2 = {.items = {&btn_page_2, &btn_align, &btn_tilt, &btn_view, &btn_save}};

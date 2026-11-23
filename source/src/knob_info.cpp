@@ -65,7 +65,7 @@ static Knob pick(const char *name, SubjectT<int32_t> &s, std::vector<std::string
 }
 
 static Knob on_off(const char *name, SubjectT<int32_t> &s) {
-    return pick(name, s, {"关闭", "On"});
+    return pick(name, s, {"关", "On"});
 }
 
 /* The controls of the app knobs (RTTY, WEFAX) have none: those apps show their own */
@@ -99,7 +99,7 @@ static const std::map<int, Knob> knobs = {
                            : m == CLUSTER_FM_DIG ? "DIG" : m == (CLUSTER_FM_CW | CLUSTER_FM_DIG) ? "CW+DIG" : "Some");
     }}},
 
-    {CTRL_AGC, pick("AGC", cfg_sm.cp_cur_agc, {"关闭", "Slow", "Fast", "Auto"})},
+    {CTRL_AGC, pick("AGC", cfg_sm.cp_cur_agc, {"关", "Slow", "Fast", "Auto"})},
     {CTRL_PRE, on_off("PRE", cfg_sm.cp_cur_pre)},
     {CTRL_ATT, on_off("ATT", cfg_sm.cp_cur_att)},
     {CTRL_ATU, on_off("ATU", cfg_sm.p_atu_enabled)},

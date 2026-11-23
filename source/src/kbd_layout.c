@@ -17,10 +17,10 @@
 static const kbd_layout_t layouts[KBD_LAYOUTS] = {
     {"US",                  "us", "pc101", false},
     {"UK",                  "gb", "pc105", false},
-    {"German (QWERTZ)",     "de", "pc105", false},
-    {"Swiss German",        "ch", "pc105", false},
-    {"French (AZERTY)",     "fr", "pc105", true},     /* xkb's own list of the layouts its option is for */
-    {"Belgian (AZERTY)",    "be", "pc105", true},
+    {"德语（QWERTZ）",     "de", "pc105", false},
+    {"瑞士德语",        "ch", "pc105", false},
+    {"法语（AZERTY）",     "fr", "pc105", true},     /* xkb's own list of the layouts its option is for */
+    {"比利时语（AZERTY）",    "be", "pc105", true},
     {"Spanish",             "es", "pc105", false},
     {"Italian",             "it", "pc105", false},
     {"Portuguese",          "pt", "pc105", false},
@@ -29,7 +29,7 @@ static const kbd_layout_t layouts[KBD_LAYOUTS] = {
     {"Danish",              "dk", "pc105", false},
     {"Norwegian",           "no", "pc105", false},
     {"Polish",              "pl", "pc105", false},
-    {"Czech (QWERTZ)",      "cz", "pc105", false},
+    {"捷克语（QWERTZ）",      "cz", "pc105", false},
 };
 
 const kbd_layout_t *kbd_layout_get(int i) {

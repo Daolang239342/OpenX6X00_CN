@@ -438,7 +438,7 @@ const clock_zone_t clock_zones[] = {
     { "America/Sao_Paulo (BRT)",          "BRT3" },
     { "America/Buenos_Aires (ART)",       "ART3" },
     { "Europe/London (GMT/BST)",          "GMT0BST,M3.5.0/1,M10.5.0" },
-    { "Europe/Lisbon, Canary (WET/WEST)", "WET0WEST,M3.5.0/1,M10.5.0" },
+    { "欧洲/里斯本、加那利群岛（WET/WEST）", "WET0WEST,M3.5.0/1,M10.5.0" },
     { "Europe/Rome (CET/CEST)",           "CET-1CEST,M3.5.0,M10.5.0/3" },
     { "Europe/Athens (EET/EEST)",         "EET-2EEST,M3.5.0/3,M10.5.0/4" },
     { "Africa/Johannesburg (SAST)",       "SAST-2" },

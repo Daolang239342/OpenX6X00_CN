@@ -15,6 +15,10 @@ Kinds:
 """
 import re, os, json, sys
 
+SRC = sys.argv[1] if len(sys.argv) > 1 else 'src'
+# 文件路径相对“仓库根”保存（默认 SRC=src → 前缀 src/；显式传 /x/v2/src → 前缀 src/）
+REPO = os.path.dirname(os.path.abspath(SRC)) if os.path.basename(os.path.abspath(SRC)) == 'src' else os.path.abspath(SRC)
+
 CALL = re.compile(
     r'(lv_label_set_text(?:_fmt)?|lv_btnmatrix_set_map|lv_dropdown_set_options|'
     r'lv_table_set_cell_value|msg_update_text(?:_fmt)?|msg_set_text(?:_fmt)?|'
@@ -35,7 +39,7 @@ def has_word(s):
     return sum(c.isalpha() for c in s) >= 2
 
 files = []
-for root, ds, fs in os.walk('src'):
+for root, ds, fs in os.walk(SRC):
     for f in fs:
         if f.endswith(('.c', '.cpp', '.inc')):
             files.append(os.path.join(root, f))
@@ -55,8 +59,9 @@ def add(fp, line, kind, raw, start, end, arr=None):
         rec['arr'] = arr
     rows.append(rec)
 
-for fp in files:
-    text = open(fp, encoding='utf-8', errors='replace').read()
+for fp_abs in files:
+    fp = os.path.relpath(fp_abs, REPO)
+    text = open(fp_abs, encoding='utf-8', errors='replace').read()
     lines = text.split('\n')
     # precompute line start offsets
     line_offs = [0]

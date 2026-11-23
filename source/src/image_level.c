@@ -62,7 +62,7 @@ static void notice_cb(lv_timer_t *t) {
     }
     if (strcmp(seen, VERSION) == 0) return;
     /* the message box takes one short line: what the image brings is on Settings > Info > Update */
-    msg_schedule_long_text_fmt("New card image out: Settings > Info");
+    msg_schedule_long_text_fmt("新 SD 卡镜像已生成：设置 > 信息");
     if ((f = fopen(NOTICE_SEEN, "w"))) {
         fprintf(f, "%s\n", VERSION);
         fclose(f);

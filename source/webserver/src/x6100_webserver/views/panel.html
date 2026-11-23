@@ -168,13 +168,13 @@ body.app h2, body.app #intro, body.app #intro-away { display:none; }
 
 <div class="pn-bar">
   <button type="button" id="snd" aria-pressed="false">Sound</button>
-  <button type="button" id="mic" aria-pressed="false" title="The browser's microphone transmits while PTT is held">Mic</button>
+  <button type="button" id="mic" aria-pressed="false" title="按住 PTT 时，浏览器麦克风会进行发射">Mic</button>
   <button type="button" id="theme" title="深色或浅色（用于太阳图）">Light</button>
-  <button type="button" id="pal" title="The waterfall's colours">颜色</button>
-  <button type="button" id="appmode" title="The panel alone, the height of the screen">App</button>
+  <button type="button" id="pal" title="瀑布图颜色">颜色</button>
+  <button type="button" id="appmode" title="仅显示控制面板，高度占满屏幕">App</button>
   <button type="button" id="full">全屏</button>
-  <span class="sesbar" id="ses" title="This browser's access to the radio, and who controls it"></span>
-  <span class="health" id="hl" title="The page's links to the radio: link, spectrum, sound, microphone; this browser's access; who controls the radio"></span>
+  <span class="sesbar" id="ses" title="此浏览器对电台的访问权限，以及当前控制电台的客户端"></span>
+  <span class="health" id="hl" title="此页面与电台之间的连接：链接、频谱、声音、麦克风；此浏览器的访问权限；当前控制电台的客户端"></span>
   <span class="status" id="st"></span>
 </div>
 
@@ -187,7 +187,7 @@ body.app h2, body.app #intro, body.app #intro-away { display:none; }
         <span class="chip" id="c-vfo" title="VFO">A</span>
         <span class="chip" id="c-bat" title="电池">--%</span>
       </div>
-      <div class="freq" id="freq" title="Tap: type a frequency">-.---.---</div>
+      <div class="freq" id="freq" title="点击：输入频率">-.---.---</div>
       <div class="smeter"><span>S</span><div class="bar" id="sbar"><i></i></div><span class="val" id="sval">--</span></div>
     </div>
     <div class="pn-pan" id="pan">
@@ -215,7 +215,7 @@ body.app h2, body.app #intro, body.app #intro-away { display:none; }
       <div class="row r5">
         <button class="b lvl" data-lvl="vol"><i data-d="-1">−</i><span><small>VOL</small><span>--</span></span><i data-d="1">+</i></button>
         <button class="b lvl" data-lvl="sql"><i data-d="-1">−</i><span><small>静噪</small><span>--</span></span><i data-d="1">+</i></button>
-        <button class="b lvl" data-lvl="rfg"><i data-d="-1">−</i><span><small>RF GAIN</small><span>--</span></span><i data-d="1">+</i></button>
+        <button class="b lvl" data-lvl="rfg"><i data-d="-1">−</i><span><small>射频增益</small><span>--</span></span><i data-d="1">+</i></button>
         <button class="b lvl" data-lvl="pwr"><i data-d="-1">−</i><span><small>POWER</small><span>--</span></span><i data-d="1">+</i></button>
         <button class="b" id="b-filter"><small>滤波器</small><span>--</span></button>
       </div>
@@ -223,8 +223,8 @@ body.app h2, body.app #intro, body.app #intro-away { display:none; }
         <button class="b" id="b-tune"><small>knob</small>◀ −</button>
         <button class="b" id="b-tunep"><small>knob</small>+ ▶</button>
         <button class="b" id="b-atune"><small>ATU</small>调谐</button>
-        <button class="b xtune" id="b-xtune" title="A low-power carrier for a tuner of its own at the antenna, at the radio's TUNE power and time limit (Settings &gt; TX Cal); press again to stop">调谐<small>external tuner</small></button>
-        <button class="b ptt" id="pttbtn">PTT (hold)</button>
+        <button class="b xtune" id="b-xtune" title="为安装在天线端的外置天调提供低功率载波，使用电台的 TUNE 功率和时间限制（设置 > TX 校准）；再次按下即可停止">调谐<small>外置天调</small></button>
+        <button class="b ptt" id="pttbtn">PTT（按住）</button>
       </div>
     </div>
   </section>
@@ -241,52 +241,52 @@ body.app h2, body.app #intro, body.app #intro-away { display:none; }
       <div class="ftbar">
         <button class="b" id="ft-open"><small>APP</small><span>Open</span></button>
         <button class="b" id="ft-mode"><small>MODE</small><span>FT8</span></button>
-        <button class="b" id="ft-txf"><small>TX Hz</small><span>--</span></button>
-        <button class="b tg" id="ft-txcall" title="TX Call: armed, the queued message goes out in its slot; off, the app only listens and decodes (a dry run)"><small>TX</small><span>off</span></button>
-        <button class="b tg" id="ft-cq" title="Call CQ every slot of ours until a station answers, or CQ off">CQ</button>
-        <button class="b tg" id="ft-auto" title="Answer by itself a station that calls you, and carry the QSO through; it never calls CQ on its own">AUTO</button>
-        <button class="b tg" id="ft-hold" title="Hold the TX offset: do not move onto the station answered">保持</button>
-        <button class="b" id="ft-stop" title="Stop the transmission, drop the queued message, CQ off, TX off: nothing transmits until armed again">STOP</button>
-        <button class="b" id="ft-clear" title="Clear this list (the radio's is not touched)">清除</button>
-        <button class="b wide" id="ft-order" aria-pressed="false" title="Where the newest decode comes in: at the bottom, as on the radio, or on top, under these buttons; this browser keeps the choice">Newest at the bottom</button>
+        <button class="b" id="ft-txf"><small>TX 频率，Hz</small><span>--</span></button>
+        <button class="b tg" id="ft-txcall" title="TX 呼叫：启用后，排队消息会在对应时隙发出；关闭后，应用只接收和解码（模拟运行）"><small>TX</small><span>off</span></button>
+        <button class="b tg" id="ft-cq" title="每个本台时隙呼叫一次 CQ，直到有电台应答；也可以关闭 CQ">CQ</button>
+        <button class="b tg" id="ft-auto" title="自动应答呼叫你的电台，并持续完成整个 QSO；不会自行呼叫 CQ">AUTO</button>
+        <button class="b tg" id="ft-hold" title="保持 TX 偏移不变：不要调到被应答台站的频率上">保持</button>
+        <button class="b" id="ft-stop" title="停止发射、丢弃排队消息、关闭 CQ 和 TX：再次启用之前不会进行任何发射">STOP</button>
+        <button class="b" id="ft-clear" title="清除此列表（不会更改电台上的列表）">清除</button>
+        <button class="b wide" id="ft-order" aria-pressed="false" title="最新解码结果的显示位置：底部（与电台相同），或顶部（位于这些按钮下方）；此选择仅保存在当前浏览器中。">最新内容显示在底部</button>
       </div>
-      <ol class="ftl" id="ftl" title="What the app does now and next">
+      <ol class="ftl" id="ftl" title="应用当前及下一步的操作">
         <li data-s="listen">Listening<small></small></li>
         <li data-s="queued">Queued<small></small></li>
-        <li data-s="slot">Next slot<small></small></li>
+        <li data-s="slot">下一个时隙<small></small></li>
         <li data-s="sending">Sending<small></small></li>
         <li data-s="logged">Logged<small></small></li>
       </ol>
-      <div class="ftnext" id="ft-next">The app is closed: Open starts it on the radio.</div>
+      <div class="ftnext" id="ft-next">应用已关闭：点击 Open 可在电台上启动它。</div>
       <ul class="ft" id="ftrows"></ul>
-      <p class="sub" style="margin:8px 0 0;font-size:12px">All of it runs on the radio: CQ and AUTO go on calling and answering when this page closes or loses its link. TX off makes a dry run: the app listens, decodes and queues, and nothing keys the transmitter. A tap on a CQ or a call queues one reply for the next slot of ours and arms TX.</p>
+      <p class="sub" style="margin:8px 0 0;font-size:12px">所有操作都在电台上运行：即使关闭此页面或连接中断，CQ 和 AUTO 仍会继续呼叫和应答。关闭 TX 可进行模拟运行：应用只接收、解码并将消息加入队列，不会触发发射机。点击 CQ 或某个呼叫信息，会将一条回复加入本台下一个时隙的队列并启用 TX。</p>
     </div>
     <div class="tab" id="tab-cw">
-      <div class="ftbar" style="grid-template-columns:1fr 1fr"><button class="b" id="cw-clear">清除</button><button class="b" id="cw-log"><small>日志</small><span>last call</span></button></div>
+      <div class="ftbar" style="grid-template-columns:1fr 1fr"><button class="b" id="cw-clear">清除</button><button class="b" id="cw-log"><small>日志</small><span>上一个呼号</span></button></div>
       <pre class="cwtext" id="cwtext"></pre>
       <p class="sub" style="margin:8px 0 0;font-size:12px">The radio's CW decoder (Settings > CW): its text as it comes, in CW mode.</p>
     </div>
     <div class="tab" id="tab-log">
-      <div class="logf"><input id="lg-call" placeholder="呼叫" autocapitalize="characters" autocomplete="off"><input id="lg-rs" placeholder="RST s" value="59"><input id="lg-rr" placeholder="RST r" value="59"></div>
-      <div class="logf2"><input id="lg-name" placeholder="Name (optional)" autocomplete="off"><button class="b" id="lg-log" style="height:40px;padding:0 18px">日志</button></div>
-      <p class="sub" style="margin:10px 0 0;font-size:12px">A QSO by hand (voice, CW, or PSK, Olivia, Contestia, JTTY, RTTY) on the radio's frequency, into the day's ADIF log on the radio (the web Logs page lists it). Its mode is the one of the app open on the radio, else the radio's; in USB-D or LSB-D with no app, away from FT8 and FT4, it has none: set it on the Logs page. FT8, FT4, FT2 and JS8 log their own QSOs. Each QSO is confirmed by the radio: one sent into a dropped connection is asked about when the link is back, and never logged twice.</p>
+      <div class="logf"><input id="lg-call" placeholder="呼叫" autocapitalize="characters" autocomplete="off"><input id="lg-rs" placeholder="RST 发送" value="59"><input id="lg-rr" placeholder="RST 接收" value="59"></div>
+      <div class="logf2"><input id="lg-name" placeholder="名称（可选）" autocomplete="off"><button class="b" id="lg-log" style="height:40px;padding:0 18px">日志</button></div>
+      <p class="sub" style="margin:10px 0 0;font-size:12px">手动记录一次 QSO（语音、CW 或 PSK、Olivia、Contestia、JTTY、RTTY），使用电台当前频率，并写入电台当天的 ADIF 日志（网页 Logs 页面也会列出）。模式取自电台当前打开的应用，否则使用电台自身模式；若处于 USB-D 或 LSB-D 且没有打开应用，并且不是 FT8 或 FT4，则不会自动指定模式：请在 Logs 页面设置。FT8、FT4、FT2 和 JS8 会自动记录各自的 QSO。每次 QSO 都由电台确认：若连接中断时提交，连接恢复后会再次询问，且绝不会重复记录。</p>
       <ul class="ft" id="lgrows"></ul>
     </div>
-    <div class="tab cur" id="tab-spots"><ul class="spots" id="spots"><li style="display:block;color:var(--pd)">No spots yet: the cluster is set on the radio (Cluster page).</li></ul></div>
+    <div class="tab cur" id="tab-spots"><ul class="spots" id="spots"><li style="display:block;color:var(--pd)">尚无报点：电台上已设置集群（Cluster 页面）。</li></ul></div>
     <div class="tab" id="tab-keys">
       <div class="keys">
         <button class="b" data-key="F1">F1</button><button class="b" data-key="F2">F2</button><button class="b" data-key="F3">F3</button>
-        <button class="b" data-key="F4">F4</button><button class="b" data-key="F5">F5</button><button class="b" data-key="POWER" title="Tap: screen on/off">POWER</button>
+        <button class="b" data-key="F4">F4</button><button class="b" data-key="F5">F5</button><button class="b" data-key="POWER" title="点击：屏幕开 / 关">POWER</button>
         <button class="b" data-key="GEN">GEN</button><button class="b" data-key="KEY">KEY</button><button class="b" data-key="DFN">DFN</button>
         <button class="b" data-key="APP">APP</button><button class="b" data-key="MSG">MSG</button><button class="b" data-key="DFL">DFL</button>
         <button class="b" data-key="AM">AM</button><button class="b" data-key="CW">CW</button><button class="b" data-key="SSB">SSB</button>
         <button class="b" data-key="AB">A/B</button><button class="b" data-key="PRE">PRE</button><button class="b" data-key="ATU">ATU</button>
         <button class="b" data-key="VM">V/M</button><button class="b" data-key="AGC">AGC</button><button class="b" data-key="FST">FST</button>
-        <div class="wide knobs"><button class="b" data-knob="vol" data-step="-1">VOL −</button><button class="b" data-key="VOL">VOL push</button><button class="b" data-knob="vol" data-step="1">VOL +</button></div>
-        <div class="wide knobs"><button class="b" data-knob="mfk" data-step="-1">MFK −</button><button class="b" data-key="MFK">MFK push</button><button class="b" data-knob="mfk" data-step="1">MFK +</button></div>
+        <div class="wide knobs"><button class="b" data-knob="vol" data-step="-1">VOL −</button><button class="b" data-key="VOL">按下音量旋钮</button><button class="b" data-knob="vol" data-step="1">VOL +</button></div>
+        <div class="wide knobs"><button class="b" data-knob="mfk" data-step="-1">MFK −</button><button class="b" data-key="MFK">按下功能旋钮</button><button class="b" data-knob="mfk" data-step="1">MFK +</button></div>
         <div class="wide knobs"><button class="b" data-key="BAND_DOWN">BAND ▼</button><button class="b" data-key="LOCK">LOCK</button><button class="b" data-key="BAND_UP">BAND ▲</button></div>
       </div>
-      <p class="sub" style="margin:10px 0 0;font-size:12px">The radio's front keys, for its menus and apps: what they open shows on the Screen tab.</p>
+      <p class="sub" style="margin:10px 0 0;font-size:12px">电台前面板按键，用于菜单和应用操作：按键打开的内容会显示在 Screen 选项卡中。</p>
     </div>
     <div class="tab" id="tab-screen"><div class="screen"><canvas id="scv" width="800" height="480"></canvas></div></div>
   </aside>

@@ -1,11 +1,11 @@
 % rebase('base.html', title='Update')
 <h2><svg class="i"><use href="#i-download"/></svg>更新</h2>
-<p class="sub">The radio installs a newer OpenX6X00 by itself: the GUI, the web pages, the helpers and their data, from the project's GitHub releases or from a bundle file. The files are checked against the project's signature, the previous version is kept, and the radio software restarts at the end (about a minute). A version that does not come up is put back automatically. The kernel and the WiFi driver still come with a card image.</p>
+<p class="sub">电台会自动安装较新版本的 OpenX6X00：包括 GUI、网页、辅助程序及其数据，来源可以是项目的 GitHub Releases 或软件包文件。文件会根据项目签名进行校验，并保留上一版本；安装结束后电台软件会重新启动（约一分钟）。如果新版本无法正常启动，会自动恢复上一版本。内核和 Wi-Fi 驱动仍需通过 SD 卡镜像安装。</p>
 
 <div class="dp-card">
-  <div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-cpu"/></svg></span><div><h3>版本</h3><p>What runs now, and the latest release</p></div></div>
+  <div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-cpu"/></svg></span><div><h3>版本</h3><p>当前运行版本及最新发布版本</p></div></div>
   <div class="dp-row"><div class="dp-lbl"><b>运行中</b></div><div class="dp-ctl" id="running">-</div></div>
-  <div class="dp-row"><div class="dp-lbl"><b>Latest release</b><span id="notes"></span></div><div class="dp-ctl" id="latest">-</div></div>
+  <div class="dp-row"><div class="dp-lbl"><b>最新版本</b><span id="notes"></span></div><div class="dp-ctl" id="latest">-</div></div>
   <div class="dp-row"><div class="dp-lbl"><b>SD卡镜像</b><span id="imgnote">What the update cannot carry (the kernel, the WiFi driver) comes with a card image</span></div><div class="dp-ctl" id="image">-</div></div>
   <div class="dp-body" style="border-top:1px solid #1a283c">
     <div class="actions" style="margin-top:0">
@@ -24,14 +24,14 @@
   </div>
   <div class="dp-body" style="border-top:1px solid #1a283c">
     <div class="actions" style="margin-top:0">
-      <button type="submit" class="primary">Install the file</button>
+      <button type="submit" class="primary">安装文件</button>
       <span class="status" id="ustatus"></span>
     </div>
   </div>
 </form>
 
 <div class="dp-card">
-  <div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-sync"/></svg></span><div><h3>Previous version</h3><p>The files of the version before the last update are kept until the next one</p></div></div>
+  <div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-sync"/></svg></span><div><h3>先前版本</h3><p>The files of the version before the last update are kept until the next one</p></div></div>
   <div class="dp-row"><div class="dp-lbl"><b>Last update</b></div><div class="dp-ctl" id="last">-</div></div>
   <div class="dp-body" style="border-top:1px solid #1a283c">
     <div class="actions" style="margin-top:0">

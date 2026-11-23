@@ -216,7 +216,7 @@ static void typing_done(void) {
 }
 
 static bool password_cancel(void) {
-    msg_update_text_fmt("Password is required");
+    msg_update_text_fmt("需要密码");
     typed[0] = 0;
     typing_done();
     return true;
@@ -226,7 +226,7 @@ static bool password_ok(void) {
     /* A copy: the textarea goes with the window, the pointer into it would not */
     snprintf(typed, sizeof(typed), "%s", textarea_window_get());
     if (editing.password_validator && !editing.password_validator(typed)) {
-        msg_update_text_fmt("WPA密码应为8到63个字符");
+        msg_update_text_fmt("WPA密码为8到63个字符");
         return false;
     }
     if (editing.known) {
@@ -328,7 +328,7 @@ static void password_press(button_data_t *b) {
     } else if (!ap->known) {
         msg_update_text_fmt("Can't update new connection");
     } else if (!ap->password_validator) {
-        msg_update_text_fmt("Password is not used");
+        msg_update_text_fmt("未使用密码");
     } else {
         ask_password(ap);
     }
@@ -343,7 +343,7 @@ static void forget_press(button_data_t *b) {
         return;
     }
     wifi_delete_connection(ap->uuid);
-    msg_update_text_fmt("已删除连接");
+    msg_update_text_fmt("连接已删除");
 }
 
 static const char *power_label(void) {

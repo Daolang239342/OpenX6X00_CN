@@ -107,11 +107,11 @@ static void place_food(void) {
 }
 
 static void show_text(void) {
-    lv_label_set_text_fmt(hud, "SCORE %04d   BEST %04d", score, best);
+    lv_label_set_text_fmt(hud, "得分 %04d   最高 %04d", score, best);
     if (over)
-        lv_label_set_text_fmt(banner, "73, GAME OVER\n#%06x Score %d - MFK to call CQ again#", theme_hex(TC_text), score);
+        lv_label_set_text_fmt(banner, "73，游戏结束\n#%06x 得分 %d - 转动功能旋钮可再次呼叫 CQ#", theme_hex(TC_text), score);
     else if (paused)
-        lv_label_set_text_fmt(banner, "WATERFALL SNAKE\n#%06x Turn the knob to steer - MFK to start#", theme_hex(TC_text));
+        lv_label_set_text_fmt(banner, "瀑布蛇\n#%06x 转动旋钮控制方向 - 按下功能旋钮开始#", theme_hex(TC_text));
     if (over || paused)
         lv_obj_clear_flag(banner, LV_OBJ_FLAG_HIDDEN);
     else

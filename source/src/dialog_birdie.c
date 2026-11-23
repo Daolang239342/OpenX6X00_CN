@@ -79,7 +79,7 @@ static const char *start_label(void) {
 }
 
 static const char *marks_label(void) {
-    static const char *const names[] = {"Marks:\nOff", "Marks:\nOn", "Marks:\n+ notch"};
+    static const char *const names[] = {"标记：\n关闭", "Marks:\nOn", "Marks:\n+ notch"};
     int32_t v = param_i_get(cfg_birdie_marks);
     return names[v >= 0 && v <= 2 ? v : 0];
 }
@@ -92,11 +92,11 @@ static void start_cb(button_data_t *b) {
         return;
     }
     if (radio_get_state() != RADIO_RX) {
-        msg_update_text_fmt("Not while transmitting");
+        msg_update_text_fmt("发射期间不可用");
         return;
     }
     if (birdie_scan_start(progress_cb, NULL)) {
-        lv_label_set_text(status_label, "Scanning. Keep the antenna disconnected.");
+        lv_label_set_text(status_label, "正在扫描。请保持天线断开。");
         buttons_refresh(&btn_start);
     }
 }
@@ -106,7 +106,7 @@ static void clear_cb(button_data_t *b) {
     if (birdie_scanning()) return;
     birdie_clear();
     known_update();
-    lv_label_set_text(status_label, "Forgotten. Scan again when you like.");
+    lv_label_set_text(status_label, "已清除。需要时可重新扫描。");
 }
 
 static void marks_cb(button_data_t *b) {
@@ -149,17 +149,17 @@ static void construct_cb(lv_obj_t *parent) {
     dialog.obj = dialog_init(parent);
     buttons_load_page(&page);
 
-    text(dialog.obj, &sony_28, TC(text_head), 12, "BIRDIE CALIBRATION");
+    text(dialog.obj, &sony_28, TC(text_head), 12, "鸟点校准");
     text(dialog.obj, &sony_22, TC(text), 56,
          "Birdies are steady carriers the radio makes inside itself. This scan finds them on every active "
          "band and keeps their frequencies: the waterfall marks them, and with Marks + notch the notch filter "
          "takes one out of the passband when you tune across it.");
-    text(dialog.obj, &sony_22, TC(warn), 150, "Disconnect the antenna, then press Start. A few minutes: every active band the radio transmits on.");
+    text(dialog.obj, &sony_22, TC(warn), 150, "断开天线，然后按 Start。校准需要几分钟，期间电台会在每个可用发射频段上发射。");
     status_label = text(dialog.obj, &sony_24, TC(text_value), 200, "");
     known_label  = text(dialog.obj, &sony_22, TC(text_dim), 250, "");
     known_update();
     if (birdie_scanning())
-        lv_label_set_text(status_label, "Scanning. Keep the antenna disconnected.");
+        lv_label_set_text(status_label, "正在扫描。请保持天线断开。");
 
     lv_group_add_obj(keyboard_group, dialog.obj);
     lv_obj_add_event_cb(dialog.obj, key_cb, LV_EVENT_KEY, NULL);

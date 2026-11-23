@@ -14,10 +14,13 @@ import os, subprocess, sys, re
 HERE = os.path.dirname(os.path.abspath(__file__))
 SRC_FONT = os.path.join(HERE, 'assets', 'NotoSansSC-Regular.otf')
 SUBSET = os.path.join(HERE, 'assets', 'NotoSansSC-zh.otf')
-SRC_DIR = os.path.abspath(os.path.join(HERE, '..', 'source'))
+SRC_DIR = os.path.abspath(sys.argv[1]) if len(sys.argv) > 1 else os.path.abspath(os.path.join(HERE, '..', 'source'))
 FONT_DIR = os.path.join(SRC_DIR, 'src', 'fonts')
 PY = os.path.join(HERE, '.venv', 'bin', 'python')
 
+# 文件仍叫 zh_<N>.c 表示“用于 sony_N”，但实际渲染字号按主字体行高缩小。
+# 主字体 sony_N 的行高约 0.8*N，而 Noto CJK 的行高约 1.1*size，为不超出
+# 主字体行高，中文字号取 int(sony_line_height / 1.1)。
 SIZES = [14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 60]
 
 def load_chars():
@@ -80,15 +83,25 @@ def main():
         if s not in symbols:
             symbols += s
 
-    # lv_font_conv
-    for size in SIZES:
-        out = os.path.join(FONT_DIR, f'zh_{size}.c')
+    # lv_font_conv：文件名仍为 zh_<N>.c（用于 sony_N），但 --size 取该档
+    # 主字体的行高换算值，避免中文行高超出按钮/行高导致顶部被裁切。
+    for n in SIZES:
+        sony = os.path.join(FONT_DIR, f'sony_{n}.c')
+        lh = None
+        if os.path.exists(sony):
+            m = re.search(r'\.line_height\s*=\s*(\d+)', open(sony, encoding='utf-8', errors='ignore').read())
+            if m:
+                lh = int(m.group(1))
+        if lh is None:
+            lh = int(n * 0.8)
+        actual = max(10, int(lh / 1.1))
+        out = os.path.join(FONT_DIR, f'zh_{n}.c')
         cmd = ['npx', '--yes', 'lv_font_conv',
-               '--bpp', '4', '--size', str(size), '--font', SUBSET,
+               '--bpp', '4', '--size', str(actual), '--font', SUBSET,
                '--symbols', symbols, '--no-compress',
                '--format', 'lvgl', '--force-fast-kern-format',
                '--lv-include', 'lvgl/lvgl.h', '-o', out]
-        print('generating', out, '...')
+        print(f'generating {out} (rendered size {actual} from sony_{n} LH {lh}) ...')
         subprocess.run(cmd, check=True)
     print('done')
 

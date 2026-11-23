@@ -12,7 +12,7 @@ escaped as C escapes (\\n, \\t, \\", \\\\, \\xNN).
 import os, sys, json
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-ROOT = os.path.abspath(os.path.join(HERE, '..', 'source'))
+ROOT = os.path.abspath(sys.argv[1]) if len(sys.argv) > 1 else os.path.abspath(os.path.join(HERE, '..', 'source'))
 sys.path.insert(0, HERE)
 from dict_zh import load as load_dict
 
@@ -38,6 +38,13 @@ def c_escape(s: str) -> str:
 
 def main():
     d = load_dict()
+    # 规范化译文里的“字面反斜杠-n/t/引号”：v1 词典写成了两个字符，需还原为
+    # 真实转义，再交给 c_escape() 正确输出到 C 源码。
+    def norm(s: str) -> str:
+        return (s.replace('\\\\n', '\\n')
+                 .replace('\\\\t', '\\t')
+                 .replace('\\\\"', '\\"'))
+    d = {k: norm(v) for k, v in d.items()}
     print(f'loaded {len(d)} dictionary entries')
 
     cand_path = os.path.join(HERE, 'candidates.json')

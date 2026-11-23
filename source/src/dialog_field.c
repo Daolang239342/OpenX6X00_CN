@@ -500,7 +500,7 @@ static bool job_start(job_done_t done, const char *fmt, ...) {
     bool      idle = false;
 
     if (!atomic_compare_exchange_strong(&busy, &idle, true)) {
-        msg_update_text_fmt("Field: wait, still busy");
+        msg_update_text_fmt("Field：请稍候，仍在忙碌");
         return false;
     }
     j       = calloc(1, sizeof(*j));
@@ -1433,11 +1433,11 @@ static void bands_fill(void) {
 static void build_bands(void) {
     static const lv_coord_t widths[] = {72, 150, 100, 80, 90, 160, 90};
 
-    head_set("bands", "BAND OVERVIEW");
+    head_set("bands", "频段概览");
     list_create(body, 8, 36, W - 16, body_h - STATUS_H - 64, widths, 7);
     lv_label_set_text(label(body, VF(18), TC(text_dim), 14, body_h - STATUS_H - 24, W - 28),
-                      "Skimmer data: Reverse Beacon Network (reversebeacon.net)");
-    list_head("BAND\tACTIVITY\t\tSPOTS\tRBN\tHEARD YOU\t", 13, 6);
+                      "解码器数据：反向信标网络（reversebeacon.net）");
+    list_head("频段\t活动\t\t报点\tRBN\t听到你的台站\t", 13, 6);
     lv_obj_set_style_text_font(list, VF(22), 0);
     sel = field_band_of(cparam_i_get(cfg_fg_freq));
     bands_fill();
@@ -1458,7 +1458,7 @@ static void build_log(void) {
     head_set("log", t);
     widths[1] = params.clock_12h.x ? 112 : 90;     /* 12:34 PM (#54) */
     list_create(body, 8, 36, W - 16, body_h - STATUS_H - 40, widths, 6);
-    list_head("N\tTIME\tCALL\tBAND\tMODE\tRST S / R", 13, 6);
+    list_head("序号\t时间\t呼号\t频段\t模式\tRST 发送 / 接收", 13, 6);
     log_load();
     for (int k = 0; k < qsos_n; k++) {
         char hm[16];
@@ -1469,7 +1469,7 @@ static void build_log(void) {
     }
     list_select(qsos_n - 1);
     lv_label_set_text_fmt(status, "%d QSO%s   %s", qsos_total, qsos_total == 1 ? "" : "s",
-                          st.log[0] ? strrchr(st.log, '/') + 1 : "No activation yet");
+                          st.log[0] ? strrchr(st.log, '/') + 1 : "尚未开始任何活动");
     buttons_load_page(&page_log);
 }
 
@@ -1763,7 +1763,7 @@ static void spot_to(bool cluster) {
             msg_update_text_fmt("%s spot on the DX clusters: %s %.1f %s", p, st.ref.ref,
                                 cparam_i_get(cfg_fg_freq) / 1000.0, shown_mode());
         else
-            msg_update_text_fmt("DX cluster not running: no %s spot", p);
+            msg_update_text_fmt("DX 集群未运行：没有 %s 报点", p);
         return;
     }
     char        comment[48];
@@ -1777,7 +1777,7 @@ static void spot_to(bool cluster) {
     if ((st.ref.type == 'H' && !hota_key()) || (st.ref.type == 'F' && !wwff_key())) {
         /* cqhota.app and the WWFF Spotline take spots with the activator's own key only */
         msg_update_text_fmt(cluster ? "%s spot on the DX clusters only: no %s key (web page, Field Ops)"
-                                    : "No %s spot: no %s key (web page, Field Ops)", p, p);
+                                    : "没有 %s 报点：缺少 %s 密钥（网页、Field Ops）", p, p);
         return;
     }
     if (spot_job(false))
@@ -1793,7 +1793,7 @@ static void spot_cb(button_data_t *b) {
         spot_armed    = true;
         spot_armed_at = time(NULL);
         buttons_refresh(&b_spot);
-        msg_update_text_fmt("Press Spot again to post %s %.1f %s", st.have_ref ? st.ref.ref : "",
+        msg_update_text_fmt("再次按下 Spot，即可发布 %s %.1f %s", st.have_ref ? st.ref.ref : "",
                             cparam_i_get(cfg_fg_freq) / 1000.0, shown_mode());
         return;
     }
@@ -1820,16 +1820,16 @@ static void cq_cb(button_data_t *b) {
         /* The voice CQ recorded with Rec CQ ("CQ SOTA", "CQ POTA"... in /mnt/msg, also in MSG > Voice) */
         snprintf(text, sizeof(text), "CQ %s", prog_name());
         if (msg_voice_send_toggle(text))
-            msg_update_text_fmt("CQ: sending \"%s\" (CQ again: stop, hold CQ: level)", text);
+            msg_update_text_fmt("CQ：正在发送“%s”（再次呼叫 CQ：停止；按住 CQ：调节等级）", text);
         else if (!msg_voice_exists(text))
-            msg_update_text_fmt("No voice CQ yet: Rec CQ on page 2, speak, Stop rec");
+            msg_update_text_fmt("尚无语音 CQ：在第 2 页选择 Rec CQ，开始讲话，然后选择 Stop rec");
         return;
     }
     snprintf(text, sizeof(text), "CQ CQ %s DE %s %s K", prog_name(), my_call(), my_call());
     cw_encoder_send(text, false);
 }
 
-/* The phone's "CALL|rst sent|rst received[|name|qth|grid|country[|comment]]", any field may be empty; the comment
+/* The phone's "呼号|发送的 RST|收到的 RST[|姓名|QTH|网格定位|国家/地区[|备注]]", any field may be empty; the comment
  * comes from the quick log's box (cw_field_log_qso, #195) */
 static bool activation_log_add(const field_qso_t *q, bool udp);
 
@@ -1892,7 +1892,7 @@ bool dialog_field_qso_log_ref(const char *text, const char *their_ref) {
     if (their_ref && field_ref_prog(their_ref))     /* a shape the log files under a programme, nothing else */
         snprintf(q.their_ref, sizeof(q.their_ref), "%s", their_ref);
     if (!ref_ok(call)) {
-        msg_update_text_fmt("Log from the phone: \"%s\" not logged", call);
+        msg_update_text_fmt("来自手机的日志：“%s”未记录", call);
         return false;
     }
     for (char *p = call; *p; p++)
@@ -1905,7 +1905,7 @@ bool dialog_field_qso_log_ref(const char *text, const char *their_ref) {
         return false;
     const char *sp = q.their_ref[0] ? " " : "";
     if (q.mode[0])
-        msg_update_text_fmt("QSO logged: %s %s %s %s%s%s", q.call, q.rst_s, q.rst_r, q.mode, sp, q.their_ref);
+        msg_update_text_fmt("QSO 已记录：%s %s %s %s%s%s", q.call, q.rst_s, q.rst_r, q.mode, sp, q.their_ref);
     else    /* long: it scrolls */
         msg_schedule_text_ms(9000, "QSO logged: %s %s %s%s%s, without a mode (no app open): set it on the Logs page",
                              q.call, q.rst_s, q.rst_r, sp, q.their_ref);
@@ -1972,7 +1972,7 @@ static bool activation_log_add(const field_qso_t *q, bool udp) {
     log_load();
     const char *tag = field_qso_tag(q);
     if (q->mode[0])
-        msg_update_text_fmt("QSO %d: %s %s %s %s", qsos_total, q->call, q->rst_s, q->rst_r, tag);
+        msg_update_text_fmt("QSO %d：%s %s %s %s", qsos_total, q->call, q->rst_s, q->rst_r, tag);
     else    /* USB-D or LSB-D away from FT8 and FT4 (adif_mode); long: it scrolls */
         msg_schedule_text_ms(9000, "QSO %d: %s %s %s%s%s, logged without a mode: set it on the Logs page", qsos_total,
                              q->call, q->rst_s, q->rst_r, tag[0] ? " " : "", tag);
@@ -2074,7 +2074,7 @@ static bool log_ok(void) {
         }
         field_log_extra(v, &more);
         if (!log_add(call, rs, rr, &more))
-            msg_update_text_fmt("Log: \"%s\" is not a callsign", call);
+            msg_update_text_fmt("日志：“%s”不是有效呼号", call);
     }
     kbd_end();
     return true;
@@ -2222,7 +2222,7 @@ static void update_done(const char *line) {
             msg_schedule_text_ms(6000, "Not updated, kept as it was: %s", partial + 9);
         near_lookup(true);
     } else {
-        msg_update_text_fmt("Reference list: %s", line);
+        msg_update_text_fmt("参考列表：%s", line);
     }
     if (dialog.run && st.screen == SCR_PROG && !st.active)
         lv_label_set_text(status, line);
@@ -2307,14 +2307,14 @@ static void tb_end(void) {
         LV_LOG_USER("Test beacon: not sent, Use band");
     } else if (listened) {
         LV_LOG_USER("Test beacon: not sent, stays on %i", (int)cparam_i_get(cfg_fg_freq));
-        msg_update_text_fmt("Test beacon not sent%s%s\nThe radio stays on %.4f MHz", tb.why[0] ? ": " : "", tb.why,
+        msg_update_text_fmt("测试信标未发送%s%s\n电台仍停留在 %.4f MHz", tb.why[0] ? ": " : "", tb.why,
                             cparam_i_get(cfg_fg_freq) / 1e6);
     } else if (tb.why && tb.why[0])
         msg_update_text_fmt("测试信标已停止：%s", tb.why);
     else if (back)
-        msg_update_text_fmt("Test beacon %s, back on %.3f MHz", tb.why ? "stopped" : "sent", tb.back_hz / 1e6);
+        msg_update_text_fmt("测试信标 %s，已返回 %.3f MHz", tb.why ? "stopped" : "sent", tb.back_hz / 1e6);
     else
-        msg_update_text_fmt("Test beacon %s", tb.why ? "stopped" : "sent: watch who hears you");
+        msg_update_text_fmt("测试信标 %s", tb.why ? "stopped" : "已发送：查看哪些台站听到了你的信号");
 }
 
 /* Moved meanwhile (the knob, a band key, Use band, another VFO or mode, the Panel, CAT): the key up, and the radio
@@ -2338,7 +2338,7 @@ static void tb_listen_msg(void) {
         msg_update_text_fmt("先收听：%s，%.3f MHz\\n再按一次发送：%i秒", field_band_name(tb.band),
                             tb.hz / 1e6, tb.left);
     else
-        msg_update_text_fmt("Listen: %s %.3f, TX %.3f\nPress again to send: %i s", field_band_name(tb.band),
+        msg_update_text_fmt("监听：%s %.3f，发射：%.3f\n再次按下以发送：%i 秒", field_band_name(tb.band),
                             tb.hz / 1e6, (tx < 0 ? -tx : tx) / 1e6, tb.left);
 }
 
@@ -2453,12 +2453,12 @@ void dialog_field_test_beacon(int band) {
         return;
     }
     if (radio_no_data()) {      /* none from the base (#152): before the dial moves, as QRSS3 */
-        msg_update_text_fmt("Test beacon on %s: no data from the base", field_band_name(band));
+        msg_update_text_fmt("测试信标位于 %s：基站没有返回数据", field_band_name(band));
         return;
     }
     if (field_band_of(here) != band) {
         if (main_screen_freq_locked() || main_screen_band_locked()) {
-            msg_update_text_fmt("Test beacon on %s: the frequency is locked", field_band_name(band));
+            msg_update_text_fmt("测试信标位于 %s：频率已锁定", field_band_name(band));
             return;
         }
         main_screen_set_freq(field_band_freq(band, true, band_plan_region()));
@@ -2471,7 +2471,7 @@ void dialog_field_test_beacon(int band) {
             main_screen_set_freq(here);
             if (cparam_i_get(cfg_cur_mode) != mode && !main_screen_mode_locked())
                 cparam_i_set(cfg_cur_mode, mode);
-            msg_update_text_fmt("Test beacon on %s: %s", field_band_name(band), why);
+            msg_update_text_fmt("测试信标位于 %s：%s", field_band_name(band), why);
             return;
         }
         tb.back_hz = here;
@@ -2479,7 +2479,7 @@ void dialog_field_test_beacon(int band) {
     } else {
         why = tb_no_tx(band, &tx);
         if (why) {
-            msg_update_text_fmt("Test beacon on %s: %s", field_band_name(band), why);
+            msg_update_text_fmt("测试信标位于 %s：%s", field_band_name(band), why);
             return;
         }
         tb.back_hz = 0;
@@ -2538,7 +2538,7 @@ static void qrz_done(const char *line) {
     char reason[80] = "";
 
     if (sscanf(line, "ok %d %d %d %79[^\n]", &sent, &dup, &bad, reason) >= 2) {
-        msg_update_text_fmt("QRZ：已发送%d，已有%d%s", sent, dup, bad ? ", some refused" : "");
+        msg_update_text_fmt("QRZ：已发送%d，已有%d%s", sent, dup, bad ? "，部分被拒绝" : "");
         if (bad)    /* QRZ took the others; the first reason it gave */
             msg_schedule_text_ms(6000, "QRZ refused %d: %s", bad, reason);
     }
@@ -2548,7 +2548,7 @@ static void qrz_done(const char *line) {
         msg_schedule_text_ms(8000, "Uploading needs a QRZ.com Logbook API key, which QRZ.com only gives with a paid "
                                    "QRZ.com subscription (XML level or higher).");
     } else
-        msg_update_text_fmt("QRZ: %s", line);
+        msg_update_text_fmt("QRZ：%s", line);
 }
 
 static void qrz_cb(button_data_t *b) {

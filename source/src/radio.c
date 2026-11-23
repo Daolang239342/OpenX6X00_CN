@@ -179,7 +179,7 @@ static void atu_done_cb(void *arg) {
 /* The base's warnings, on the LVGL thread: bit 0 battery hot, 1 PA hot, 2 DC in too low,
  * 3 battery cold, shown in the words of Xiegu's app */
 static void base_warn_cb(void *arg) {
-    static const char *words[] = {"BATTERY HIGH TEMP!", "PA HIGH TEMP!", "DCIN TOO LOW!", "BATTERY LOW TEMP!"};
+    static const char *words[] = {"电池温度过高！", "功放温度过高！", "直流输入电压过低！", "电池温度过低！"};
     uint8_t            w = *(uint8_t *)arg;
     char               text[96] = "";
 
@@ -777,7 +777,7 @@ uint16_t radio_change_vol(int16_t df) {
 
     mute = false;
     if (param_i_get(cfg_speaker_off) && !btaudio_speaker_muted()) {
-        msg_update_text_fmt("Speaker always off: Settings > Audio");   /* VOL still sets the value */
+        msg_update_text_fmt("扬声器始终关闭：设置 > 音频");   /* VOL still sets the value */
     }
 
     uint16_t new_val = limit(vol + df, 0, BOARD_VOL_MAX);
@@ -2077,10 +2077,10 @@ static void xvtr_pwr_cb(void *arg) {
     switch (cfg_pwr_xvtr_set(x->w, x->on)) {
         case PWR_XVTR_HELD:
             cfg_transverter_name(x->freq, name, sizeof(name));
-            msg_update_text_fmt("TX power %.1f W: transverter %s", param_f_get(cfg_pwr), name);
+            msg_update_text_fmt("TX 功率 %.1f W：变频器 %s", param_f_get(cfg_pwr), name);
             break;
         case PWR_XVTR_RESTORED:
-            msg_update_text_fmt("TX power back to %.1f W", param_f_get(cfg_pwr));
+            msg_update_text_fmt("TX 功率恢复为 %.1f W", param_f_get(cfg_pwr));
             break;
         default:
             break;
@@ -2379,11 +2379,11 @@ static void battery_warn_cb(void *arg) {
     int *w = arg;
 
     if (w[0] <= 5) {
-        msg_schedule_long_text_fmt("Battery %d%%: connect power", w[0]);
+        msg_schedule_long_text_fmt("电池 %d%%：请连接电源", w[0]);
     } else if (w[1] >= 0) {
-        msg_schedule_long_text_fmt("Battery %d%%: about %d min left", w[0], w[1]);
+        msg_schedule_long_text_fmt("电池 %d%%：剩余约 %d 分钟", w[0], w[1]);
     } else {
-        msg_schedule_long_text_fmt("Battery %d%%", w[0]);
+        msg_schedule_long_text_fmt("电池 %d%%", w[0]);
     }
 }
 

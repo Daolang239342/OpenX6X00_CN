@@ -298,7 +298,7 @@ const char *dsc_cat_name(const dsc_call_t *c) {
 }
 
 const char *dsc_nature_name(int code) {
-    static const char *names[] = {"FIRE / EXPLOSION", "FLOODING",       "COLLISION",        "GROUNDING",
+    static const char *names[] = {"火灾 / 爆炸", "FLOODING",       "COLLISION",        "GROUNDING",
                                   "LISTING / CAPSIZING", "SINKING",     "DISABLED / ADRIFT", "UNDESIGNATED",
                                   "ABANDONING SHIP", "PIRACY / ATTACK", "MAN OVERBOARD",    "",
                                   "EPIRB"};

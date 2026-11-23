@@ -1,0 +1,1837 @@
+OpenX6X00 中文化 翻译对照表
+注：换行⏎，制表符→
+==============================================================
+
+【已翻译】837 条
+--------------------------------------------------------------
+gui	 = not a character. Right: +1 WPM, wrong: -1 WPM.	 = 不是字符。正确：+1 WPM，错误：-1 WPM。
+gui	 on 	 于 
+gui	 to S9+20. PRE, ATT and RF gain are tried, then put back.	调至S9+20。依次尝试PRE、ATT和RF增益，然后复原。
+gui	#%06x All %d macro slots are used#	#%06x 全部%d个宏槽位已用#
+gui	#%06x No callsign - set it in Settings#	#%06x 未设置呼号 - 请在设置中设置#
+gui	#%06x No DX call - set it on page 1#	#%06x 未设置DX呼号 - 请在第1页设置#
+gui	#%06x No DX call - set it on page 2#	#%06x 未设置DX呼号 - 请在第2页设置#
+gui	%d to scan, pass %d.  Stops at %s%s	待扫描%d，第%d遍。停止于%s%s
+gui	%d: %s (select a station first)	%d：%s（请先选择台站）
+gui	%dm: no ATU match stored, RX only	%dm：无存储的天调匹配，仅接收
+gui	%dm: no WSPR frequency in the list	%dm：列表无WSPR频率
+gui	%dm: no WSPR frequency in the list, the hop skips it	%dm：列表无WSPR频率，跳变跳过
+gui	%i connected	已连接 %i 个
+gui	%s asked %s - select it and press Reply to answer	%s 询问 %s —— 选中并按回复应答
+gui	%s asks for the message held for them - select it and press Reply to send it	%s 索取为其保留的消息 —— 选中并按回复发送
+gui	%s asks how you copy - select it and press Reply	%s 询问抄收情况 —— 选中并按回复
+gui	%s asks you to relay to %s - select it and press Reply to pass it on	%s 请你转发给 %s —— 选中并按回复转发
+gui	%s holds a message for you - select it and press Reply to fetch it	%s 有一封给你的消息 —— 选中并按回复取回
+gui	%s RX resync	%s RX重新同步
+gui	%s squelch %s	%s 静噪 %s
+gui	%s wants to transmit	%s 请求发射
+gui	%s was heard on %s, you send %s - hold Speed (page 6) to match	%s 在 %s 被听到，你发送 %s - 长按速度（第6页）对齐
+gui	%s: not heard on this band	%s：本波段未听到
+gui	%s: stopping after this block	%s：本块后停止
+gui	(BANDS 1:1)	(BANDS 1:1)
+gui	(BEACONS)	(信标)
+gui	(CLUSTER\n1:2)	(集群\n1:2)
+gui	(CLUSTER\n2:2)	(集群\n2:2)
+gui	(CW KBD 1:1)	(CW键盘 1:1)
+gui	(CWT 1:3)	(CWT 1:3)
+gui	(CWT 2:3)	(CWT 2:3)
+gui	(CWT 3:3)	(CWT 3:3)
+gui	(FAX 1:4)	(FAX 1:4)
+gui	(FAX 2:4)	(FAX 2:4)
+gui	(FAX 3:4)	(FAX 3:4)
+gui	(FAX 4:4)	(FAX 4:4)
+gui	(FT8 1:5)	(FT8 1:5)
+gui	(FT8 2:5)	(FT8 2:5)
+gui	(FT8 3:5)	(FT8 3:5)
+gui	(FT8 4:5)	(FT8 4:5)
+gui	(FT8 5:5)	(FT8 5:5)
+gui	(JTTY 1:5)	(JTTY 1:5)
+gui	(JTTY 2:5)	(JTTY 2:5)
+gui	(JTTY 3:5)	(JTTY 3:5)
+gui	(JTTY 4:5)	(JTTY 4:5)
+gui	(JTTY 5:5)	(JTTY 5:5)
+gui	(MSG 1:2)	(MSG 1:2)
+gui	(MSG 1:3)	(MSG 1:3)
+gui	(MSG 2:2)	(MSG 2:2)
+gui	(MSG 2:3)	(MSG 2:3)
+gui	(MSG 3:3)	(MSG 3:3)
+gui	(OLV 1:6)	(OLV 1:6)
+gui	(OLV 2:6)	(OLV 2:6)
+gui	(OLV 3:6)	(OLV 3:6)
+gui	(OLV 4:6)	(OLV 4:6)
+gui	(OLV 5:6)	(OLV 5:6)
+gui	(OLV 6:6)	(OLV 6:6)
+gui	(PROP 1:1)	(PROP 1:1)
+gui	(PSK 1:6)	(PSK 1:6)
+gui	(PSK 2:6)	(PSK 2:6)
+gui	(PSK 3:6)	(PSK 3:6)
+gui	(PSK 4:6)	(PSK 4:6)
+gui	(PSK 5:6)	(PSK 5:6)
+gui	(PSK 6:6)	(PSK 6:6)
+gui	(RADE 1:2)	(RADE 1:2)
+gui	(RADE 2:2)	(RADE 2:2)
+gui	(RTTY 1:2)	(RTTY 1:2)
+gui	(RTTY 2:2)	(RTTY 2:2)
+gui	(SCAN 1:2)	(扫描 1:2)
+gui	(SCAN 2:2)	(扫描 2:2)
+gui	(SSTV 1:3)	(SSTV 1:3)
+gui	(SSTV 2:3)	(SSTV 2:3)
+gui	(SSTV 3:3)	(SSTV 3:3)
+gui	(WLK 1:4)	(对讲 1:4)
+gui	(WLK 2:4)	(对讲 2:4)
+gui	(WLK 3:4)	(对讲 3:4)
+gui	(WLK 4:4)	(对讲 4:4)
+gui	(WSPR 1:3)	(WSPR 1:3)
+gui	(WSPR 2:3)	(WSPR 2:3)
+gui	(WSPR 3:3)	(WSPR 3:3)
+gui	, until the next hop	，至下次跳变
+web	1000 Hz	1000 Hz
+gui	12-hour clock	12小时制
+web	200 Hz	200 Hz
+web	2000 Hz	2000 Hz
+web	2300 Hz	2300 Hz
+web	255.255.255.0 or /24	255.255.255.0 或 /24
+web	2750 Hz	2750 Hz
+web	500 Hz	500 Hz
+gui	54 MHz-1 GHz, receive only	54 MHz-1 GHz，仅接收
+gui	A WPA password has 8 to 63 characters	WPA密码为8到63个字符
+web	A/B	A/B
+gui	Activation complete: %s, %d QSO%s, %d min	激活完成：%s，%d个QSO%s，%d分钟
+web	Activation logs	激活日志
+gui	Activation started: %s	激活已开始：%s
+web	Active	启用
+gui	Activity	活动
+web	Adapter	适配器
+gui	Add	添加
+web	Add a key	添加密钥
+web	Add band	添加波段
+web	Add frequency	添加频点
+web	Add server	添加服务器
+gui	Added to VOL encoder	已添加到VOL编码器
+gui	Address	地址
+gui	Address / Viewer	地址/观看者
+gui	Address in use	地址已被占用
+gui	AF 0 while connected	连接时AF为0
+gui	AGC	AGC
+gui	AGC OFF	AGC关
+gui	AGN?	AGN?
+gui	Alert %s: %s	告警 %s：%s
+web	Alerts	告警
+gui	Alerts >	告警 >
+gui	All	全部
+gui	all bands	全部波段
+web	All bands	全部波段
+web	All modes	全部模式
+gui	Allow once	允许一次
+gui	Allowed	已允许
+gui	Already scanning	已在扫描
+gui	Already sending %s	已在发送 %s
+gui	AM	AM
+gui	Any messages?	有消息吗？
+web	APP	APP
+web	Apply	应用
+gui	APPS	应用
+web	Apps	应用
+gui	APRS >	APRS >
+gui	APRS allows %d characters after the addressee, this is %u: shorten it	APRS收件人后允许%d字符，当前%u：请缩短
+gui	APRS message to %s: type it and press Enter	发给 %s 的APRS消息：输入并按Enter
+gui	APRS: nothing to send to %s	APRS：没有发给 %s 的内容
+web	ARDOP	ARDOP
+web	ARDOP bandwidth	ARDOP带宽
+web	ARDOP on the radio's audio	使用电台音频的ARDOP
+gui	Ask before TX	发射前询问
+gui	asks for a new login	需要重新登录
+gui	ATT	ATT
+gui	Attenuator	衰减器
+gui	Attenuator on battery	电池供电时衰减
+gui	Attenuator on supply	外接供电时衰减
+gui	ATU	ATU
+gui	Audio	音频
+gui	Auto CQ %u min after each CQ (press CQ to stop)	每次CQ后%u分钟自动CQ（按CQ停止）
+gui	Auto CQ off: %s	自动CQ关闭：%s
+gui	Auto CQ on: turn the knob to set the minutes, press CQ when done	自动CQ开启：旋转旋钮设置分钟，完成后按CQ
+gui	Auto level, offset	自动电平、偏移
+gui	AUTO off: answers are offered on Reply	AUTO关闭：应答在回复中提供
+gui	AUTO on: answers SNR? GRID? INFO? STATUS? HEARING? AGN?	AUTO开启：自动应答 SNR? GRID? INFO? STATUS? HEARING? AGN?
+gui	Auto RX\nRestart ON	自动接收\n重启开启
+gui	Back	返回
+gui	Back to defaults: all settings with the band memory and the CW messages, app frequencies, 	恢复默认：所有设置，包括波段记忆、CW消息、应用频率，
+web	Backup	备份
+gui	Band	波段
+web	BAND	波段
+web	Band list	波段列表
+gui	Band output gain	波段输出增益
+gui	Band plan	波段计划
+gui	Band up\nhold: down	波段上\n长按下
+gui	Band\n20m	波段\n20m
+gui	Bands	波段
+gui	BANDS	波段
+gui	BANDS   %.4f MHz	波段   %.4f MHz
+gui	Bands (m)	波段（米）
+web	Bands editor	波段编辑器
+web	Battery	电池
+gui	Beacons	信标
+web	Beep	提示音
+web	Before you connect	连接之前
+web	Before you turn it on	开启之前
+gui	Birdie Cal	自扰校准
+gui	Bluetooth	蓝牙
+web	Boot picture	开机图片
+gui	bridge not running	网桥未运行
+gui	Broadcast list	广播列表
+gui	Browser remote	浏览器遥控
+web	Bundle file	捆绑包文件
+gui	Buttons brightness	按键亮度
+gui	BW %s   IF %+d   STEP %s	带宽 %s   中频 %+d   步进 %s
+gui	by frequency	按频率
+web	CALL	呼叫
+gui	Call 599	呼叫599
+gui	CALL CQ	呼叫CQ
+gui	Callsign	呼号
+gui	Can they reach...?	对方能通达...吗？
+gui	Can't save %s	无法保存 %s
+gui	Can't write %s	无法写入 %s
+gui	Cancel	取消
+gui	Cancel TX	取消发射
+web	Card image	SD卡镜像
+gui	Center	中心
+gui	CESSB on, level	CESSB开关、电平
+gui	Change password	修改密码
+gui	Channel not tuned: %s	信道无法调谐：%s
+gui	Channels	信道
+gui	CHANNELS	信道
+gui	Charger	充电器
+web	Check	检查
+web	Check the certificate	检查证书
+web	Choose files	选择文件
+gui	Choose the %s reference first	请先选择%s参考
+gui	Clear	清除
+web	CLEAR	清除
+gui	Clear\nhold	清除\n长按
+gui	Clients	客户端
+web	Clients may	客户端可以
+gui	Clock	时钟
+gui	Clock in sync (NTP, within %d ms): no Time Sync needed	时钟已同步（NTP，偏差%d ms内）：无需时间同步
+gui	Clock moved %+.2f s to the slot start	时钟已偏移 %+.2f s 至时隙起点
+gui	Clock on the slot already (%+.2f s)	已在时隙上（%+.2f s）
+gui	Clone VFO %s	克隆VFO %s
+gui	Close	关闭
+gui	Close\nBrowser	关闭\n浏览器
+gui	Cluster	DX集群
+gui	CLUSTER ALERT	集群告警
+web	Cluster link	集群连接
+gui	CLUSTER SERVERS	集群服务器
+gui	Cluster: %s	集群：%s
+gui	Cluster: can't save	集群：无法保存
+gui	Codec gain	编解码增益
+web	Colours	颜色
+web	Comment	备注
+gui	Compressor, makeup	压缩器、补偿
+gui	Conditions	传播条件
+gui	Connect	连接
+web	Connecting...	连接中...
+gui	Connection deleted	连接已删除
+web	Connections	连接
+gui	Contestia	Contestia
+gui	CQ	CQ
+gui	CQ calls in CW.  Log QSO: call [rst sent [rst rcvd]]	CQ以CW呼叫。记录QSO：呼号 [rst发送 [rst接收]]
+gui	CQ level %+d dB	CQ电平 %+d dB
+gui	CQ level %+d dB: MFK or VOL to change, press to finish	CQ电平 %+d dB：MFK或VOL调节，按下完成
+gui	CQ sends your voice CQ (Rec CQ: page 2).  Log QSO: call [rst...]	CQ发送语音CQ（录音CQ：第2页）。记录QSO：呼号 [rst...]
+gui	CQ\nModifier	CQ\n修饰符
+gui	current band	当前波段
+gui	CW	CW
+gui	CW Keyboard	CW键盘
+gui	CW KEYBOARD - #%06x %i WPM#	CW键盘 - #%06x %i WPM#
+gui	CW KEYER - #%06x %i WPM#	CW键控 - #%06x %i WPM#
+gui	CW KEYER - #%06x QRSS3 %s MHz#	CW键控 - #%06x QRSS3 %s MHz#
+web	CW messages	CW消息
+gui	CW Trainer	CW训练
+gui	CW TRAINER - #%06x Calls#	CW训练 - #%06x 呼叫#
+gui	CW TRAINER - #%06x Learn (Koch)#	CW训练 - #%06x 学习（Koch）#
+gui	CW TRAINER - #%06x Practice#	CW训练 - #%06x 练习#
+gui	CW TRAINER - #%06x Stats#	CW训练 - #%06x 统计#
+gui	CW\nZAP	CW\n加速
+web	Dark or light (for the sun)	深色或浅色（用于太阳图）
+web	Date	日期
+gui	Date, time	日期、时间
+gui	Decoding	正在解码
+gui	Decoding %s only	仅解码 %s
+web	Default	默认
+gui	Delete	删除
+web	Delete shown	删除所选
+gui	Delete\nFax	删除\n传真
+gui	Delete\npicture	删除\n图片
+gui	Denoise\nON	降噪\n开
+web	DFL	DFL
+web	DFN	DFN
+web	DHCP	DHCP
+gui	Dial locked	拨盘已锁定
+gui	Dial unlocked	拨盘已解锁
+web	Digital	数字
+gui	DIGITAL MODES	数字模式
+web	Digital modes	数字模式
+web	Digital modes editor	数字模式编辑器
+gui	Disconnect	断开
+gui	Display	显示
+web	DNS	DNS
+gui	Done	完成
+web	Download	下载
+web	Download backup	下载备份
+web	Download ZIP	下载ZIP
+gui	Downloading the reference lists...	正在下载参考列表...
+gui	Downloading the reference lists: up to half an hour on a slow WiFi	正在下载参考列表：WiFi慢时最长半小时
+gui	Drag	拖动
+gui	Drift reset: JS8 back on the radio's clock	漂移已重置：JS8回到电台时钟
+gui	Drop	放下
+web	Drop pictures here or	将图片拖放到此处或
+gui	DX Cluster	DX集群
+gui	Edit	编辑
+gui	Empty message	空消息
+gui	Empty slot - hold to create a macro	空槽位 - 长按创建宏
+web	Enabled	启用
+gui	End of the %s list	已到 %s 列表末尾
+gui	End the activation to change the reference	结束激活后才能更改参考
+gui	Enter: send - Esc: stop - arrows or MFK: speed - MFK press: send or type	Enter：发送 - Esc：停止 - 方向键或MFK：速度 - 按MFK：发送或打字
+gui	Error write file	写入文件出错
+web	Ethernet	有线网络
+gui	Ethernet connected	已连接有线网络
+gui	Ethernet in use	正在使用有线网络
+gui	Ethernet settings saved	有线网络设置已保存
+gui	Every region's amateur bands; past them only with the switch below	各区域的业余波段；只有开启下方开关才能越界
+gui	Exit	退出
+gui	Exit\nhold	退出\n长按
+web	Export ADIF	导出ADIF
+web	Export CSV	导出CSV
+gui	EXTERNAL TUNE	外部调谐
+gui	Factory reset	恢复出厂设置
+gui	Fax\nBrowser	传真\n浏览器
+gui	Fetch message #...	获取消息 #...
+gui	Field Ops	野外通联
+gui	FIELD OPS	野外通联
+web	File browser	文件浏览器
+gui	File length	文件时长
+web	Files	文件
+gui	Fill, peaks	填充、峰值
+web	FILTER	滤波器
+web	Filter	滤波器
+gui	Filter high	滤波器上限
+gui	Filter low	滤波器下限
+gui	Filtered	已过滤
+web	Filters	过滤器
+web	Fingerprint	指纹
+gui	FIRST START	首次开机
+gui	First-start guide	首次开机向导
+gui	Fix\nAlign	修正\n对齐
+gui	Fix\nTilt	修正\n倾斜
+gui	FM	FM
+gui	Font	字体
+gui	For %s only. Feed -73 dBm and set the reading to S9 on each band you use.	仅 %s。输入-73 dBm，并在使用的每个波段将读数调至S9。
+web	For example 192.168.1.20	例如 192.168.1.20
+gui	Force QSO\nsave	强制QSO\n保存
+gui	Forget	忘记
+gui	Free\nText	自由\n文本
+gui	Freq	频率
+gui	Freq acceleration	频率加速
+gui	Freq step: %s	频率步进：%s
+web	Freq, MHz	频率，MHz
+gui	Freq.	频率
+web	Frequencies	频率
+web	Frequency	频率
+web	From	来自
+web	FST	FST
+gui	FT2	FT2
+gui	FT4	FT4
+gui	FT8	FT8
+gui	FT8, JS8 and WSPR need the clock right to a second or two. The logs and the 	FT8、JS8和WSPR要求时钟精确到一两秒。日志和数字模式使用UTC；屏幕时钟显示本地时区。
+gui	FT8, JS8, WSPR, the CW messages and the DX Cluster need your callsign. The locator is 	FT8、JS8、WSPR、CW消息和DX集群需要你的呼号。定位是你的位置：地图、距离和波段计划都按它计算。
+gui	FT8/FT4 info	FT8/FT4信息
+web	Fullscreen	全屏
+gui	Funnel	Funnel
+web	Gallery	图库
+web	Gateway	网关
+gui	Gateway in use	网关已被占用
+web	GEN	GEN
+gui	General	通用
+gui	github.com/Guru-RF/OpenX6X00, and a PDF with each release	github.com/Guru-RF/OpenX6X00，每个版本均附PDF手册
+web	Go back to the previous version	回退到上一个版本
+web	Good to know	须知
+gui	GPS	GPS
+gui	GPS fix	GPS定位
+gui	Groups: %s	分组：%s
+gui	Halt TX	停止发射
+gui	Hang\n2 s	驻留\n2秒
+gui	HB ACK acts only while AUTO and HB are on	仅当AUTO与HB开启时HB ACK生效
+gui	HB every %u min	每%u分钟心跳
+gui	HB off	心跳关闭
+gui	Headphones, keyboards	耳机、键盘
+gui	Heard  (latest first)	已听到（最新在前）
+gui	Heard: nothing yet	已听到：暂无
+gui	Heart-\nbeat	心跳\n
+gui	Heartbeats off: %s	心跳已关闭：%s
+gui	High SWR %.1f:1: AUTO, HB, HB ACK and auto CQ off. Check the antenna	高驻波 SWR %.1f:1：已关闭AUTO、HB、HB ACK和自动CQ。请检查天线
+gui	His call	对方呼号
+web	HOLD	保持
+gui	Hold MFK down 3 s to reset - ESC: cancel	按住MFK 3秒重置 - ESC：取消
+gui	Hold this button to set your %s	长按此按钮设置你的%s
+gui	Holding a message from %s for %s (Inbox)	为 %s 暂存来自 %s 的消息（收件箱）
+gui	HW CPY?	抄收如何？
+gui	Icon menus	图标菜单
+gui	IF shift is not supported	不支持中频偏移
+gui	Incorrect freq	频率无效
+gui	Incorrect QTH Grid	QTH网格无效
+gui	Independent VFOs	独立VFO
+gui	Info	信息
+gui	IP / Gateway	IP/网关
+gui	IP address	IP地址
+gui	IP address is not valid	IP地址无效
+gui	IQ offsets	IQ偏移
+gui	JS8	JS8
+gui	JS8 time is on (within 0.05 s of %u %s)	JS8时间已启用（与%u %s偏差0.05秒内）
+gui	JS8 time moved %+.2f s (median of %u %s); drift now %+.2f s	JS8时间已调 %+.2f 秒（%u %s中位数）；当前漂移 %+.2f 秒
+gui	JTTY	JTTY
+gui	Keep holding LOCK to restart: %i s	继续按住LOCK重启：%i秒
+gui	Keep holding: %u s	继续按住：%u秒
+gui	Kept: logs (ADIF, QSO, field), memory channels, PSK/Olivia macros, JS8 texts, voice messages, 	保留：日志（ADIF、QSO、野外），记忆信道，PSK/Olivia宏，JS8文本，语音消息，
+web	KEY	KEY
+gui	Key back the callsign with the paddle. Right: +1 WPM, wrong: -1 WPM.	用电键回发呼号。正确：+1 WPM，错误：-1 WPM。
+gui	KEY buttons in CW	CW模式下按键
+gui	Key the group with the paddle. Replay: hear it again	用电键回发分组。重放：再听一次
+gui	Key with the paddle: the text appears here	用电键输入：文本显示于此
+gui	Keyboard modes	键盘模式
+gui	keyboard ready	键盘就绪
+gui	Keys	按键
+gui	Knob: dial, 1 kHz steps	旋钮：拨盘，1 kHz步进
+gui	Knob: fine tuning	旋钮：微调
+web	Last connection	上次连接
+web	Last no TX	上次未发射
+gui	last used	上次使用
+gui	Learn dit and dah	学习点和划
+gui	Left at %s for %s: type the message and press Enter	留给 %s 给 %s：输入消息并按Enter
+gui	Left at %s for someone: type their call, a space, the message	留给 %s 的某人：输入对方呼号、空格、消息
+gui	Letters, digits and '-', up to 32	字母、数字和“-”，最多32位
+gui	Line, zoom	中线、缩放
+gui	Line-in, Line-out	线路输入、线路输出
+gui	link off	链路关
+gui	link on	链路开
+gui	List closed	列表已关闭
+gui	Listen first: %s, %.3f MHz\nPress again to send: %i s	先收听：%s，%.3f MHz\n再按一次发送：%i秒
+web	Listen only	仅监听
+gui	listen only: tune and key refused	仅监听：拒绝调谐和键控
+gui	Listen...	收听...
+gui	Listen: stop	收听：停止
+gui	Live\nMap	实时\n地图
+gui	Loaded from memory %i	已从记忆%i加载
+gui	Locator	定位
+gui	Locator %s from the GPS	GPS定位 %s
+gui	LOCK	LOCK
+gui	LOCK let go: no restart	已松开LOCK：不重启
+gui	Lock\nout	锁定\n排除
+web	Log	日志
+web	LOG	日志
+gui	Log QSO	记录QSO
+gui	Log\nbook	日志\n本
+gui	Log\nMap	记录\n地图
+gui	Log\nQSO	记录\nQSO
+gui	LOGBOOK	日志本
+gui	Logged %s%s%s	已记录 %s%s%s
+gui	Logging as %s %s (hold to change)	记录为 %s %s（长按修改）
+gui	Logging out...	正在注销...
+gui	Login	登录
+web	Logs	日志
+gui	LSB	LSB
+gui	Macro deleted	已删除宏
+gui	Macro saved	已保存宏
+web	Macros	宏
+web	Mailbox	邮箱
+gui	Manual	手动
+gui	Manual min, max	手动最小、最大
+gui	Map	地图
+gui	MEM\nVFO	MEM\nVFO
+web	Memories	记忆
+web	Mercury (experimental)	Mercury（实验性）
+web	Mercury bandwidth	Mercury带宽
+web	Message	消息
+gui	Message %d is empty: press or hold to write one	消息%d为空：按下或长按编写
+gui	Message %d: Enter saves, empty clears. Macros: <CALL> <SNR> <TDELTA> <MYCALL> <MYGRID4> 	消息%d：Enter保存，空则清除。宏：<CALL> <SNR> <TDELTA> <MYCALL> <MYGRID4> 
+gui	Message deleted	消息已删除
+gui	Message for %s's inbox: type it and press Enter	给 %s 收件箱的消息：输入并按Enter
+gui	Message from %s - can't save %s	来自 %s 的消息 - 无法保存 %s
+gui	Message from %s - select it and press Reply to send ACK	来自 %s 的消息 —— 选中并按回复发送ACK
+gui	Message via them...	经其转发消息...
+gui	Message...	消息...
+web	Messages	消息
+gui	Messages (%s)	消息（%s）
+gui	MFK: align   Freq.: stations   View: Small shows the waterfall	MFK：对齐   频率：台站   视图：缩小显示瀑布
+gui	MFK: browse - press: tune - VFO: follow	MFK：浏览 - 按下：调谐 - VFO：跟随
+gui	MFK: choose - press: open - APP or ESC: close	MFK：选择 - 按下：打开 - APP或ESC：关闭
+gui	MFK: choose - press: open - Modes: close	MFK：选择 - 按下：打开 - 模式：关闭
+gui	MFK: choose - press: tune	MFK：选择 - 按下：调谐
+gui	MFK: choose - press: use - Server: close - add servers from the web page	MFK：选择 - 按下：使用 - 服务器：关闭 - 从网页添加服务器
+gui	MFK: choose, press to open.   GEN: back to the radio	MFK：选择，按下打开。GEN：返回电台
+gui	MFK: tune	MFK：调谐
+gui	Mode	模式
+gui	Mode /\nAll	模式/\n全部
+gui	Mode from band plan	按波段计划取模式
+gui	Mode, speed, ratio	模式、速度、比例
+web	Modem	调制解调器
+gui	Modes	模式
+gui	Moved to MFK encoder	已移动到MFK编码器
+web	MSG	MSG
+gui	Mute speaker	扬声器静音
+gui	My call	我的呼号
+gui	N/A	不可用
+gui	Name	名称
+gui	NavTex	NavTex
+gui	NAVTEX: save failed	NAVTEX：保存失败
+gui	NB	NB
+gui	Network	网络
+web	Network name	网络名称
+gui	Network name not set	未设置网络名称
+gui	Networks	网络
+gui	New	新建
+gui	New message from %s - Inbox on page 3	新消息：来自 %s —— 收件箱在第3页
+gui	New message to %s from %s - Inbox on page 3	新消息：来自 %s 发给 %s —— 收件箱在第3页
+gui	New station: %s	新台站：%s
+gui	New: write the first message	新建：编写第一条消息
+gui	newest first	最新在前
+gui	Next new character:	下一个新字符：
+gui	no callsign	无呼号
+gui	no client	无客户端
+gui	No current GPS fix (last one %d min ago)	当前无GPS定位（上次%d分钟前）
+gui	no data from the base	基带无数据
+gui	No drift: JS8 is on the radio's clock	无漂移：JS8使用电台时钟
+gui	No groups	无分组
+gui	No heartbeats in Turbo, as in desktop JS8Call	Turbo模式无心跳，与桌面JS8Call相同
+gui	no keyboard: MFK press	无键盘：按MFK
+gui	No log to upload	无日志可上传
+gui	No messages yet: press New	尚无消息：按新建
+gui	No messages yet: press Rec	尚无消息：按录音
+gui	NO POS	无位置
+gui	No QRZ profile: add it on the web page, Field Ops	无QRZ配置：请在网页野外通联页添加
+gui	No recordings yet: Rec starts one	尚无录音：按录音开始
+gui	No reference list	无参考列表
+gui	No saved faxes	无已保存传真
+gui	No saved pictures	无已保存图片
+gui	No transmission: key train is on. Clear: page 3	不发射：键位训练开启。清除：第3页
+gui	No tune: %s	无法调谐：%s
+gui	No tune: no thread for it	无法调谐：无线程
+gui	No TX pictures found	未找到发射图片
+gui	No TX templates found	未找到发射模板
+gui	Nobody heard you in the last 10 min: Test beacon (CW)	过去10分钟无人听到你：测试信标（CW）
+gui	None	无
+gui	none connected	无连接
+web	None since Pat started	Pat启动后暂无
+gui	None: RX only	无：仅接收
+gui	NOT ACTIVE	未激活
+gui	not connected	未连接
+gui	NOT CW	非CW
+gui	Not enough memory for the map	内存不足，无法显示地图
+gui	not for programs on the radio	不适用于电台上的程序
+gui	Not logged: %s	未记录：%s
+gui	Not sending	未发送
+gui	Not while sending - Stop TX first	发送中不可操作 - 请先停止发射
+gui	Nothing to load for memory %i	记忆%i无内容可加载
+gui	Nothing to save	无内容可保存
+gui	NOTHING TO SCAN	无可扫描内容
+gui	Nothing to send	无内容可发送
+gui	Nothing to send: message %d has only macros that are empty now	无内容可发送：消息%d只含当前为空的宏
+gui	NR	NR
+web	of the radio: write and read your mail, choose a gateway and connect	（电台的）：写信读信、选择网关并连接
+gui	Off	关
+gui	off	关
+gui	Off slots	关闭时隙
+gui	OK	确定
+gui	Olivia	Olivia
+gui	on	开
+gui	On a steady signal	在稳定信号上
+gui	on the air	正在发射
+gui	Only if licensed outside the amateur bands: MARS, CAP	仅当在业余波段外持证：MARS、CAP
+gui	Only one QRZ profile	仅一个QRZ配置
+web	Open the mailbox	打开邮箱
+gui	Out of memory	内存不足
+gui	Own list file	自定义列表文件
+gui	Pairing	配对
+gui	Pairing %i:%02i	配对 %i:%02i
+gui	Pairing (3 min)	配对（3分钟）
+web	Panel	面板
+gui	park	公园
+web	Password:	密码：
+web	Pat	Pat
+web	Pat and the modem on the radio: ARDOP (ardopcf), Mercury (x6x00-mercury) or XARA (xara)	电台上的Pat和调制解调器：ARDOP（ardopcf）、Mercury（x6x00-mercury）或XARA（xara）
+web	Pat and the modem running	Pat和调制解调器运行中
+web	Pat calling a gateway, or connected to one	Pat正在呼叫网关，或已连接某个网关
+web	Pat's own page, on port	Pat自己的页面，端口
+gui	Plain position: %d frames, %.0f s - type a message, or Enter	仅位置：%d帧，%.0f秒 - 输入消息或按Enter
+gui	Play	播放
+gui	Play, Rec gain	播放、录音增益
+gui	Play\nStop	播放\n停止
+gui	Playing on the speaker only	仅在扬声器播放
+gui	Popups Freq/Info/TX	弹出：频率/信息/TX
+gui	Port	端口
+gui	Port / Status	端口/状态
+gui	Position + message: %d frames, %.0f s	位置+消息：%d帧，%.0f秒
+web	Power	功率
+gui	Power off	关机
+gui	PRE	PRE
+gui	Preamp	前置放大
+gui	press again to log out	再次按下退出登录
+gui	Press DAH	按划
+gui	Press Delete again to delete the message	再次按删除以删除该消息
+gui	Press DIT	按点
+gui	Press End again to end the activation	再次按结束以结束激活
+gui	Press Play	按播放
+gui	Press Start	按开始
+gui	press to pair	按下以配对
+gui	Problem with create file	创建文件出错
+gui	Propagation	传播
+gui	PROPAGATION	传播
+gui	PROPAGATION   no QTH set	传播   未设置QTH
+gui	PSK, Olivia, JTTY, RTTY: web Logs page	PSK、Olivia、JTTY、RTTY：见网页日志页
+gui	PSK31	PSK31
+gui	PSK63	PSK63
+gui	Public	公开
+gui	Put PNG pictures in 	将PNG图片放入 
+gui	PWR	功率
+gui	QRZ profile not saved	QRZ配置未保存
+gui	QRZ profile: %s	QRZ配置：%s
+gui	QRZ: %d sent, %d already there%s	QRZ：已发送%d，已有%d%s
+gui	QSO cleared	已清除QSO
+gui	QSO with %s ended - Save to log?	与 %s 的QSO已结束 - 保存到日志？
+gui	QSO with %s ended: Log QSO (page 5) to log it	与 %s 的QSO已结束：用“记录QSO”（第5页）记录
+gui	Query >	查询 >
+gui	RADE	RADE
+gui	RADE: not built into this image	RADE：本镜像未内置
+gui	RADE: Rec first	RADE：请先录音
+gui	RADE: set your callsign first (APP > Callsign)	RADE：请先设置呼号（应用 > 呼号）
+gui	Radio	电台
+gui	Rain speed	雨滴速度
+gui	Rate	速率
+gui	Reachable as	可通过以下访问
+gui	Reachable as %s.local	可通过 %s.local 访问
+gui	READY	就绪
+gui	Rec	录音
+gui	REC %02d:%02d	录制 %02d:%02d
+gui	REC 00:00	录制 00:00
+gui	Rec\nStop	录音\n停止
+gui	Recorder	录音机
+gui	Recording \"%s\": speak, then Stop rec	正在录音“%s”：请讲话，然后停止录音
+gui	Ref...	参考...
+gui	Refresh	刷新
+gui	Relay off: relays (>) and MSG TO: messages for others are ignored	中继关闭：忽略转发（>）和给别人的MSG TO:消息
+gui	Relay on: relays (>) are passed on and MSG TO: messages held, as desktop JS8Call	中继开启：转发（>）继续传递，MSG TO:消息暂存，同桌面JS8Call
+gui	Relay via them...	经其中继...
+gui	Relayed message via %s - select it and press Reply to send ACK	经 %s 转发的消息 —— 选中并按回复发送ACK
+gui	Relaying %s's message	正在转发 %s 的消息
+gui	Released: reset cancelled	已松开：取消重置
+web	Remote	遥控
+gui	Removed from MFK encoder	已从MFK编码器移除
+gui	Rename	重命名
+gui	REPEAT LAST TX	重复上次发射
+gui	Replies move to their offset	回复切到对方频偏
+gui	Replies stay on your offset	回复保持你的频偏
+gui	Reply	回复
+gui	Resetting...	正在重置...
+gui	Restart	重启
+web	Restore	恢复
+gui	Reverse	反转
+gui	RF gain, a step	RF增益步进
+gui	RTTY	RTTY
+gui	RTTY TX busy	RTTY发射忙
+web	Running	运行中
+gui	RX Mode\nAuto	接收模式\n自动
+gui	RX Pics\nBrowser	接收图片\n浏览器
+gui	RX recorder is off	RX录音机关闭
+gui	RX recorder is on	RX录音机开启
+gui	RX recorder: the microSD could not be written	RX录音机：无法写入microSD
+gui	RX to headphones	接收输出到耳机
+gui	S-METER CALIBRATION	S表校准
+gui	Save	保存
+gui	Saved %d files	已保存%d个文件
+gui	Saved %s	已保存 %s
+gui	Saved \"%s\": CQ sends it in SSB	已保存“%s”：CQ将以SSB发送
+gui	Saved in memory %i	已存入记忆%i
+gui	Saved message %d cleared	已清除消息%d
+gui	Saved message %d saved	已保存消息%d
+gui	Saving previous recording	正在保存上次录制
+gui	Scan stopped	扫描已停止
+gui	Scan with a phone and log in to Tailscale, or open the link on the web 	用手机扫码登录Tailscale，或打开网页上的链接：
+gui	Scan with a phone and log in to Tailscale, or open the link on the web page: 	用手机扫码登录Tailscale，或打开网页上的链接：
+gui	Scanner	扫描器
+gui	SCANNER   %s	扫描器   %s
+gui	Scanner: not while transmitting	扫描器：发射中不可用
+gui	SCORE	成绩
+web	Screen	屏幕
+gui	Screen always off	始终息屏
+gui	Screen off (min)	息屏（分钟）
+gui	Screen Rec	屏幕录制
+gui	Screen rec error	屏幕录制出错
+gui	Screen rec on	屏幕录制开启
+gui	Screen rec: no SD card	屏幕录制：无SD卡
+gui	Screensaver	屏保
+gui	Screensaver (min)	屏保（分钟）
+gui	SD card full	SD卡已满
+gui	Select	选择
+gui	Select a station first (MFK)	请先选择一个台站（MFK）
+gui	Select a station first: message %d has <CALL>, <SNR> or <TDELTA>	请先选择台站：消息%d含 <CALL>、<SNR> 或 <TDELTA>
+gui	Send	发送
+gui	Send...	发送...
+gui	Sending %s: %d s slots, %d Hz wide%s	正在发送 %s：时隙%d秒，宽%d Hz%s
+gui	SENT	已发
+web	Sent to the gateway, and the distances in Pat's gateway list. Empty: the radio's QTH	发送给网关，并用于Pat网关列表中的距离。留空则使用电台QTH
+gui	Server	服务器
+web	Service	服务
+web	Session	会话
+gui	Sessions	会话
+gui	Set CW mode to transmit	设为CW模式以发射
+gui	SET TARGET CALLSIGN	设置目标呼号
+gui	Set your callsign first: Settings > General	请先在设置 > 通用中设置呼号
+gui	Set your callsign in Settings	请在设置中设置呼号
+gui	Set your grid first: Settings > General	请先在设置 > 通用中设置网格定位
+gui	Settings	设置
+gui	Settings > General > STATION runs it again	设置 > 通用 > 台站可再次运行向导
+gui	Settings > General > STATION\nruns the guide again	设置 > 通用 > 台站\n可再次运行向导
+gui	Settings...	设置...
+gui	Shift	频偏
+gui	Single transmission	单次发射
+gui	Skip	跳过
+gui	Skip the guide?\nPress ESC again to skip it	跳过向导？\n再按一次ESC跳过
+gui	Skipped: Settings > General > STATION has the callsign	已跳过：设置 > 通用 > 台站中可填写呼号
+gui	Skipped: Settings > Wireless joins a network later	已跳过：稍后可在设置 > 无线中连接网络
+gui	Smooth scroll	平滑滚动
+gui	Source	来源
+gui	South Korea's ranges only, 160 to 6 m: the switch below goes no further	仅韩国频段，160至6米：下方开关不会越界
+gui	Speaker mode	扬声器模式
+gui	Spectrum	频谱
+gui	Spectrum\nZoom	频谱\n缩放
+gui	Speed\nNormal	速度\n正常
+web	Spots	信号源
+gui	SPP, channel 1	SPP，通道1
+web	SQL	静噪
+gui	SSB	SSB
+web	SSH	SSH
+gui	SSTV	SSTV
+gui	Start	启动
+gui	Start scan	开始扫描
+gui	Start the activation first	请先开始激活
+gui	Start: a new run of 50 callsigns	开始：新一组50个呼号
+gui	Start: groups follow each other, key each one back with the paddle	开始：分组依次播放，用电键回发每组
+gui	Start\nAuto RX	开始\n自动接收
+gui	Start\nManual RX	开始\n手动接收
+gui	Starting Tailscale...	正在启动Tailscale...
+web	Starts with the radio, also after a new card image	随电台启动，换新卡镜像后亦然
+web	Static	静态
+gui	Station	台站
+gui	Status	状态
+gui	Steady carrier in, 	输入稳定载波，
+gui	Stop	停止
+gui	Stop at\nAuto	停止于\n自动
+gui	Stop\nManual RX	停止\n手动接收
+gui	Stop\nTX	停止\n发射
+gui	Stopping Tailscale...	正在停止Tailscale...
+gui	Stopping TX	正在停止发射
+gui	Store	存储
+gui	Stored	已存储
+gui	summit	山峰
+gui	Sweep	扫描
+gui	SWR	SWR
+web	SWR hold	SWR保持
+gui	SWR protection	SWR保护
+gui	SWR Scan	SWR扫描
+gui	SWR scan: not while transmitting or tuning	SWR扫描：发射或调谐中不可用
+gui	Tailscale	Tailscale
+gui	Tailscale: %s	Tailscale：%s
+web	Takes effect: at once	生效方式：立即
+web	Takes effect: Pat restarts with it	生效方式：Pat随之重启
+gui	TCI	TCI
+gui	Test beacon on %s, %.3f MHz	测试信标 %s，%.3f MHz
+gui	Test beacon stopped: %s	测试信标已停止：%s
+gui	Test beacon: a CW message or beacon is on (MSG > CW)	测试信标：CW消息或信标已开启（MSG > CW）
+gui	Test beacon: switch to CW first	测试信标：请先切换到CW
+gui	Test beacon: the radio is transmitting	测试信标：电台正在发射
+gui	Test\nbeacon	测试\n信标
+gui	The frequency is locked	频率已锁定
+gui	The GPS keeps the clock: no Time Sync needed	GPS保持时钟：无需时间同步
+gui	the helper failed	辅助进程失败
+gui	the Panel alone; pair browsers at home	仅Panel；在家中配对浏览器
+web	The radio as Winlink will use it: anything in red keeps it from transmitting, or from being heard well	电台使用Winlink的情况：红色项目会阻止发射或影响接收
+gui	The radio keys the group (sidetone only)	电台发分组（仅侧音）
+gui	Theme	主题
+gui	Then the screen goes dark for a few seconds while the radio software restarts.	随后屏幕变黑几秒，电台软件重新启动。
+gui	This guide	本向导
+gui	Time	时间
+gui	Time Sync needs %d decodes in the last 2 min (have %u). Clock far off? Set it in 	时间同步需要最近2分钟内%d次解码（现有%u）。时钟偏差过大？请在
+gui	Time Sync: the clock can't be set (%s)	时间同步：无法设置时钟（%s）
+gui	Time zone	时区
+gui	Time\nSync	时间\n同步
+gui	Timeout, Brightness	超时、亮度
+web	To	至
+gui	Tune	调谐
+gui	TUNE	调谐
+gui	TUNE over: %d s limit	调谐结束：%d秒上限
+gui	TUNE power, W	TUNE功率，W
+gui	TUNE stopped by the radio	调谐被电台停止
+gui	TUNE stopped%s	调谐已停止%s
+gui	TUNE time limit, s	TUNE时限，秒
+gui	Turning Funnel off...	正在关闭Funnel...
+gui	Turning Funnel on...	正在开启Funnel...
+gui	Turning on	正在开启
+gui	TX Cal	TX校准
+gui	TX IMAGE ONLY	仅发送图片
+gui	TX ranges	发射频段
+gui	Type the %s first	请先输入%s
+gui	Update	更新
+gui	Update\nlist	更新\n列表
+web	Upload	上传
+gui	Upload\nQRZ	上传\nQRZ
+gui	Uploading the log to QRZ...	正在上传日志到QRZ...
+gui	USB	USB
+gui	Use\nband	使用\n波段
+web	V/M	V/M
+web	VARA HF licence	VARA HF许可
+web	Version	版本
+web	VFO	VFO
+gui	View\nBig	视图\n放大
+gui	View\nSmall	视图\n缩小
+gui	VOICE KEYER (TX) - #%06x %s#	语音键控（发射）- #%06x %s#
+gui	Vol Sql\nRF Pwr	音量静噪\nRF功率
+gui	Volume	音量
+gui	Volume: %i	音量：%i
+gui	Wait	等待
+gui	Waiting for Tailscale...	等待Tailscale...
+gui	Walkie	对讲
+web	Wavelog	Wavelog
+gui	Web configurator	网页配置器
+gui	WeFax	WeFax
+gui	WeFax TX busy	WeFax发射忙
+gui	WeFax TX done	WeFax发射完成
+gui	WeFax TX failed (%i)	WeFax发射失败（%i）
+gui	WeFax TX stopped	WeFax发射已停止
+gui	WeFax TX: bad file name	WeFax发射：文件名无效
+web	What Pat and the modem are doing, and how the last connection went	Pat和调制解调器的当前状态，以及上次连接情况
+gui	WiFi	WiFi
+gui	WiFi sets the clock, and the DX Cluster, the uploads and the web configurator need it. 	WiFi用于校准时钟，DX集群、上传功能和网页配置器都需要它。
+gui	WiFi/BT power	WiFi/蓝牙电源
+web	Winlink	Winlink
+web	Winlink email over HF from the radio alone, with no computer:	仅用电台通过HF收发Winlink邮件，无需电脑：
+web	Winlink password	Winlink密码
+gui	Wireless	无线
+gui	With a GPS that has a fix, its locator is offered here.	若GPS已定位，其网格定位会在此提供。
+gui	WR12 on HOST	HOST口WR12
+gui	WRONG	错误
+gui	WSPR	WSPR
+gui	WSPR Hop off: %s stays	WSPR跳变关闭：保持%s
+gui	WSPR Hop on: the band follows the 2-minute slots from the next cycle	WSPR跳变开启：波段按下一周期的2分钟时隙切换
+gui	WSPR Hop: every band is Off (page 3), it stays here	WSPR跳变：所有波段均关闭（第3页），保持此处
+gui	WSPR Hop: no band is set to RX+TX (page 3), no beacon	WSPR跳变：无波段设为RX+TX（第3页），无信标
+gui	WSPR Hop: receive only here, TX next waits for an RX+TX band	WSPR跳变：此处仅接收，下次发射等待RX+TX波段
+gui	WSPR TX at %d Hz	WSPR发射 %d Hz
+gui	WSPR TX: set the callsign in Settings	WSPR发射：请在设置中设置呼号
+gui	WSPR TX: set the QTH locator in Settings	WSPR发射：请在设置中设置QTH定位
+gui	WSPR: %d spot%s	WSPR：%d个信标%s
+gui	WSPR: %dm is %s with Hop on, beacon stopped	WSPR：%dm为%s且跳变开启，信标已停止
+gui	WSPR: %dm: no ATU match stored, beacon stopped	WSPR：%dm：无存储的天调匹配，信标已停止
+gui	WSPR: no band of the hop here, beacon stopped	WSPR：此处无跳变波段，信标已停止
+gui	WSPR: TX stopped, TX %% off	WSPR：发射已停止，TX %%关闭
+gui	WSPR: wait for the end of the beacon	WSPR：请等待信标结束
+web	XARA (experimental, VARA-compatible)	XARA（实验性，兼容VARA）
+web	XARA bandwidth	XARA带宽
+gui	YOU KEYED	你键入了
+gui	Your turn	轮到你
+web	Your Winlink account, the modem and what it may use. Pat's mailbox has its own Settings page for the rest	你的Winlink账户、调制解调器及其可用项。其余设置在Pat邮箱自带的设置页中
+web	Your Winlink account. Empty: the radio's callsign	你的Winlink账户。留空则使用电台呼号
+gui	Zone	时区
+
+【保留不译（模式/术语/协议命令）】94 条
+--------------------------------------------------------------
+gui	 CMD
+gui	 GRID
+gui	 MSG
+gui	 MSG TO:
+gui	 QUERY
+gui	 QUERY CALL
+gui	 QUERY MSGS
+gui	 QUERY MSGS?
+gui	4S7B
+gui	4U1UN
+gui	4U1V
+gui	4X6TU
+gui	599 Nr
+gui	5Z4B
+gui	<MYINFO>
+gui	@ALLCALL
+gui	A->B
+gui	ACK  
+gui	AE5E
+web	AM/FM
+gui	AMFM
+gui	APRS2SOTA
+gui	APSPOT
+web	AUTO
+gui	AUTO  
+gui	B->A
+web	BAND ▲
+web	BAND ▼
+gui	BEST
+gui	BUSY
+gui	CALLS
+gui	CS3B
+gui	DATA
+gui	DB0SUE
+gui	DXFUN
+gui	EA8/
+gui	GB7DJK
+web	HOTA
+gui	INFO
+gui	IZ7AUH
+gui	JA2IGY
+gui	K1TTT
+gui	K4ZR
+gui	KH6RS
+gui	LAST
+gui	LIMIT
+gui	LU4AA
+web	MAIN
+gui	MFK
+web	MFK +
+web	MFK −
+gui	MIDI
+web	MODE
+gui	N2WQ
+gui	NC7J
+gui	NTCH
+gui	OA4B
+gui	OH2B
+gui	ON AIR
+gui	ON0DXK
+gui	PAUSED
+gui	POTA
+web	POWER
+gui	RF
+gui	RR9O
+gui	RX
+gui	SIGNAL
+gui	SNR
+gui	SNR?
+gui	SOTA
+gui	STATUS
+web	STEP
+web	STOP
+gui	SUPPLY
+gui	TIME
+gui	TU CQ
+gui	TU NOW
+gui	TX
+gui	VE7CC
+gui	VE8AT
+gui	VK6RBP
+web	VOL +
+web	VOL −
+gui	VOX
+gui	VR2B
+gui	W1NR
+gui	W3LPL
+gui	W6WX
+gui	WA9PIE
+web	WWBOTA
+gui	YV5B
+gui	ZL6B
+web	ZOOM
+gui	ZS6DN
+
+【无需翻译（格式串/命令/SQL/键名/时区）】341 条
+--------------------------------------------------------------
+gui	 %s --call %s --freq-khz %.1f --ref %s --mode %s%s
+gui	 --comments QRT
+gui	 --qrt
+gui	 wwbota-spot --call %s --freq-khz %.1f --ref %s --mode %s --id '%s'%s
+gui	#%06x %.*s#...
+gui	#%06x %d  %+d dB#
+gui	#%06x %s
+gui	#%06x %s is empty#
+gui	#%06x %s TX busy#
+gui	#%06x %s#
+gui	#%06x %s#  #%06x %i.%03i.%02i#%s
+gui	#%06x %s# %s
+gui	#%06x %s# - VFO #%06x %d.%03d.%02d#
+gui	#%06x %s#%.*s...
+gui	#%06x %s#\n%s
+gui	#%06x %s: %s
+gui	#%06x %s: stop TX first#
+gui	#%06x BC#  %s
+gui	#%06x Could not write %s#
+gui	#%06x Could not write /mnt/olivia_macros.txt#
+gui	#%06x Could not write /mnt/psk_macros.txt#
+gui	#%06x JTTY: stop TX first#
+gui	#%06x JTTY: TX queue full#
+gui	#%06x PSK: stop TX first#
+gui	#%06x PSK: TX busy#
+gui	#%06x TX#  %d:%02d
+gui	%+d Hz
+gui	%.1f W
+gui	%.1fv
+gui	%.3f %s
+gui	%.4f %s
+gui	%02d:%02d
+gui	%02i:%02i
+gui	%02i:%02i:%02i%s
+gui	%02u:%02u
+gui	%d frame%s, %.0f s
+gui	%d QSO%s   %s
+gui	%d spots - %02d:%02dZ
+gui	%d: %s
+gui	%d:%02d
+gui	%d\t%s\t%s\t%s\t%s %s\t%s / %s
+gui	%i message%s
+gui	%i of %i sent - TX or PTT: stop
+gui	%i sent - TX or PTT: stop
+gui	%i sent, until %02i:%02i%s - TX or PTT: stop
+gui	%i WPM
+gui	%i.%02i dB
+gui	%i.%03i
+gui	%i.%03i.%03i
+gui	%i.%03i.%03i / %i.%03i.%03i
+gui	%i.%i
+gui	%i/%i
+gui	%i:%02i
+gui	%i:%02i:%02i%s
+gui	%s   %.4f MHz%s
+gui	%s  %8.3f  %-10.10s %5s %3d s
+gui	%s  %8.4f  %-10.10s %5s %3d s
+gui	%s  %d.%03d.%d  %s
+gui	%s  %d:%02d
+gui	%s  %s
+gui	%s  %s  hang %d s
+gui	%s  /  %s
+gui	%s #%06x - VFO %d.%03d.%02d#
+gui	%s %+d dB  
+gui	%s %d.%03d.%d%s
+gui	%s %d.%d kHz
+gui	%s %s
+gui	%s %s  %u.%03u MHz
+gui	%s %s  %u.%03u MHz (%+d kHz)
+gui	%s %s  %u.%04u MHz
+gui	%s %s  %u.%04u MHz (%+d kHz)
+gui	%s %s %s
+gui	%s %s TX...
+gui	%s - %d/%d - %02d:%02dZ
+gui	%s - %i.%03i.%03i
+gui	%s / %d
+gui	%s at %.0f Hz, %+d dB
+gui	%s LOGBOOK  %s  #FF2020 TEST#
+gui	%s on %s
+gui	%s saved
+gui	%s spot on the DX clusters only: no %s key (web page, Field Ops)
+gui	%s spot on the DX clusters: %s %.1f %s
+gui	%s spot: %s
+gui	%s spot: %s %.1f %s...
+gui	%s TX...
+gui	%s%d
+gui	%s%ih%02i
+gui	%s%s
+gui	%s%s %s
+gui	%s%s%s  %02d:%02d:%02dZ%s  total %u
+gui	%s, %02i:%02i UTC
+gui	%s/%04d%02d%02d-%02d%02d_%s.adi
+gui	%s: %.3f MHz
+gui	%s: %s
+gui	%s: no data from the base
+gui	%s: not a tile (a 6-character locator, JO20ab)
+gui	%s: not in the castle list, taken as it is
+gui	%s: not in the reference list
+gui	%s\t\t#%06x %s#\t%d\t%d\t%s\t%s
+gui	%sQueued: %d frame%s, %.0f s
+gui	%sSweep %s  %d:%02d
+gui	%sTX %d%% at %d Hz, %.1f W = %d dBm   %s
+gui	%u / %u s
+gui	%um
+gui	-journal
+gui	-wal
+web	.pub
+gui	.tmp
+gui	/btcat.conf
+gui	/etc/default/btcat
+web	/mnt/winlink
+gui	0123456789abcdefABCDEF-
+gui	80m-40m
+gui	:%02i%s
+gui	ac
+web	active
+gui	Africa/Johannesburg (SAST)
+gui	AGC:\n%s
+gui	alert=
+gui	alert_beep=
+gui	alert_off=
+gui	alert_popup=
+gui	America/Anchorage (AKST/AKDT)
+gui	America/Buenos_Aires (ART)
+gui	America/Chicago (CST/CDT)
+gui	America/Denver (MST/MDT)
+gui	America/Los_Angeles (PST/PDT)
+gui	America/New_York (EST/EDT)
+gui	America/Sao_Paulo (BRT)
+web	An OpenX6X00-x6100-vX.Y.Z-update.tar.gz or OpenX6X00-x6200-vX.Y.Z-update.tar.gz from the releases page, for a radio without internet
+web	and
+web	Any
+web	App
+web	ardop
+gui	asdfghjkl;'
+gui	Asia/Kolkata (IST)
+gui	Asia/Seoul (KST)
+gui	Asia/Shanghai (CST)
+gui	Asia/Singapore (SGT)
+gui	Asia/Tokyo (JST)
+gui	ATT:\n%s
+gui	ATU:\n%s
+gui	Australia/Brisbane (AEST)
+gui	Australia/Perth (AWST)
+gui	Australia/Sydney (AEST/AEDT)
+web	backups/
+web	backups/backup.tgz
+web	balanced
+gui	band INT NOT NULL, 
+gui	bands
+gui	bg
+gui	Bosnia-Herzegovina
+gui	Can't update new connection
+gui	Cannot create %s
+gui	Cannot create the file on the SD card
+gui	canonized_remote_callsign TEXT NOT NULL, 
+gui	Centered
+gui	CHANNEL
+gui	CMP
+gui	comment TEXT 
+gui	Comp:\n%s
+gui	connected
+gui	connecting
+gui	CPU
+gui	CREATE INDEX IF NOT EXISTS qso_log_idx_canonized_remote_callsign 
+gui	CREATE INDEX IF NOT EXISTS qso_log_idx_mode ON qso_log(mode)
+gui	CREATE INDEX IF NOT EXISTS qso_log_idx_ts ON qso_log(ts)
+gui	CREATE TABLE IF NOT EXISTS qso_log( 
+gui	CREATE UNIQUE INDEX IF NOT EXISTS qso_log_idx_ts_call ON qso_log(ts, remote_callsign)
+web	CW): its text as it comes, in CW mode.
+gui	Danish
+gui	Day
+gui	Decoder:\n%s
+gui	DIG
+gui	Discard
+gui	disconnected
+gui	DNF:\n%s
+web	Download or delete the logs of the activations
+gui	enabled=
+gui	Europe/Athens (EET/EEST)
+gui	Europe/London (GMT/BST)
+gui	Europe/Moscow (MSK)
+gui	Europe/Rome (CET/CEST)
+web	Every QSO on the radio, day by day: the day's logs (FT8, FT4, JS8 and the phone's logger) and the POTA/SOTA activations. Edit a QSO in place, delete QSOs or whole days, export what the filter shows as ADIF or CSV. Below them,
+web	Export, and Delete shown, work on the QSOs the filter shows
+web	fast
+web	File
+web	file
+gui	filter_activity=
+gui	filter_bands=
+gui	filter_modes=
+gui	filter_spotter_dxcc=
+gui	Finnish
+gui	FL1
+gui	Follow
+gui	freq REAL CHECK ( freq > 0 ), 
+gui	GhostNet
+web	github.com/Guru-RF/OpenX6X00
+gui	GM/s
+gui	HamQTH
+gui	heard
+web	Host
+gui	hota-spot
+gui	Hz
+gui	id/bustype
+gui	IG9
+web	Install
+gui	int16
+gui	ip
+gui	IT9
+gui	Italian
+gui	JW/b
+gui	keyboard
+web	Keyboard modes' text
+web	knob
+web	Label
+gui	lan
+web	Last update
+gui	learning
+web	Light
+web	Link
+web	Listening
+web	Load
+gui	local_callsign TEXT NOT NULL, 
+gui	local_grid TEXT, 
+gui	local_qth TEXT, 
+gui	log
+web	Logged
+gui	login=
+gui	Lost
+gui	lsb
+web	Manually update server time
+web	Manually Update Time
+gui	max_age=
+web	mercury
+web	Mic
+gui	mode INT NOT NULL, 
+gui	Mode:\n%s
+gui	NB:\n%s
+web	Netmask
+gui	Night
+gui	none
+gui	north-west
+gui	Norwegian
+gui	nothing
+gui	NR:\n%s
+gui	OFF
+gui	ok
+gui	ON qso_log(canonized_remote_callsign COLLATE NOCASE)
+gui	op_name TEXT, 
+web	Open
+web	OpenX6X00
+web	Operate
+web	operate
+web	Optional
+gui	Pacific/Auckland (NZST/NZDT)
+gui	Pacific/Honolulu (HST)
+web	params.db
+web	Part
+web	Pat's, the modem's and the radio's, as one text file for a bug report, the passwords masked. Gateways and the subjects of your mail are in it
+web	Pattern
+gui	perf
+gui	Polish
+gui	Portuguese
+gui	pota-spot
+gui	PRE:\n%s
+gui	Press Delete again to delete \"%s\"
+web	push
+gui	QSOs
+web	Queued
+gui	qwertyuiop[]
+gui	Ratio:\n%0.1f
+gui	REC
+gui	remote_callsign TEXT NOT NULL, 
+gui	remote_grid TEXT, 
+gui	remote_qth TEXT, 
+gui	REV
+gui	RF.Guru
+gui	RIT:\n%+i
+gui	rstr INTEGER NOT NULL, 
+gui	rsts INTEGER NOT NULL, 
+gui	S%d
+gui	S9+%d
+gui	saved
+gui	SCANNING
+gui	scanning...
+web	Screen recordings (AVI), RX audio recordings, screenshots, SSTV and WeFax pictures stored on the radio. Tap files to select them, then download them as a ZIP or delete them together. Screen recordings can be converted to MP4 in this browser.
+web	Select all
+web	Select or input NTP server
+web	Select timezone or input custom timezone
+web	Sending
+gui	sent
+gui	server=
+web	Servers
+web	sharp
+web	Size
+gui	skip_spotters=
+web	Sound
+gui	south-west
+gui	Space
+gui	Spanish
+gui	Squelch:\n%i
+gui	starting
+gui	Step:\n%s
+gui	stopped
+gui	STOPPED
+gui	Stopping...
+gui	Swedish
+gui	Sync
+gui	TA1
+web	Text
+web	The address you open Wavelog with, without /index.php
+web	The files of the version before the last update are kept until the next one
+web	the keyboard modes' text
+gui	Train:\n%s
+gui	TRANSMIT
+gui	Tuner:\n%s
+web	Type
+gui	UK
+web	Update server time by NTP
+web	Update the lists
+web	Update Time
+gui	US
+gui	UTC
+web	VFO-Knob
+web	view
+web	VOL
+gui	Volume:\n%i
+gui	VOX:\n%s
+gui	waiting
+web	What PSK31, PSK63, Olivia, Contestia and JTTY received and sent, and what RTTY received, a line each with the UTC time, the frequency, the mode and the app's signal figure; a file a UTC day. On or off, and the size limit (the oldest day goes): Settings &gt; General &gt; TEXT LOG on the radio
+web	What the update cannot carry (the kernel, the WiFi driver) comes with a card image
+web	While Funnel is on, port 443 on your tailnet is the Panel's (with a real certificate); these pages stay at http://&lt;name&gt;/. A funnel set up by hand (
+gui	wwff-spot
+web	x6100.example.nl
+web	x6100.local
+web	xara
+gui	XIT:\n%+i
+gui	yes
+web	Your Wavelog's address and a read &amp; write API key: in Wavelog, your account menu, API Keys, Create a read &amp; write key (it starts with wl; in Wavelog 3.1 and later under Legacy API Keys (API v1)). The API tokens further down that page, wl2_... (API v2), don't work here yet. The QSOs go into the station profile chosen here, or, with Automatic, into the profile with the callsign the radio logged them with. Switched on, the QSOs from that moment on are sent, not the log from before
+gui	zxcvbnm,./
+
+【待翻译】550 条
+--------------------------------------------------------------
+gui	 DHCP \n Static 
+gui	 drift %+.1fs
+web	(mDNS, announced by Avahi), on WiFi and Ethernet alike. The name is kept on the DATA partition.
+web	(none = all)
+web	(none ticked = all bands)
+web	(none ticked = all spots)
+web	(passwords or keys: stays on the radio)
+gui	(SETTINGS\n1:3)
+gui	(SETTINGS\n2:3)
+gui	(SETTINGS\n3:3)
+web	(the browser warns of the radio's own certificate: accept it, once for that address).
+web	(the spotter's country, by its prefix; empty = all. Alerts still come through)
+web	) and stays.
+web	) is taken off the internet: the radio's switch alone puts it there.
+web	, and keep the page it opens
+web	, and the others on System &gt; Network): a page from another site cannot add a key through your browser.
+gui	, some refused
+gui	.  %d locked out
+web	. A copy goes to
+web	. A new key replaces the stored one; empty keeps it, for the same server only: with the URL of another one, type its key too. Clear takes it away and stops the upload.
+web	. A new one replaces it, also one set in Pat's own Settings; empty keeps it. Clear takes it away, also the one in Pat's own Settings. It stays on the radio and is never shown again
+web	/root/.ssh/authorized_keys
+web	10 min
+web	120 min
+web	15 min
+gui	20000 km
+web	30 min
+gui	3200 Hz
+gui	3D depth:\n%i
+gui	3D floor:\n+%i
+gui	3D tilt:\n%i
+web	50001 is what TCI clients expect
+web	60 min
+gui	73, GAME OVER\n#%06x Score %d - MFK to call CQ again#
+web	: the radio uses a self-signed certificate, so the browser shows a warning once. Accept it (Advanced, then Proceed) and the option appears.
+web	: whole names, not addresses (those count already), no wildcards. Only names of your own: a page opened by a name on this list can change everything here, so never add one a web site or a message asks for.
+gui	\"%s\" already exists
+gui	\r\n
+web	A browser only watches until it is paired with a code shown on the radio; one paired browser (or the radio's own keys, or a TCI client) controls the radio at a time, and the others take control on purpose.
+gui	a browser types the code to operate
+web	A client on the network that is not allowed yet is answered "not keyed", and the radio asks on its screen: Allow once, Always or No; no answer in 20 s is No. Programs on the radio itself and the Panel of a paired browser are not asked. Those allowed always: Settings &gt; General &gt; TCI SERVER on the radio, Sessions on the Panel for the admin. Off: every operating client keys as before
+web	A low-power carrier for a tuner of its own at the antenna, at the radio's TUNE power and time limit (Settings &gt; TX Cal); press again to stop
+web	A new key replaces the stored one; empty keeps it. Clear takes it away.
+web	A PNG of 800x480 pixels, the screen's size, up to 2 MB. It is kept on the card's DATA partition, so updates leave it as it is, and the Backup takes it along. Default goes back to the built-in logo.
+web	A QSO by hand (voice, CW, or PSK, Olivia, Contestia, JTTY, RTTY) on the radio's frequency, into the day's ADIF log on the radio (the web Logs page lists it). Its mode is the one of the app open on the radio, else the radio's; in USB-D or LSB-D with no app, away from FT8 and FT4, it has none: set it on the Logs page. FT8, FT4, FT2 and JS8 log their own QSOs. Each QSO is confirmed by the radio: one sent into a dropped connection is asked about when the link is back, and never logged twice.
+gui	About %.0f s at %i WPM\nBeacon: %s%s%s
+gui	About %.0f s in QRSS3\nBeacon: %s\n%s
+web	Adds, changes and removes bands; Active binds a band to the up/down keys.
+web	Adds, changes and removes the FT8/FT4 and JS8 frequencies.
+gui	ALL MODES / SSB
+web	All of it runs on the radio: CQ and AUTO go on calling and answering when this page closes or loses its link. TX off makes a dry run: the app listens, decodes and queues, and nothing keys the transmitter. A tap on a CQ or a call queues one reply for the next slot of ours and arms TX.
+web	Allow Funnel
+web	Allow in Tailscale
+web	Answer by itself a station that calls you, and carry the QSO through; it never calls CQ on its own
+gui	Antigua & Barbuda
+web	Any browser on the LAN reaches the radio as
+web	API key
+web	ARDOP: the gateways in Pat's list. Mercury: faster on a good path, but only with a station that runs Mercury 1.9.20 or later (station to station, or one of the few gateways that run it), dialled by hand in Pat as VARA HF. XARA: speaks VARA HF, so the VARA HF gateways in Pat's list answer it (Connect, VARA HF), at VARA's free speed unless you tick your VARA HF licence below. Mercury and XARA cost the radio more processor and heat. One runs at a time
+web	as well, a few seconds after it is logged; the radio's own logs stay as they are. Without a network the QSOs wait on the SD card and go when the radio is back online. The display says what happened: "Wavelog: DL1ABC uploaded".
+gui	Asiatic Russia
+gui	Auto call every %i s\nInterval: page 2
+gui	Auto call, TX or PTT: stop
+gui	Auto call: repeats every %i s
+gui	AUTO/HB PAUSED (idle)  
+gui	Auto: 
+web	Automatic: each QSO goes to the profile with the radio's callsign, so changing the callsign on the radio (DF8MH, DF8MH/P) is all it takes. Load reads the profiles of the key from Wavelog
+gui	BAND OVERVIEW
+gui	BAND\tACTIVITY\t\tSPOTS\tRBN\tHEARD YOU\t
+gui	Battery %d%%
+gui	Battery %d%%: about %d min left
+gui	Battery %d%%: connect power
+gui	BATTERY HIGH TEMP!
+gui	BATTERY LOW TEMP!
+gui	BEACONS  %.3f   #%06x %s# %s
+gui	Belgian (AZERTY)
+gui	BIRDIE CALIBRATION
+web	bits or more, one key at a time, with no options before it. Step by step for Windows, a Mac, Linux and PuTTY:
+gui	BROWSER REMOTE is off (General): turn it on
+web	Call CQ every slot of ours until a station answers, or CQ off
+web	Call, name, QTH, grid, reference…
+web	Callsigns or prefixes you are looking for.
+gui	CALL|rst sent|rst received[|name|qth|grid|country[|comment]]
+gui	Cannot rename
+web	cat ~\.ssh\id_ed25519.pub | clip
+web	Choose a backup file. You can pick which parts to restore; the radio screen restarts (about 5 s) when settings are replaced.
+web	Clear this list (the radio's is not touched)
+web	Close the radio's digital apps (FT8, PSK, RTTY...) first: while one is open Winlink does not transmit or tune.
+gui	CLUSTER #%06x %s# - %s
+gui	Cluster %s - %s
+gui	Connecting to %s...
+gui	Connecting to %s... (try %d/%d)
+web	Control, meters and audio for the VFO-Knob and other TCI clients: turn it on, set its port.
+web	copies it). Taken: ssh-ed25519, ecdsa-sha2-nistp256, -nistp384 and -nistp521, and ssh-rsa of
+gui	CQ %s
+gui	CQ %s CQ
+gui	CQ CQ %s DE %s %s K
+gui	CQ CQ CQ DE %s\n%s %s
+gui	CQ POTA
+gui	CQ SOTA
+gui	CQ: sending \"%s\" (CQ again: stop, hold CQ: level)
+web	cqhota.app takes spots with your own key: cqhota.app, My account, Integration API key. Without it HOTA spots go to the DX cluster only. Key:
+gui	cw \"...\"
+gui	CW KEYER - #%06x QRSS3: 30 m or 80 m#
+gui	CW peak Q:\n%i
+gui	CW peak:\n%s
+gui	Czech (QWERTZ)
+gui	Czech Republic
+web	Day (UTC)
+gui	DCIN TOO LOW!
+gui	Dec SNR:\n%0.1f dB
+gui	Deleted \"%s\"
+gui	Dem. Rep. of the Congo
+web	DHCP takes the address from the network
+gui	Disconnect the antenna, then press Start. A few minutes: every active band the radio transmits on.
+gui	dit %s, dah %s
+gui	DNF auto:\n%s
+gui	DNF freq:\n%i Hz
+gui	DNF width:\n%i Hz
+web	Download files from the DATA partition of the SD card (ADI log, screenshots, recordings, etc). Files that hold passwords or keys (the Wavelog and Field pages' keys,
+web	downloaded while the radio writes it may come out damaged (the radio's copy is not touched): open it with any SQLite3 tool to check.
+web	Downloads files from the SD card: ADIF log, screenshots, recordings.
+gui	DPR of Korea
+gui	DX cluster not running: no %s spot
+gui	DX: %s
+web	e.g. K1TTT-# , *-3
+web	e.g. PA, ON
+web	e.g. VP8*
+web	e.g., Asia/Shanghai
+web	Each QSO, a few seconds after it is logged
+gui	Empty name
+gui	Ethernet: %s
+gui	Europe/Lisbon, Canary (WET/WEST)
+gui	European Russia
+gui	every browser forgotten
+web	Every QSO the radio logs, in every mode (FT8, FT4, FT2, JS8, voice, CW, Field Ops activations), goes to your
+web	Everyone on your tailnet reaches the radio as if they were on its own network: these pages have no login, TCI clients need none, and SSH takes the keys added on System &gt; SSH. Share the radio's machine in Tailscale only with people you would let in at home.
+gui	everything off
+web	Everything the configurator can change on the radio.
+gui	Ext tune:\n%0.1f W
+gui	Ext tune:\nStop
+web	external tuner
+gui	F%d is empty - hold to set it
+gui	Fed. Rep. of Germany
+web	Fetching Server Time...
+web	Fetching Server Timezone...
+gui	Field: wait, still busy
+web	Filter and export
+gui	Filter BW:\n%i Hz
+gui	Filter high:\n%i Hz
+gui	Filter low:\n%i Hz
+gui	FIRE / EXPLOSION
+gui	Font: this theme has its own
+gui	For the app, the column and the waterfall. Alerts always show.\n
+gui	Forgotten. Scan again when you like.
+gui	French (AZERTY)
+web	From a laptop or a phone with Tailscale on
+gui	ft8 {...}
+gui	German (QWERTZ)
+gui	HB %um  
+gui	HB %um next %02d:%02d  
+gui	HB paused (Turbo)  
+gui	Heard by 
+web	Heard in
+web	here (on Windows, in PowerShell,
+web	Hold the TX offset: do not move onto the station answered
+web	Holds passwords or keys: not downloaded here
+web	HOTA spots
+web	How the radio's screen looks (Settings &rarr; Display), and a few station options of the other tabs. Every change is applied on the radio as you make it and each row says so (Applied on the radio, or why not); Theme, Spectrum and Spectrum height restart the radio's screen for a few seconds.
+web	https://
+web	https://log.example.org
+web	https://this radio/panel
+web	https://this radio/remote
+gui	Iambic:\n%s mode
+gui	IF shift:\n%i
+gui	Import: %s could not be read
+gui	Imported %u QSOs
+gui	Imported %u QSOs (%u already in the log, %u without a callsign, %d broken)
+gui	Imported %u QSOs, %u not saved: the file is kept for the next start
+gui	Importing QSO: %d/%d
+web	In the file
+web	In the mailbox: Connect, ARDOP, then the gateway list (with your locator, the nearest first) gives each gateway's call and frequency. The radio tunes there in USB-D when Pat connects, and back afterwards.
+web	In-browser conversion needs a secure page. Open
+web	Input Custom NTP Server Address
+gui	Input level
+web	Input Time
+web	Input time (format: YYYY-MM-DD HH:MM:SS)
+web	Install the file
+web	Installs a newer OpenX6X00 from GitHub, or a bundle file, with automatic rollback.
+web	Integration key
+web	is the mail program, its mailbox a web page you open on a phone or a laptop on the radio's network; ARDOP is the modem, or Mercury or XARA (both experimental; XARA speaks VARA HF), through the radio's own audio. When Pat calls a gateway, the radio tunes to it and switches to USB-D. Off by default: when off, Pat and the modem do not run.
+web	its address
+gui	JTTY %s  %u.%03u MHz
+gui	JTTY RX restart
+web	Keep the mailbox open while Pat connects: it asks there whether to go ahead on a busy frequency, and for the password when none is set, and gives up when nobody answers.
+gui	Key train is off: not playing
+web	Key:
+web	Keyboard: F1–F5, ← → the main knob, Shift + ← → faster, [ ] volume, PageUp/PageDown the MFK, Enter the MFK push, Space PTT. Knobs: drag around the ring, or the mouse wheel over it. Sound starts on a tap (browsers ask for one).
+web	Label, dial frequency, mode and app
+gui	Last 20 tries per character. Weak ones (red, yellow) come up more often in Learn.
+web	last call
+gui	last scan %i s ago
+web	Last seen
+web	Latest release
+gui	Left Alt
+gui	Left Ctrl
+gui	Left Shift
+gui	Level %i: new character %c
+gui	Listen: %s %.3f, TX %.3f\nPress again to send: %i s
+web	Listens for TCI clients on the network
+gui	Lists: %d POTA, %d SOTA, %d WWBOTA, %d HOTA, %d WWFF, %d TOTA, %d WCA, %d MOTA, %d LH, 
+web	Loading Local Time...
+web	Local time
+gui	Log from the phone: \"%s\" not logged
+web	Log in
+web	Log in to Tailscale
+web	Log out
+gui	Log: \"%s\" is not a callsign
+gui	Low battery! Turning off in 30s.
+gui	Low battery, DC IN under %d V! Turning off in 30s.
+web	Main Page
+web	makes one; paste the line of
+gui	Marks:\nOff
+web	matches anything: VP8*, */P, 3Y0J.
+web	Max age
+web	MEM slots
+web	MEM slots are the radio's MEM 1-9 buttons (hold to save, tap to load). Channels are the named list in APP → Channels. A row is saved with its own Save, or all at once; a cleared slot or a deleted channel can be brought back for twenty seconds.
+web	Mercury is experimental: tested between two stations on a PC, not yet on the air; on an X6100 it takes about one of the radio's four processor cores (not measured on an X6200 yet). In the mailbox: Connect, VARA HF, then the other station's call and frequency by hand: the VARA HF gateway list shows VARA gateways, which do not answer Mercury. ARDOP's gateways do not answer it either.
+gui	MFK or VOL: 10 Hz steps - press MFK: done
+gui	MFK or VOL: 5 min steps (%s clock) - press MFK: done
+gui	MFK or VOL: how many - Until: next kind - MFK: done
+gui	MFK or VOL: interval - press MFK: done
+web	MFK push
+gui	MFK: choose - press MFK: edit
+gui	MFK: choose - press: confirm - %s: close
+gui	MFK: choose, press: confirm   No in %d s
+gui	Mic level: keep out of the red\nMax %i s
+web	Mic needs an https page:
+web	Modes, bands and activity are also on the radio: Settings → Cluster.
+gui	Moni level:\n%i
+gui	mouse buttons
+gui	MSG %d NEW  
+gui	N\tTIME\tCALL\tBAND\tMODE\tRST S / R
+web	Name (optional)
+web	Name, edges, default mode, TX shift and the Active flag
+web	Name, host name and telnet port
+web	Names your own DNS or a reverse proxy gives the radio, separated by spaces, up to
+gui	NAVTEX ready - 100 baud / 170 Hz shift\n
+gui	NB level:\n%i
+gui	NB width:\n%i Hz
+web	Needs internet on the radio
+gui	NetworkManager is not running
+gui	New card image out: Settings > Info
+web	New key (empty = keep)
+web	New password (empty = keep)
+web	Newest at the bottom
+gui	Next call in %i s\nInterval %i s
+web	Next slot
+gui	No %s spot: no %s key (web page, Field Ops)
+gui	No activation yet
+gui	No audio: recording uses the hand mic
+web	No Ethernet adapter connected.
+web	No key yet: SSH lets nobody in. Add one below.
+web	No key yet? On your computer,
+gui	No QSO readable in the ADIF file (%d broken): kept as %s
+gui	No QSOs found in the ADIF file: kept as %s
+web	No spots yet: the cluster is set on the radio (Cluster page).
+gui	No voice CQ yet: Rec CQ on page 2, speak, Stop rec
+gui	Not while transmitting
+gui	NOT YOUR CLASS
+web	Nothing is shown or sent to a browser from the internet before it presents the key of a browser paired at home. Pairing is refused over Funnel: pair at home (or once over Tailscale), then Use away from home.
+gui	NR level:\n%i
+web	Off only for a Wavelog at home with a self-signed certificate
+web	Off: the radio holds no cluster login
+gui	ok <id>
+web	on the DATA partition after each change here and at every clean power-off, so a new card image takes them back.
+web	On the internet
+web	On the radio
+web	On the radio now
+web	On the radio, in userspace mode
+web	On the screen while the radio starts: the built-in logo, or a picture of your own
+web	On ws://&lt;radio IP&gt;:&lt;port&gt;/
+web	On your tailnet
+web	Only bands
+web	Only mode
+web	Only the Panel and the Screen page, and only for browsers paired at home. Needs Tailscale connected
+web	Open it in a browser paired here: on the Panel at home press
+web	OpenX6X00 · open firmware for the Xiegu X6100 ·
+web	OpenX6X00 · the radio from away, through Tailscale Funnel ·
+web	Operate: tune, change mode, key, as before. Listen only: hear and follow the radio; tuning and keying are answered with the state as it is
+web	Optional. Leave it empty and internet stays on WiFi
+web	or any TCI client tunes it over the network, hears it and keys it. There is no login or pairing for TCI clients: enable it only on a network you trust, and choose below whether a client may operate the radio or only listen. An operating client takes control of the radio the moment it tunes or keys, as a knob would; a browser that was operating sees "TCI client active" and takes control back on purpose.
+web	Other names
+gui	PA HIGH TEMP!
+web	page shows the radio's own display instead. No login: anyone on the network can reach this page.
+web	page shows the radio's own display.
+web	Panorama: tap or drag to tune, pinch (or the mouse wheel with Ctrl) to zoom, the wheel to tune by the step. Tap the frequency to type one, a spot to tune to it. Keyboard: ← → tune (Shift: ten steps), [ ] volume, Space PTT. Sound starts on a tap (browsers ask for one).
+gui	Password is not used
+gui	Password is required
+web	Picture: balanced
+web	Picture: fast
+web	Picture: sharp
+web	Picture: Sharp is the whole screen as it is; Fast is half the size and about three times the frames on a slow WiFi link
+web	PNG files up to 4 MB are sent as they are; JPEG and other pictures are converted to PNG in this browser. A file with the same name is kept: the new one gets -1, -2... at the end.
+web	Popup on the radio
+web	POTA, SOTA, WWBOTA, HOTA, WWFF, TOTA, WCA, MOTA, LH (lighthouses), Tiles and LLOTA (lakes and lagoons) portable operation: reference lists for the radio, QRZ Logbook upload, HOTA and WWFF spots, activation logs.
+gui	Press Spot again to post %s %.1f %s
+web	Previous version
+web	Profile 1
+web	Profile 2
+web	Profile 3
+web	PSK, Olivia and JTTY
+web	PTT (hold)
+gui	PTT on: CapsLock+Space for off
+web	Public key
+web	Puts a backup file back on the radio
+gui	QRSS3: frequency locked
+gui	QRSS3: in CW or CW-R only
+gui	QRSS3: not started
+gui	QRSS3: on 30 m or 80 m only
+gui	QRSS3: split or TX shift on
+gui	QRSS3: XIT is set (%+i Hz)
+web	QRZ Logbook
+gui	QRZ: %s
+gui	QSK time:\n%i ms
+gui	QSO %d: %s %s %s %s
+gui	QSO logged: %s %s %s %s%s%s
+gui	RADE needs headphones, TCI or the browser
+gui	RADE V1   Rec: hand mic only, then Send   Filter wide, AGC and NR off
+gui	RADE: callsign sent as the first %d characters
+gui	RADE: cannot start the encoder
+gui	RADE: cannot start the send
+gui	RADE: not sent
+gui	RADE: still encoding
+gui	RADE: the radio is transmitting
+gui	RADE: the radio keyed, recording dropped
+web	Radio clock, timezone and time synchronisation.
+gui	RBN %s
+gui	RBN %s.  
+web	Reads, edits and clears the MEM slots and the named channels.
+gui	Reference list: %s
+web	Reference lists
+web	Remote and Panel still ask for pairing before they operate, exactly as on the home network.
+web	Removing a key does not end a session already open with it; the next login needs another key.
+gui	Republic of Korea
+gui	Republic of South Sudan
+gui	Republic of the Congo
+web	Restore selected
+web	RF GAIN
+gui	RF gain:\n%i
+gui	Right Alt
+gui	Right Ctrl
+gui	Right Shift
+web	Root's keys
+web	RST r
+web	RST s
+gui	RX  %d:%02d
+web	Save the radio settings to your computer, and put them back after flashing a new image.
+gui	Saved QSO de %s %d %d
+gui	Saved QSO de %s %d %d (%.0f %s)
+web	Saves settings, memories, QSO log and more, and restores them after a new image.
+gui	Scanning. Keep the antenna disconnected.
+gui	SCOPE \xC2\xB1%d.%dk
+gui	SCOPE \xC2\xB1%dk
+gui	SCORE %04d   BEST %04d
+web	Screen and RX recordings and screenshots, with thumbnails; AVI to MP4 in the browser.
+gui	SD card full, recording saved
+gui	SD card write error: the last file may be damaged
+gui	SD card: about %d min left
+web	Send now
+gui	sent: watch who hears you
+web	Server time
+web	Server timezone
+web	Servers the radio can use (APP → Cluster), the filters and the alerts. The one in use is marked; the radio reconnects when you change it. Filters and alerts apply to the next spots. A deleted server or alert can be brought back for twenty seconds.
+web	Sessions with gateways work: reported on an X6100 on 80 m and from the UK to Germany on 40 m, and an X6200 got as far as the login.
+web	Set server timezone
+web	Set Timezone
+web	Sets the radio clock to the date and time you type
+web	Shows the radio clock and sets it by hand, by NTP or by timezone.
+gui	SITOR-B 100 Bd / 170 Hz   MFK: scroll   Freq.: stations
+gui	Skimmer data: Reverse Beacon Network (reversebeacon.net)
+web	Skip spotters
+gui	Slovak Republic
+gui	SNR, offset
+web	Sound takes about 50 kB/s each way, the spectrum about 15 kB/s; Tailscale relays it when it must.
+gui	Sov Mil Order of Malta
+gui	Speaker always off: Settings > Audio
+gui	Speech to
+gui	Speed:\n%i wpm
+web	Spots hidden here disappear from APP Cluster, the cluster column and the waterfall marks
+gui	SSB LL2LL
+web	SSH keys
+web	SSH on the radio takes keys only: password logins are off, since every radio came with the same root password. Add the public key of each computer you log in from;
+web	ssh root@
+web	ssh-ed25519 AAAA... you@computer
+web	ssh-keygen -t ed25519
+gui	St. Kitts & Nevis
+gui	St. Vincent
+web	Start at 500 Hz, or 200 Hz on a weak path: at the radio's few watts a 200 Hz call connected where the gateway list's 2000 Hz did not. The bandwidth above is the widest, also for a gateway the list shows wider.
+web	Start, MHz
+gui	Starts in %i:%02i:%02i - TX or PTT: stop
+gui	Starts in %i:%02i:%02i, until %02i:%02i%s - TX or PTT: stop
+web	Station profile
+gui	Stats reset
+web	Stop the transmission, drop the queued message, CQ off, TX off: nothing transmits until armed again
+web	Stop, MHz
+gui	Stop: save the message
+gui	Swiss German
+web	Sync Local Time to Server
+web	Tailscale Funnel
+web	tailscale funnel ...
+web	Tailscale puts the radio on your own private network, your tailnet. With Tailscale on a laptop or a phone you reach the radio from anywhere as if you were at home: these pages, the Panel and the Screen page, and TCI. Nothing is opened on your router. When you turn it on, the radio downloads Tailscale once from Tailscale's site (37 MB) and asks you to log in with your Tailscale account. Tailscale's log upload is off.
+web	Takes effect: at the next cycle
+web	Takes effect: at the next login
+web	Takes effect: at the next QSO
+web	Takes effect: at the next spot
+web	Takes effect: at the next spots
+web	Takes effect: at the next start
+web	Takes effect: at the next upload
+web	Takes effect: now, reachable under the new name in a few seconds
+web	Takes effect: now, the adapter reconnects
+web	Takes effect: on the radio within a few seconds
+web	Takes effect: the radio reconnects within a few seconds
+web	Takes effect: within a few seconds
+web	Takes effect: within seconds
+web	Tap: screen on/off
+web	Tap: type a frequency
+web	TCI (Transceiver Control Interface, version 2.0) is the protocol of Expert Electronics' SDRs that AetherSDR and other programs serve: one WebSocket carries the frequency, mode, filter, AGC, PTT, the S-meter and the TX meters, and the audio both ways. The radio serves it here, so a
+web	TCI server
+web	Telnet servers; Use switches the radio to one
+gui	Test beacon %s
+gui	Test beacon %s, back on %.3f MHz
+gui	Test beacon not sent%s%s\nThe radio stays on %.4f MHz
+gui	Test beacon on %s: %s
+gui	Test beacon on %s: no data from the base
+gui	Test beacon on %s: the frequency is locked
+web	Test connection
+gui	TEST WAV  
+web	The answers to INFO? and STATUS?, up to 64 characters each, empty for none
+web	The app is closed: Open starts it on the radio.
+web	The browser Panel on the internet, for a phone or a PC without Tailscale
+web	The browser's microphone needs a secure page: open
+web	The browser's microphone transmits while PTT is held
+web	the HTTPS version of this page
+web	The keys are root's, in
+web	The keys that may log in to the radio over SSH: lists, adds and removes them. Passwords are not taken.
+web	The login stays on the radio. A new card image keeps Tailscale on, but asks for a new login.
+web	The macro buttons of the PSK31, Olivia and JTTY windows and the JS8 INFO and STATUS answers. The radio reads them the next time the window opens: close and reopen it to see a change. A row is saved with its own Save, or all at once; a deleted macro can be brought back for twenty seconds.
+web	The mailbox answers only to the radio's address or its own name, and refuses pages from other sites: a web page you happen to visit cannot use it through your browser.
+web	The mailbox has no login of its own: anyone on the radio's network, and on your tailnet with Tailscale on, can read and send your mail and make the radio transmit. Turn Winlink off on a network you do not trust.
+web	the manual
+web	The MEM 1-9 buttons: hold to save, tap to load
+web	The messages of MSG &rarr; CW on the radio, sent with TX or as a beacon. Up to 64 characters each. A row is saved with its own Save, or all at once; a deleted message can be brought back for twenty seconds.
+web	The name becomes public: every Funnel name gets an HTTPS certificate, and certificates are listed in public logs that scanners read. Anyone can find the address; only paired browsers get in.
+web	The named list in APP → Channels. A name that starts with WEFAX also puts the channel in the WeFax app's Freq. list: give it the dial, 1.5 kHz below the fax station (7.7935 for a station on 7.795 MHz)
+web	The page's links to the radio: link, picture, sound, microphone; this browser's access; who controls the radio
+web	The page's links to the radio: link, spectrum, sound, microphone; this browser's access; who controls the radio
+web	The panel alone, the height of the screen
+web	The password is kept on the radio's system partition: not in the Backup, not on the Files page. A new card image asks for it again. The mail itself is on the SD card (
+web	The picture the radio starts with
+web	The public half: the one line of the
+web	The radio from away, through Tailscale Funnel: the spectrum and the waterfall, every switch and level, the audio both ways. Only a browser paired with the radio at home gets in; you remain the control operator of every transmission. The
+web	The radio in the browser: its screen live, the keys and knobs, the audio both ways. From a phone, a tablet or a PC.
+web	The radio in your browser: the screen live, the keys and knobs as on the front panel, the audio both ways. What the radio shows and does, you see and do here, from a phone, a tablet or a PC on the same network. Hold PTT to transmit. Anyone on the network can watch this page; a browser operates the radio only once it is paired with a code shown on the radio, and one paired browser (or the radio's own keys, or a TCI client) controls the radio at a time.
+web	The radio installs a newer OpenX6X00 by itself: the GUI, the web pages, the helpers and their data, from the project's GitHub releases or from a bundle file. The files are checked against the project's signature, the previous version is kept, and the radio software restarts at the end (about a minute). A version that does not come up is put back automatically. The kernel and the WiFi driver still come with a card image.
+web	The radio logs in to one server. A cluster network takes a call on a few nodes at most, and a second login with the same call on a node ends the first: give the radio its own login (your call with -2) when a logger uses your call too
+web	The radio worked from the browser: the spectrum and the waterfall live, tap or drag to tune, pinch to zoom, every switch and level at hand, the DX spots, the audio both ways. Phone, tablet or PC, on the same network as the radio. The
+web	The radio's front keys, for its menus and apps: what they open shows on the Screen tab.
+web	The radio's local time zone
+web	The radio's name on the LAN, the other names it answers to, and a USB Ethernet adapter: DHCP, or a fixed address for networks that need one. The same settings as Settings &rarr; Wireless on the radio. WiFi's settings are not changed; a cable with a gateway holds WiFi off while it is connected, one without leaves the internet on WiFi.
+web	The radio's own screen from away, through Tailscale Funnel, with its keys and knobs and the audio both ways. Only a browser paired with the radio at home gets in; you remain the control operator of every transmission. The
+web	The telnet DX cluster server used by the Cluster app.
+web	The waterfall's colours
+web	The widest ARDOP may use, also with a gateway the list shows wider (Pat says so in its log). 500 Hz suits the radio's few watts and a crowded band; 200 Hz is the most robust, but a gateway fixed at 500 Hz or wider refuses it; 1000 and 2000 Hz are faster on a good path, with a gateway that runs them
+web	The WWFF Spotline (spots.wwff.co) takes spots with your own API key, asked to the Spotline team. Without it WWFF spots go to the DX cluster only. Key:
+web	then logs in with it.
+web	These pages change settings and open the Files page, and the Panel, the Screen page and the Winlink mailbox connect, only when opened by one of the radio's own names: by any other name a page from another site could do the same through your browser. Its own names now:
+web	This browser's access to the radio, and who controls it
+web	This browser's clock and the radio's
+web	This folder is empty.
+web	This page answers only to the radio's address or its own names (
+web	Tick only if you hold a VARA HF licence of your own; the radio does not check it. Off: VARA's free speed levels (1 to 4). On: XARA calls as a registered VARA station does, and the link may use every speed level
+web	Tick the parts to save in the file
+web	Time editor
+web	Time Editor
+web	Time information
+gui	TO FULL
+gui	Tone:\n%i Hz
+gui	TOTA <ref> <mode>
+gui	Trinidad & Tobago
+gui	ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+gui	TUNE %.1f W, %d s at most
+gui	TUNE %.1f W, %d s, ATU off
+gui	Turks & Caicos Islands
+gui	TX %d
+gui	TX %i Hz
+web	TX Call: armed, the queued message goes out in its slot; off, the app only listens and decodes (a dry run)
+web	TX Hz
+gui	TX or PTT: stop
+gui	TX or PTT: stop - %i:%02i to go
+gui	TX power %.1f W: transverter %s
+gui	TX power back to %.1f W
+gui	TX power:\n%0.1f W
+web	TX shift, kHz
+gui	UK Base Areas on Cyprus
+gui	United Arab Emirates
+gui	United States
+web	Up to 64 characters each
+web	Up to three profiles, a callsign with its Logbook API key (QRZ.com, Logbook, Settings): the active one takes the uploads. The radio's log page can switch the active profile too. Uploading needs a QRZ.com Logbook API key, which QRZ.com only gives with a paid QRZ.com subscription (XML level or higher).
+web	Upload to Wavelog
+web	Use away from home
+web	VOL push
+gui	WATERFALL SNAKE\n#%06x Turn the knob to steer - MFK to start#
+web	Wavelog URL
+gui	WCA <ref>
+gui	WF ref:\n%+i dB
+web	What goes on the internet: the Panel and the Screen page, at https://&lt;name&gt;.&lt;tailnet&gt;.ts.net/panel. Not these pages, not TCI programs, not the Winlink mailbox, not SSH.
+web	What Pat asks Mercury for, unless a connection names another. 2300 Hz uses all of Mercury's modes; 500 Hz keeps it within about 560 Hz, its most robust mode then a 500 Hz MFSK at half the speed (27 s a frame); 2750 Hz is 2300's modes for now. The narrower of the two stations' is used
+web	What Pat asks XARA for, unless a connection names another: VARA HF's 500, 2300 or 2750 Hz. Call a gateway at the bandwidth Pat's VARA HF list gives it; 2300 Hz is the usual one, 500 Hz keeps to about 520 Hz on a crowded band
+web	What runs now, and the latest release
+web	What the app does now and next
+web	What the band keys of those apps step through
+web	What the link does now, as APP → Cluster shows it
+web	When a spot matches an alert
+web	Where the keys are kept
+web	Where the newest decode comes in: at the bottom, as on the radio, or on top, under these buttons; this browser keeps the choice
+gui	WiFi %s: %s
+gui	WiFi %s: join failed (reason %u)
+gui	WiFi %s: no longer in range, scan again
+gui	WiFi: %s
+web	Wireless)
+web	with the radio's name and accept its certificate, as at home.
+web	works the radio natively.
+web	WSJT-X's coordinated slots: 160m at :00, 80m :02, 60m :04 ... 10m :18, again every 20 minutes. A band set to Off gives its slot to the other bands that are on, in turn. RX+TX transmits at the app's TX %; with the radio's ATU on, only on a band with a match stored for its WSPR frequency.
+web	WSPR band hopping
+web	WWFF spots
+web	XARA is experimental: a VARA-compatible modem by another author (MIT licence), not VARA itself. Tested between two stations on a PC, not yet on the air from a radio or with a VARA gateway, and its processor load on the radios is not measured yet. In the mailbox: Connect, VARA HF, then a gateway from Pat's VARA HF list. It needs your callsign (up to 7 letters and digits, an SSID from -1 to -19). The VARA HF licence box is your own statement; the radio does not check it.
+web	You remain the control operator of every transmission made from away, as the rules of your licence say.
+web	your call
+web	Your picture, a PNG of 800x480
+web	{{!base}}
+web	{{call + ' · ' if call else ''}}configurator
+web	{{group}}
+web	{{help}}
+web	{{label}}
+web	{{len(dirs)}} folders · {{len(files)}} files
+web	{{name}}
+web	{{request.path}}
+web	{{title}} - X6100 from away
+web	{{title}} - X6100 WebServer
+web	~/.ssh/id_ed25519.pub

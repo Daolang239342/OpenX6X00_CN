@@ -63,27 +63,27 @@
     <div class="dp-ctl"><input id="locator" type="text" autocomplete="off" spellcheck="false" maxlength="6"></div>
   </div>
   <div class="dp-row">
-    <div class="dp-lbl"><label for="password"><b>Winlink密码</b></label><span>Password: <b id="pw-state"></b>. A new one replaces it, also one set in Pat's own Settings; empty keeps it. Clear takes it away, also the one in Pat's own Settings. It stays on the radio and is never shown again</span></div>
-    <div class="dp-ctl"><input id="password" type="password" autocomplete="new-password" maxlength="64" placeholder="New password (empty = keep)"> <button type="button" id="pw-clear">清除</button></div>
+    <div class="dp-lbl"><label for="password"><b>Winlink密码</b></label><span>Password: <b id="pw-state"></b>。新密钥会替换原密钥，也会替换 Pat 自己设置中的密钥；留空则保留原密钥。清除会删除密钥，包括 Pat 自己设置中的密钥。密钥保存在电台中，之后不会再次显示</span></div>
+    <div class="dp-ctl"><input id="password" type="password" autocomplete="new-password" maxlength="64" placeholder="新密码（留空 = 保留）"> <button type="button" id="pw-clear">清除</button></div>
   </div>
   <div class="dp-row">
-    <div class="dp-lbl"><label for="modem"><b>调制解调器</b></label><span>ARDOP: the gateways in Pat's list. Mercury: faster on a good path, but only with a station that runs Mercury 1.9.20 or later (station to station, or one of the few gateways that run it), dialled by hand in Pat as VARA HF. XARA: speaks VARA HF, so the VARA HF gateways in Pat's list answer it (Connect, VARA HF), at VARA's free speed unless you tick your VARA HF licence below. Mercury and XARA cost the radio more processor and heat. One runs at a time</span></div>
+    <div class="dp-lbl"><label for="modem"><b>调制解调器</b></label><span>ARDOP：使用 Pat 列表中的网关。Mercury：链路状况良好时速度更快，但仅能与运行 Mercury 1.9.20 或更高版本的电台通信（电台对电台，或少数运行该软件的网关）；在 Pat 中手动选择 VARA HF 进行拨号。XARA：兼容 VARA HF，因此 Pat 列表中的 VARA HF 网关可以应答它（连接时选择 VARA HF）；除非在下方勾选 VARA HF 许可证，否则使用 VARA 的免费速度。Mercury 和 XARA 会占用电台更多处理器资源并产生更多热量。三者一次只能运行一个。</span></div>
     <div class="dp-ctl"><select id="modem"><option value="ardop">ARDOP</option><option value="mercury">Mercury（实验性）</option><option value="xara">XARA（实验性，兼容VARA）</option></select></div>
   </div>
   <div class="dp-row" id="row-bandwidth">
-    <div class="dp-lbl"><label for="bandwidth"><b>ARDOP带宽</b></label><span>The widest ARDOP may use, also with a gateway the list shows wider (Pat says so in its log). 500 Hz suits the radio's few watts and a crowded band; 200 Hz is the most robust, but a gateway fixed at 500 Hz or wider refuses it; 1000 and 2000 Hz are faster on a good path, with a gateway that runs them</span></div>
+    <div class="dp-lbl"><label for="bandwidth"><b>ARDOP带宽</b></label><span>ARDOP 可使用的最大带宽，即使列表中的网关标注了更宽的带宽也适用（Pat 会在日志中提示）。500 Hz 适合电台的低功率和拥挤频段；200 Hz 最稳健，但固定使用 500 Hz 或更宽带宽的网关会拒绝连接；在链路良好且网关支持时，1000 和 2000 Hz 速度更快。</span></div>
     <div class="dp-ctl"><select id="bandwidth"><option value="200">200 Hz</option><option value="500">500 Hz</option><option value="1000">1000 Hz</option><option value="2000">2000 Hz</option></select></div>
   </div>
   <div class="dp-row" id="row-mercury-bandwidth">
-    <div class="dp-lbl"><label for="mercury_bandwidth"><b>Mercury带宽</b></label><span>What Pat asks Mercury for, unless a connection names another. 2300 Hz uses all of Mercury's modes; 500 Hz keeps it within about 560 Hz, its most robust mode then a 500 Hz MFSK at half the speed (27 s a frame); 2750 Hz is 2300's modes for now. The narrower of the two stations' is used</span></div>
+    <div class="dp-lbl"><label for="mercury_bandwidth"><b>Mercury带宽</b></label><span>除非连接指定其他设置，否则 Pat 会请求 Mercury 使用的带宽。2300 Hz 可使用 Mercury 的所有模式；500 Hz 将带宽限制在约 560 Hz 内，并使用其最稳健的模式，然后以半速使用 500 Hz MFSK（每帧 27 秒）；目前 2750 Hz 使用与 2300 Hz 相同的模式。最终采用两端台站中较窄的带宽。</span></div>
     <div class="dp-ctl"><select id="mercury_bandwidth"><option value="500">500 Hz</option><option value="2300">2300 Hz</option><option value="2750">2750 Hz</option></select></div>
   </div>
   <div class="dp-row" id="row-xara-bandwidth">
-    <div class="dp-lbl"><label for="xara_bandwidth"><b>XARA带宽</b></label><span>What Pat asks XARA for, unless a connection names another: VARA HF's 500, 2300 or 2750 Hz. Call a gateway at the bandwidth Pat's VARA HF list gives it; 2300 Hz is the usual one, 500 Hz keeps to about 520 Hz on a crowded band</span></div>
+    <div class="dp-lbl"><label for="xara_bandwidth"><b>XARA带宽</b></label><span>除非连接指定其他设置，否则 Pat 会请求 XARA 使用的带宽：VARA HF 的 500、2300 或 2750 Hz。呼叫网关时，应使用 Pat 的 VARA HF 列表为该网关标注的带宽；通常为 2300 Hz，频段拥挤时可使用 500 Hz，将带宽控制在约 520 Hz。</span></div>
     <div class="dp-ctl"><select id="xara_bandwidth"><option value="500">500 Hz</option><option value="2300">2300 Hz</option><option value="2750">2750 Hz</option></select></div>
   </div>
   <div class="dp-row" id="row-vara-licence">
-    <div class="dp-lbl"><label for="vara_licence"><b>VARA HF许可</b></label><span>Tick only if you hold a VARA HF licence of your own; the radio does not check it. Off: VARA's free speed levels (1 to 4). On: XARA calls as a registered VARA station does, and the link may use every speed level</span></div>
+    <div class="dp-lbl"><label for="vara_licence"><b>VARA HF许可</b></label><span>只有在你本人持有 VARA HF 许可证时才勾选；电台不会核验许可证。关闭：使用 VARA 的免费速度等级（1 至 4）。开启：XARA 会像已注册的 VARA 台站一样呼叫，链路可以使用所有速度等级。</span></div>
     <div class="dp-ctl"><label class="sw" title="VARA HF许可"><input id="vara_licence" type="checkbox" role="switch" aria-label="VARA HF许可"><i></i></label></div>
   </div>
   <div class="dp-body" style="border-top:1px solid #1a283c">
@@ -98,16 +98,16 @@
   <div class="dp-head"><span class="dp-ico"><svg class="i"><use href="#i-lock"/></svg></span><div><h3>须知</h3><p>开启之前</p></div></div>
   <div class="dp-body">
     <ul style="margin:0;padding-left:18px;color:var(--dim);line-height:1.5">
-      <li>The mailbox has no login of its own: anyone on the radio's network, and on your tailnet with Tailscale on, can read and send your mail and make the radio transmit. Turn Winlink off on a network you do not trust.</li>
-      <li>The mailbox answers only to the radio's address or its own name, and refuses pages from other sites: a web page you happen to visit cannot use it through your browser.</li>
-      <li>In the mailbox: Connect, ARDOP, then the gateway list (with your locator, the nearest first) gives each gateway's call and frequency. The radio tunes there in USB-D when Pat connects, and back afterwards.</li>
-      <li>Keep the mailbox open while Pat connects: it asks there whether to go ahead on a busy frequency, and for the password when none is set, and gives up when nobody answers.</li>
-      <li>Close the radio's digital apps (FT8, PSK, RTTY...) first: while one is open Winlink does not transmit or tune.</li>
-      <li>Start at 500 Hz, or 200 Hz on a weak path: at the radio's few watts a 200 Hz call connected where the gateway list's 2000 Hz did not. The bandwidth above is the widest, also for a gateway the list shows wider.</li>
-      <li>The password is kept on the radio's system partition: not in the Backup, not on the Files page. A new card image asks for it again. The mail itself is on the SD card (<code>/mnt/winlink</code>) and stays.</li>
-      <li>Sessions with gateways work: reported on an X6100 on 80 m and from the UK to Germany on 40 m, and an X6200 got as far as the login.</li>
-      <li>Mercury is experimental: tested between two stations on a PC, not yet on the air; on an X6100 it takes about one of the radio's four processor cores (not measured on an X6200 yet). In the mailbox: Connect, VARA HF, then the other station's call and frequency by hand: the VARA HF gateway list shows VARA gateways, which do not answer Mercury. ARDOP's gateways do not answer it either.</li>
-      <li>XARA is experimental: a VARA-compatible modem by another author (MIT licence), not VARA itself. Tested between two stations on a PC, not yet on the air from a radio or with a VARA gateway, and its processor load on the radios is not measured yet. In the mailbox: Connect, VARA HF, then a gateway from Pat's VARA HF list. It needs your callsign (up to 7 letters and digits, an SSID from -1 to -19). The VARA HF licence box is your own statement; the radio does not check it.</li>
+      <li>邮箱本身没有登录功能：任何连接到电台网络或启用了 Tailscale 的 Tailnet 用户，都可以读取和发送邮件，并让电台发射。请勿在不可信网络中启用 Winlink。</li>
+      <li>邮箱只响应发往电台 IP 地址或其自身名称的请求，并拒绝来自其他网站的页面：你访问的网页无法通过浏览器调用该邮箱。</li>
+      <li>在邮箱中：选择 Connect、ARDOP，然后打开网关列表（根据你的定位器，距离最近的排在前面），即可查看每个网关的呼号和频率。Pat 连接时，电台会在 USB-D 模式下调谐到该频率，连接结束后再恢复原状。</li>
+      <li>Pat 连接期间请保持邮箱页面打开：如果频率正忙，它会在页面中询问是否继续；如果尚未设置密码，也会在此处询问密码。无人应答时，连接尝试将会放弃。</li>
+      <li>请先关闭电台上的数字通信应用（FT8、PSK、RTTY 等）：这些应用打开时，Winlink 不会发射或调谐。</li>
+      <li>从 500 Hz 开始；链路较弱时可使用 200 Hz：在电台仅有数瓦功率的情况下，使用 200 Hz 呼叫成功连接，而网关列表中的 2000 Hz 设置却未能连接。上方带宽是允许使用的最大值，也适用于列表中标注了更宽带宽的网关。</li>
+      <li>密码保存在电台的系统分区中：不会包含在备份中，也不会出现在 Files 页面。刷入新的 SD 卡镜像后需要重新输入密码。邮件本身保存在 SD 卡上（<code>/mnt/winlink</code>）并保持连接。</li>
+      <li>已报告网关会话成功：X6100 在 80 米频段成功连接，英国至德国的 40 米链路也成功；一台 X6200 至少已完成登录阶段。</li>
+      <li>Mercury 是实验性功能：目前只在两台 PC 之间测试，尚未进行空中测试；在 X6100 上约占用电台四个处理器核心中的一个（尚未测量 X6200 的占用情况）。在邮箱中手动选择 Connect、VARA HF，然后输入对方台站的呼号和频率：VARA HF 网关列表显示的是 VARA 网关，它们不会应答 Mercury。ARDOP 网关也不会应答 Mercury。</li>
+      <li>XARA 是实验性功能：由另一位作者开发的 VARA 兼容调制解调器（MIT 许可证），并非 VARA 本身。目前仅在两台 PC 之间测试，尚未通过电台进行空中测试，也未与 VARA 网关测试；其在电台上的处理器负载也尚未测量。在邮箱中选择 Connect、VARA HF，然后从 Pat 的 VARA HF 列表中选择网关。需要填写你的呼号（最多 7 个字母和数字，SSID 为 -1 至 -19）。VARA HF 许可证复选框仅代表你本人的声明，电台不会进行核验。</li>
     </ul>
   </div>
 </div>

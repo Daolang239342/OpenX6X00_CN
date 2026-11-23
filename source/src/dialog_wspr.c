@@ -131,9 +131,9 @@ static void page_back_cb(button_data_t *b);
 
 static buttons_page_t btn_page_1, btn_page_2, btn_page_3;
 
-static button_data_t btn_page    = {.type = BTN_TEXT, .label = "(WSPR 1:3)", .press = page_cb, .hold = page_back_cb, .next = &btn_page_2, .prev = &btn_page_3};
-static button_data_t btn_page2   = {.type = BTN_TEXT, .label = "(WSPR 2:3)", .press = page_cb, .hold = page_back_cb, .next = &btn_page_3, .prev = &btn_page_1};
-static button_data_t btn_page3   = {.type = BTN_TEXT, .label = "(WSPR 3:3)", .press = page_cb, .hold = page_back_cb, .next = &btn_page_1, .prev = &btn_page_2};
+static button_data_t btn_page    = {.type = BTN_TEXT, .label = "（WSPR第1/3面）", .press = page_cb, .hold = page_back_cb, .next = &btn_page_2, .prev = &btn_page_3};
+static button_data_t btn_page2   = {.type = BTN_TEXT, .label = "（WSPR第2/3面）", .press = page_cb, .hold = page_back_cb, .next = &btn_page_3, .prev = &btn_page_1};
+static button_data_t btn_page3   = {.type = BTN_TEXT, .label = "（WSPR第3/3面）", .press = page_cb, .hold = page_back_cb, .next = &btn_page_1, .prev = &btn_page_2};
 static button_data_t btn_tx_pct  = {.type = BTN_TEXT_FN, .label_fn = tx_pct_label, .press = tx_pct_cb};
 static button_data_t btn_tx_next = {.type = BTN_TEXT_FN, .label_fn = tx_next_label, .press = tx_next_cb};
 static button_data_t btn_upload  = {.type = BTN_TEXT_FN, .label_fn = upload_label, .press = upload_cb};
@@ -793,7 +793,7 @@ static void timer_cb(lv_timer_t *t) {
 
     switch (st) {
         case ST_RX:
-            lv_label_set_text_fmt(frame.head_right, "RX  %d:%02d", (int)s / 60, (int)s % 60);
+            lv_label_set_text_fmt(frame.head_right, "接收 %d:%02d", (int)s / 60, (int)s % 60);
             break;
         case ST_TX:
             lv_label_set_text_fmt(frame.head_right, "#%06x TX#  %d:%02d", theme_hex(TC_tx), (int)s / 60, (int)s % 60);

@@ -40,7 +40,7 @@ static void key_cb(lv_event_t *e);
 static void beacon_cb(button_data_t *b);
 static void tune_cb(button_data_t *b);
 
-static button_data_t btn_page   = {.type = BTN_TEXT, .label = "(BANDS 1:1)"};
+static button_data_t btn_page   = {.type = BTN_TEXT, .label = "（波段第1/1面）"};
 static button_data_t btn_beacon = {.type = BTN_TEXT, .label = "测试\\n信标", .press = beacon_cb};
 static button_data_t btn_tune   = {.type = BTN_TEXT, .label = "使用\\n波段", .press = tune_cb};
 
