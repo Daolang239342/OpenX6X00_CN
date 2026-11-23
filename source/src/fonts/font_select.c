@@ -24,6 +24,7 @@ extern const lv_font_t pixel_12, pixel_14, pixel_16, pixel_18, pixel_20, pixel_2
 #define RCOND(n) &rcond_##n,
 #define CODEC(n) &codec_##n,
 #define ZH(n) &zh_##n,
+static const lv_font_t *const zh[] = { SIZES(ZH) };
 static lv_font_t *const sony[] = { SIZES(SONY) };
 static const lv_font_t *const roboto[] = { SIZES(ROBOTO) };
 static const lv_font_t *const dejavu[] = { SIZES(DEJAVU) };
@@ -34,7 +35,6 @@ static const lv_font_t *const pixel[] = {
     &pixel_12, &pixel_12, &pixel_14, &pixel_16, &pixel_18, &pixel_20, &pixel_20, &pixel_22, &pixel_24,
     &pixel_24, &pixel_28, &pixel_28, &pixel_32, &pixel_32, &pixel_32, &pixel_32, &pixel_44,
 };
-static const lv_font_t *const zh[] = { SIZES(ZH) };
 static const lv_font_t *const codec[] = { SIZES(CODEC) };
 #define N_FONTS (sizeof(sony) / sizeof(sony[0]))
 _Static_assert(sizeof(pixel) / sizeof(pixel[0]) == N_FONTS, "a pixel font for every size");
@@ -49,6 +49,7 @@ void fonts_apply(uint8_t choice) {
     for (unsigned i = 0; i < N_FONTS; i++) {
         if (!saved) orig[i] = *sony[i];
         *sony[i]   = orig[i];
+        /* CJK glyphs (the Chinese UI) as the last step of the fallback chain */
         orig[i].fallback = zh[i];
     }
     saved = true;
@@ -65,8 +66,8 @@ void fonts_apply(uint8_t choice) {
                                    choice == FONT_CODEC ? codec : rcond;
 
     for (unsigned i = 0; i < N_FONTS; i++) {
-        *sony[i] = *alt[i];
-        sony[i]->fallback = &orig[i];
+        *sony[i]          = *alt[i];
+        sony[i]->fallback = &orig[i];   /* chain: alt -> Sony (icons) -> CJK */
     }
 }
 
@@ -84,6 +85,7 @@ void fonts_scale(int steps) {
 
     for (unsigned i = 0; i < N_FONTS; i++) {
         if (!saved) orig[i] = *sony[i];   /* without fonts_apply() first (the UI harness) */
+        orig[i].fallback = zh[i];
         was[i] = *sony[i];
     }
     saved = true;
