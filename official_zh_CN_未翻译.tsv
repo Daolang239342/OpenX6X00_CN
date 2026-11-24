@@ -1,0 +1,285 @@
+﻿序号	源文件	原文	译文(请填写)
+1	src/aero.c	VOLMET AFI	
+2	src/aero.c	VOLMET CAR	
+3	src/aero.c	VOLMET EUR	
+4	src/aero.c	VOLMET MID	
+5	src/aero.c	VOLMET NAT	
+6	src/aero.c	VOLMET NCA	
+7	src/aero.c	VOLMET PAC	
+8	src/aero.c	VOLMET SAM	
+9	src/aero.c	VOLMET SEA	
+10	src/aero.c	VOLMET	
+11	src/aero.c	LDOC	
+12	src/app_sstv.c	sstv-%Y%m%d-%H%M%S	
+13	src/app_sstv.c	tx_text/73.sstvtxt	
+14	src/app_sstv.c	tx_text/CQ REPLY.sstvtxt	
+15	src/app_sstv.c	tx_text/PSEQSL.sstvtxt	
+16	src/app_sstv.c	tx_text/R454QRM.sstvtxt	
+17	src/app_sstv.c	tx_text/R575QSB.sstvtxt	
+18	src/app_sstv.c	tx_text/R595.sstvtxt	
+19	src/app_sstv_tx.c	0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ/	
+20	src/app_sstv_tx.c	0123456789/ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz	
+21	src/apps_menu.c src/button_bar.cpp src/screen_main.c src/zello.c	Zello	
+22	src/apps_menu.c src/button_bar.cpp src/screen_main.c	SVXConnect	
+23	src/audio.c	X6100 GUI Play	
+24	src/audio.c	X6100 GUI Capture	
+25	src/audio.c	X6100 GUI Network voice	
+26	src/audio.c	X6100 GUI Local	
+27	src/audio.c	X6100 GUI Station	
+28	src/audio.c	X6100 GUI Zello	
+29	src/audio.c	X6100 GUI SVXConnect	
+30	src/audio.c	X6100 GUI Monitor	
+31	src/broadcast_db.c	AAAAAAACeEEEieIIDNnOOOO?OoUoUYTsaaaaaaaceeeeiiiidnooooo?ouuuuy?y	
+32	src/bt_dev.c	D-Bus: %s	
+33	src/bt_dev.c	RemoveDevice: %s	
+34	src/channel_list.c	SHANNON VOLMET	
+35	src/clock.c	CET-1CEST,M3.5.0,M10.5.0/3	
+36	src/clock.c	EET-2EEST,M3.5.0/3,M10.5.0/4	
+37	src/clock.c	SAST-2	
+38	src/clock.c	AWST-8	
+39	src/clock.c	AEST-10	
+40	src/clock.c	AEST-10AEDT,M10.1.0,M4.1.0/3	
+41	src/clock.c	NZST-12NZDT,M9.5.0,M4.1.0/3	
+42	src/clock_sync.c	hwclock -w -u -f 	
+43	src/cluster/client.c	DXFUN	
+44	src/cluster/client.c src/dialog_field.c src/field/flog.c	WWBOTA	
+45	src/cluster/client.c src/dialog_field.c src/field/flog.c	HOTA	
+46	src/cluster/client.c	AMFM	
+47	src/cluster/spots.c src/field/flog.c	70cm	
+48	src/cluster/spots.c	DIGI	
+49	src/cluster/spots.c src/dialog_field.c src/js8_window.c src/lcd_panel.c	DATA	
+50	src/cw_parse.c src/field/flog.c	NAME	
+51	src/cw_parse.c src/field/flog.c src/js8/directed_msg.cpp	CALL	
+52	src/cw_parse.c	TEST	
+53	src/dialog_base_update.c	 (--recover)	
+54	src/dialog_field.c	x6100-wavelog sync 2>/dev/null	
+55	src/dialog_field.c	LH ARLHS	
+56	src/dialog_field.c src/field/flog.c	TILES	
+57	src/dialog_field.c src/field/flog.c	LLOTA	
+58	src/dialog_field.c	SPBHFTCMLGKXN	
+59	src/dialog_field.c	Bunker:	
+60	src/dialog_field.c	Ruin:	
+61	src/dialog_field.c	Ruine:	
+62	src/dialog_field.c	Remains:	
+63	src/dialog_field.c	Vestige:	
+64	src/dialog_field.c	Memorial:	
+65	src/dialog_field.c	Memoire:	
+66	src/dialog_field.c	Abandoned:	
+67	src/dialog_field.c	Abandonne:	
+68	src/dialog_field.c	QSOs	
+69	src/dialog_field.c	 wwbota-spot --call %s --freq-khz %.1f --ref %s --mode %s --id '%s'%s	
+70	src/dialog_field.c	 %s --call %s --freq-khz %.1f --ref %s --mode %s%s	
+71	src/dialog_field.c	 update --call %s	
+72	src/dialog_field.c	TEST DE %s %s %s	
+73	src/dialog_field.c	 qrz-upload '%s'	
+74	src/dialog_flights.c	airplanes.live, adsb.lol (ODbL)	
+75	src/dialog_freedv.c src/pskreporter.c	OpenX6X00 %s	
+76	src/dialog_meteo.c	 hPa	
+77	src/dialog_modes.c src/field/flog.c src/olivia_tx.c src/screen_main.c	Olivia	
+78	src/dialog_propagation.c	N0NBH/hamqsl.com  %s	
+79	src/dialog_svx.c	SVXConnect: %s	
+80	src/dialog_svx.c	#%06x SVXCONNECT#  #%06x %s#	
+81	src/dialog_svx.c	#%06x SVXCONNECT#  #%06x %s%s%s#  #%06x %s#	
+82	src/dialog_wspr.c	Dr	
+83	src/dialog_zello.c	(ZELLO 1:3)	
+84	src/dialog_zello.c	(ZELLO 2:3)	
+85	src/dialog_zello.c	(ZELLO 3:3)	
+86	src/dialog_zello.c	#%06x ZELLO#  #%06x %s#	
+87	src/dialog_zello.c	#%06x ZELLO#  #%06x %s%s%s#  #%06x %s#	
+88	src/dialog_zello.c	 Zello>RF	
+89	src/dialog_zello.c	 RF>Zello	
+90	src/field/flog.c src/olivia_tx.c src/screen_main.c	Contestia	
+91	src/field/flog.c	CONTESTI	
+92	src/field/flog.c	BAND	
+93	src/field/flog.c	FREQ	
+94	src/field/flog.c src/mic_keys.c	MODE	
+95	src/field/flog.c	SUBMODE	
+96	src/field/flog.c	GRIDSQUARE	
+97	src/field/flog.c	COUNTRY	
+98	src/field/flog.c	COMMENT	
+99	src/field/flog.c	OPERATOR	
+100	src/field/flog.c	ARLHS	
+101	src/field/refs.c	AAAAAAACEEEEIIIIDNOOOOOxOUUUUYTsaaaaaaaceeeeiiiidnooooo/ouuuuytyAaAaAaCcCcCcCcDdDdEeEeEeEeEeGgGgGgGgHhHhIiIiIiIiIiIiJjKkkLlLlLlLlLlNnNnNnnNnOoOoOoOoRrRrRrSsSsSsSsTtTtTtUuUuUuUuUuUuWwYyYZzZzZzs	
+102	src/ft8_udp.c	239.255.0.0,gateway	
+103	src/ft8_window.c src/jtty.c	0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ	
+104	src/ft8_window.c	RX %s %s  Hound: %s	
+105	src/ghostnet.c	@GHOSTNET	
+106	src/ghostnet.c src/js8_window.c	@GSTFLASH	
+107	src/ghostnet_gui.c	GhostNet RTTY: 7.077 MHz, 45.45 baud, 170 Hz	
+108	src/gui_main.c	 fault settings	
+109	src/host/host_panel.c	%s/run	
+110	src/input_caps.c	capabilities/%s	
+111	src/input_caps.c	id/bustype	
+112	src/input_caps.c	id/vendor	
+113	src/input_caps.c	id/product	
+114	src/input_caps.c	id/version	
+115	src/js8/auto_answer.cpp	@APRSIS	
+116	src/js8/auto_answer.cpp src/js8/directed_msg.cpp src/js8/msg_kind.cpp	 QUERY	
+117	src/js8/auto_answer.cpp src/js8/command_words.cpp	 INFO?	
+118	src/js8/auto_answer.cpp src/js8/command_words.cpp	 STATUS?	
+119	src/js8/auto_answer.cpp src/js8/command_words.cpp	 GRID?	
+120	src/js8/auto_answer.cpp src/js8/command_words.cpp	 HEARING?	
+121	src/js8/auto_answer.cpp src/js8/directed_msg.cpp src/js8/msg_kind.cpp	 QUERY MSGS	
+122	src/js8/auto_answer.cpp src/js8/directed_msg.cpp src/js8/msg_kind.cpp	 QUERY CALL	
+123	src/js8/auto_answer.cpp	 HEARING	
+124	src/js8/auto_answer.cpp	APRS	
+125	src/js8/auto_answer.cpp	 FROM 	
+126	src/js8/auto_answer.cpp	 NEXT 	
+127	src/js8/auto_answer.cpp	 HEARTBEAT SNR 	
+128	src/js8/auto_answer.cpp	 HEARTBEAT SNR	
+129	src/js8/auto_answer.cpp src/js8/frame_text.cpp	@HB HEARTBEAT	
+130	src/js8/command_words.cpp	 GRID 	
+131	src/js8/command_words.cpp	: HEARTBEAT	
+132	src/js8/directed_msg.cpp src/js8/frame_joiner.cpp src/js8/js8_logic.cpp	INFO?	
+133	src/js8/directed_msg.cpp src/js8/frame_joiner.cpp src/js8/js8_logic.cpp	GRID?	
+134	src/js8/directed_msg.cpp src/js8/frame_joiner.cpp src/js8/js8_logic.cpp	STATUS?	
+135	src/js8/directed_msg.cpp src/js8/frame_joiner.cpp	QUERY MSGS?	
+136	src/js8/directed_msg.cpp src/js8/frame_joiner.cpp src/js8/js8_logic.cpp	HEARING?	
+137	src/js8/directed_msg.cpp src/js8/frame_joiner.cpp	HEARING	
+138	src/js8/directed_msg.cpp src/js8/frame_joiner.cpp	QUERY CALL	
+139	src/js8/directed_msg.cpp src/js8/frame_joiner.cpp	QUERY MSGS	
+140	src/js8/directed_msg.cpp src/js8/frame_joiner.cpp src/js8/msg_store.cpp	QUERY	
+141	src/js8/directed_msg.cpp src/js8/frame_joiner.cpp	NACK	
+142	src/js8/directed_msg.cpp src/js8/frame_joiner.cpp	HEARTBEAT SNR	
+143	src/js8/directed_msg.cpp src/js8/frame_joiner.cpp src/js8_window.c	INFO	
+144	src/js8/directed_msg.cpp src/js8/frame_joiner.cpp src/js8/msg_kind.cpp	GRID	
+145	src/js8/directed_msg.cpp	MSGS	
+146	src/js8/directed_msg.cpp	MSGS?	
+147	src/js8/directed_msg.cpp src/js8/msg_kind.cpp	@ALLCALL	
+148	src/js8/frame_text.cpp	CQ CONTEST	
+149	src/js8/frame_text.cpp	CQ FIELD	
+150	src/js8/frame_text.cpp	@ALLCALL 	
+151	src/js8/msg_kind.cpp src/js8/qso_book.cpp	HEARTBEAT	
+152	src/js8/msg_kind.cpp	 QUERY MSGS?	
+153	src/js8/msg_kind.cpp	 GRID	
+154	src/js8/msg_store.cpp	"# X6100 JS8 inbox v2: id, UTC ms, U(nread)/R(ead), from, to, path, message
+"	
+155	src/js8/msg_store.cpp	"# X6100 JS8 held messages v2: id, UTC ms, H(eld)/D(elivered), from, for, path, RETRIEVE MSG sent (ms), fetched by (group), message
+"	
+156	src/js8/msg_store.cpp	 RETRIEVE MSG 	
+157	src/js8/msg_store.cpp	RETRIEVE	
+158	src/js8/msg_store.cpp	(?:^| )FROM (\S+)(?: NEXT MSG ID (\d+)(?: \+\d+)?)?$	
+159	src/js8/qso_book.cpp	"X6100 JS8 log, desktop JS8Call format
+<adif_ver:5>3.1.4 <programid:9>X6100_JS8 <eoh>
+"	
+160	src/js8/wav_file.cpp	RIFF	
+161	src/js8/wav_file.cpp	WAVE	
+162	src/js8_window.c	APRS >	
+163	src/js8_window.c	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 .-+?!""/@:<>{}_#&'(),=;*"	
+164	src/js8_window.c	%s QUERY MSGS	
+165	src/js8_window.c	%s QUERY MSG 	
+166	src/js8_window.c	%s QUERY CALL 	
+167	src/js8_window.c	@APRSIS CMD :	
+168	src/js8_window.c	@APRSIS CMD 	
+169	src/js8_window.c	EMAIL-2  :	
+170	src/js8_window.c	WLNK-1   :SP 	
+171	src/js8_window.c	WLNK-1   :	
+172	src/js8_window.c	@APRSIS GRID %s	
+173	src/js8_window.c	WLNK-1   :/EX	
+174	src/js8_window.c	APSPOT	
+175	src/js8_window.c	%s QUERY MSG %d	
+176	src/jtty.c	"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ +-./?!""#$%,&*()_'=[]{}<>|:;"	
+177	src/jtty.c	CALL?	
+178	src/jtty.c	AGN CALL	
+179	src/jtty.c	EXCH?	
+180	src/jtty.c	STATE?	
+181	src/jtty.c	SECTION?	
+182	src/jtty.c	ZONE?	
+183	src/jtty.c	RPRT?	
+184	src/jtty.c	WAIT	
+185	src/jtty.c	 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ	
+186	src/jtty.c	 ABCDEFGHIJKLMNOPQRSTUVWXYZ	
+187	src/jtty.c	ABCDEFGHIJKLMNOPQRSTUVWXYZ	
+188	src/knob_info.cpp	Auto-L	
+189	src/knob_info.cpp	Auto-R	
+190	src/lcd_panel.c	NTCH	
+191	src/lcd_panel.c	SPLT	
+192	src/lcd_panel.c	XFIL	
+193	src/lcd_panel.c	AAAAAAACEEEEIIIIDNOOOOOxOUUUUYPSaaaaaaaceeeeiiiidnooooo/ouuuuypy	
+194	src/main.h	OpenX6X00 - v0.3.12	
+195	src/mic_keys.c	SPCH	
+196	src/mic_keys.c	TUNER	
+197	src/mic_keys.c	DOWN	
+198	src/mic_keys.c	GENE	
+199	src/mic_keys.c	BAND UP	
+200	src/mic_keys.c	BAND DOWN	
+201	src/olivia_macro.c src/psk_macro.c	CQ CQ CQ de <MYCALL> <MYCALL> <MYCALL> pse k	
+202	src/radio.c	"time,vbat,batcap,vext,charging,tx,backlight,cpu_mhz,tx_s,tx_w,wifi,bt,hp
+"	
+203	src/remote_server.c	clk slow %lld	
+204	src/remote_server.c	clk ntp %lld	
+205	src/remote_server.c	clk gps %lld	
+206	src/remote_server.c	clk ok %lld	
+207	src/remote_server.c	clk set %lld	
+208	src/screen_rec.c	screen-%Y%m%d-%H%M%S.avi	
+209	src/settings_window.cpp	 APP WeFax 	
+210	src/settings_window.cpp	 APP NavTex 	
+211	src/settings_window.cpp	 APP Zello 	
+212	src/settings_window.cpp	 APP SVXConnect 	
+213	src/settings_window.cpp	 >/dev/null 2>&1	
+214	src/settings_window.cpp	" Sony Sketch 
+ Roboto 
+ DejaVu"	
+215	src/settings_window.cpp	rx on	
+216	src/settings_window.cpp	rx off	
+217	src/settings_window.cpp	0123456789.,;+- ABCDEFGHIJKLMNOPQRSTUVWXabcdefghijklmnopqrstuvwx	
+218	src/settings_window.cpp	zxcvbnm,./	
+219	src/settings_window.cpp	SmartCW (MIDI)	
+220	src/settings_window.cpp	PSK REPORTER	
+221	src/settings_window.cpp	CESSB	
+222	src/settings_window.cpp	abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-	
+223	src/settings_window.cpp	Tailscale: %s	
+224	src/settings_window.cpp	 funnel on	
+225	src/settings_window.cpp	 funnel off	
+226	src/settings_window.cpp	Tailscale	
+227	src/settings_window.cpp	Funnel	
+228	src/settings_window.cpp	TAILSCALE	
+229	src/settings_window.cpp	OpenX6X00 by RF.Guru	
+230	src/sstv/sstv_mode.c	Robot 8 BW	
+231	src/sstv/sstv_mode.c	Robot 8	
+232	src/sstv/sstv_mode.c	Robot 36	
+233	src/sstv/sstv_mode.c	Robot 72	
+234	src/sstv/sstv_mode.c	Martin M1	
+235	src/sstv/sstv_mode.c	Martin M2	
+236	src/sstv/sstv_mode.c	Scottie S1	
+237	src/sstv/sstv_mode.c	Scottie S2	
+238	src/sstv/sstv_mode.c	Scottie DX	
+239	src/station.c	0123456789/ABCDEFGHIJKLMNOPQRSTUVWXYZ	
+240	src/station.c	0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ	
+241	src/tci_server.c	,sam,wfm	
+242	src/tci_server.c src/tci_server.h	OpenX6X00 TCI	
+243	src/time_station.c	WWVH 5000	
+244	src/time_station.c	WWVH 10000	
+245	src/time_station.c	WWVH 15000	
+246	src/tx_meters.c	TUNE	
+247	src/voice_messages.c	0123456789 -_?!.'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ	
+248	src/wavelog_cat.c	Wavelog: %d.%03d.%d %s%s	
+249	src/wefax/thumb.c	%s/thumbs	
+250	src/wefax_bulletin.c	Northwood	
+251	src/wifi.cpp	WiFi: %s	
+252	src/wifi.cpp	Error: Failed to modify connection '%s': %s	
+253	src/wifi.cpp	"Connection '%s' (%s) successfully modified.
+"	
+254	src/wifi.cpp	Error: Failed to delete connection '%s': %s	
+255	src/wifi.cpp	"Connection '%s' (%s) successfully deleted.
+"	
+256	src/wifi.cpp	WiFi %s: %s	
+257	src/winlink.c	OpenX6X00 Winlink	
+258	src/winlink.c	the radio is in %s, not USB-D%s	
+259	src/winlink.c	 (an app holds the mode)	
+260	src/winlink.c	"RPRT %d
+"	
+261	src/winlink.c	"RPRT 0
+"	
+262	src/winlink.c	"RPRT -1
+"	
+263	src/winlink.c	"RPRT -11
+"	
+264	src/winlink_mail.c	Re: %s	
+265	src/winlink_mail.c	Winlink: %s	
+266	src/wr12.c	ERROR	
+267	src/wr12.c	gpsd, let go	
+268	src/wspr/wsprnet.c	"GET %s HTTP/1.0\r
+Host: "	
+269	src/wspr/wsprnet.c	"\r
+User-Agent: "	
